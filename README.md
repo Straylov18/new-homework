@@ -1,2 +1,3 @@
 # homework-materials
-Homework materials for devup school.
+
+Материалы для самообучения школы devup.
