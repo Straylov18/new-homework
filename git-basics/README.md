@@ -34,9 +34,17 @@ https://git-scm.com/downloads/linux.
 
 ### Настройка git
 
-[//]: # (TODO)
+Для того, чтобы пользоваться командами git из консоли необходимо настроить как минимум два параметра:
+```shell
+git config --global user.name "Your Fullname"
+git config --global user.email "your.mail@mail.com"
+```
 
 ### Привязка локального и глобального git аккаунтов
+
+```shell
+ssh-keygen
+```
 
 [//]: # (TODO)
 
@@ -78,6 +86,24 @@ git clone git@github.com:Greewil/version-update-helper.git
 
 [//]: # (TODO)
 
-### Конфигурационные файлы репозитория (.gitignore, .git/, итд.)
+### Конфигурационные файлы репозитория (.gitignore)
 
-[//]: # (TODO)
+Для того, чтобы какие-то файлы и папки не учитывались в git репозитории, можно указать их в файле .gitignore.
+Настройки .gitignore файла применяются к той папке, в которой он лежит и ко всем внутренним папкам.
+Таких файлов .gitignore может быть несколько и они могут лежать в разных папках репозитория. 
+
+Зачастую это один файл, лежащий в корне проекта, в котором указаны конфиги популярных IDE, папки со сборками проекта итд.
+
+Пример файла .gitignore:
+```gitignore
+# Cursor (Настройки IDE Cursor не будут сохраняться в гите)
+.cursorignore
+.cursorindexingignore
+# Visual Studio Code (Настройки IDE Visual Studio Code не будут сохраняться в гите)
+.vscode/
+# Intellij Idea (Настройки IDE Intellij Idea не будут сохраняться в гите)
+.idea
+```
+
+Также есть другие настроечные файлы git репозиториев (.gitattributes итд.), 
+но они не настолько часто встречаются, о них можешь прочитать самостоятельно.
