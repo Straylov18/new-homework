@@ -6,6 +6,9 @@
 .cursorindexingignore
 
 # Visual Studio Code
- .vscode/
+.vscode/
 # intellij idea
 .idea
+
+# generated pdf files
+*.pdf
