@@ -1,13 +1,3 @@
----
-geometry: margin=3cm
-lang: ru
-header-includes: |
-    \newfontfamily{\cyrillicfont}{Lato-Medium} 
-    \newfontfamily{\cyrillicfontrm}{Lato-Medium}
-    \newfontfamily{\cyrillicfonttt}{Lato-Medium}
-    \newfontfamily{\cyrillicfontsf}{Lato-Medium}
----
-
 # Материалы для самообучения школы devup.
 
 ## База работы с bash консолью
