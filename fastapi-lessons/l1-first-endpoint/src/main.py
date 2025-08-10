@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.routing import APIRouter
+from fastapi.responses import JSONResponse
 
 BASE_ROUTE_PATH = "/api/v1"
 
@@ -30,14 +31,20 @@ objects = [
     },
 ]
 
+@router.get('/hello-world')
+async def hello_world():
+    return "Hi mam!"
+
 
 @router.get('/object/{object_id}')
 async def get_object(object_id):
-    # TODO check if None
-    return next((o for o in objects if o['id'] == object_id), None)
+    for o in objects:
+        if o['id'] == int(object_id):
+            return o
+    return JSONResponse(status_code=404, content={'detail': f'Object with id={object_id} not found.'})
 
 
-@router.get('/object/list')
+@router.get('/objects-list')
 async def get_objects_list(limit: int = -1, offset: int = 0):
     # Здесь возвращается слайс листа объектов (копия листа, состоящая из части элементов первоначального листа)
     # Они указываются следующим образом list[start:stop] или list[start:stop:step]
@@ -59,21 +66,37 @@ async def get_objects_list(limit: int = -1, offset: int = 0):
 
 @router.post('/object/create')
 async def create_object(new_object: dict):
+    # проверим, что нет объектов с таким же id (если есть, вернем ошибку)
+    for o in objects:
+        if o['id'] == new_object['id']:
+            return JSONResponse(status_code=405, content={'detail': f'Object with id={new_object["id"]} already exists.'})
     objects.append(new_object)
     # возвращается последний элемент листа (который мы только что добавили)
     return objects[-1]
 
 
-# @router.put('/product/put')
-# async def put_object(new_object: dict):
-#     objects.append(new_product)
-#     return "product created"
-#
-#
-# @router.patch('/product/create')
-# async def patch_object(new_object: dict):
-#     objects.append(new_product)
-#     return "product created"
+@router.put('/product/put')
+async def put_object(new_object: dict):
+    # если есть объект с таким же id, обновим его
+    for i in range(len(objects)):
+        if objects[i]['id'] == new_object['id']:
+            objects[i] = new_object
+            return objects[i]
+    # если не было объектов с таким же id, добавляется новый
+    objects.append(new_object)
+    return objects[-1]
+
+
+@router.patch('/product/create')
+async def patch_object(new_object: dict):
+    # если есть объект с таким же id, обновим его
+    for i in range(len(objects)):
+        if objects[i]['id'] == new_object['id']:
+            objects[i]['title'] = new_object['title']
+            return objects[i]
+    # если не было объектов с таким же id, добавляется новый
+    objects.append(new_object)
+    return objects[-1]
 
 
 app.include_router(router)
@@ -83,7 +106,6 @@ if __name__ == '__main__':
     uvicorn.run(
         'main:app',
         host='localhost',
-        access_log=False,
         port=8000,
         reload=True,
     )
