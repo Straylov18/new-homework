@@ -22,4 +22,4 @@ https://github.com/TheYeniseiTrireme/homework-materials/blob/main/ssh-basics/REA
 
 ## Запуск приложений на серверах
 
-https://github.com/TheYeniseiTrireme/homework-materials/blob/main/run-apps-as-services/README.md
+https://github.com/TheYeniseiTrireme/homework-materials/blob/main/run-apps-as-services-on-server/README.md
