@@ -12,9 +12,14 @@ https://github.com/TheYeniseiTrireme/homework-materials/blob/main/git-basics/REA
 
 ## Запуск проектов локально
 
-https://github.com/TheYeniseiTrireme/homework-materials/blob/main/run-apps/README.md
+https://github.com/TheYeniseiTrireme/homework-materials/blob/main/run-apps-locally/README.md
 
 
 ## Подключение к серверам по ssh
 
 https://github.com/TheYeniseiTrireme/homework-materials/blob/main/ssh-basics/README.md
+
+
+## Запуск приложений на серверах
+
+https://github.com/TheYeniseiTrireme/homework-materials/blob/main/run-apps-as-services/README.md
