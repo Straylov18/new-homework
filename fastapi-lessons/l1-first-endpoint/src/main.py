@@ -31,6 +31,7 @@ objects = [
     },
 ]
 
+
 @router.get('/hello-world')
 async def hello_world():
     return "Hi mam!"
@@ -61,7 +62,7 @@ async def get_objects_list(limit: int = -1, offset: int = 0):
         return objects[offset:]
     else:
         # если лимит положительный, то возвращается объктов не больше, чем значение limit
-        return objects[offset:offset+limit]
+        return objects[offset:offset + limit]
 
 
 @router.post('/object/create')
@@ -69,7 +70,10 @@ async def create_object(new_object: dict):
     # проверим, что нет объектов с таким же id (если есть, вернем ошибку)
     for o in objects:
         if o['id'] == new_object['id']:
-            return JSONResponse(status_code=405, content={'detail': f'Object with id={new_object["id"]} already exists.'})
+            return JSONResponse(
+                status_code=405,
+                content={'detail': f'Object with id={new_object["id"]} already exists.'}
+            )
     objects.append(new_object)
     # возвращается последний элемент листа (который мы только что добавили)
     return objects[-1]
@@ -100,7 +104,6 @@ async def patch_object(new_object: dict):
 
 
 app.include_router(router)
-
 
 if __name__ == '__main__':
     uvicorn.run(

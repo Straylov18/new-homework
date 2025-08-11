@@ -15,6 +15,11 @@ https://github.com/TheYeniseiTrireme/homework-materials/blob/main/git-basics/REA
 https://github.com/TheYeniseiTrireme/homework-materials/blob/main/run-apps-locally/README.md
 
 
+## Курс по fastpi
+
+https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/README.md
+
+
 ## Подключение к серверам по ssh
 
 https://github.com/TheYeniseiTrireme/homework-materials/blob/main/ssh-basics/README.md
