@@ -19,7 +19,6 @@
 - Получение настроечных переменных из окружения системы 
 - Использование файла **.env** для хранения переменных окружения
 
-[//]: # (TODO код к уроку)
 [Итоговый проект урока 2](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l2-environment-variables)
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l2-environment-variables/README.md)
