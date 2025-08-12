@@ -65,7 +65,7 @@ async def get_objects_list(limit: int = -1, offset: int = 0):
         return objects[offset:offset + limit]
 
 
-@router.post('/object/create')
+@router.post('/object')
 async def create_object(new_object: dict):
     # проверим, что нет объектов с таким же id (если есть, вернем ошибку)
     for o in objects:
@@ -79,7 +79,7 @@ async def create_object(new_object: dict):
     return objects[-1]
 
 
-@router.put('/product/put')
+@router.put('/object')
 async def put_object(new_object: dict):
     # если есть объект с таким же id, обновим его
     for i in range(len(objects)):
@@ -91,7 +91,7 @@ async def put_object(new_object: dict):
     return objects[-1]
 
 
-@router.patch('/product/create')
+@router.patch('/object')
 async def patch_object(new_object: dict):
     # если есть объект с таким же id, обновим его
     for i in range(len(objects)):
