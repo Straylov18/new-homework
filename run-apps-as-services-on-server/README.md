@@ -131,8 +131,7 @@ curl http://адрес_сервера/api/v1/docs
 ```shell
 #!/usr/bin/env bash
 cd /opt/apps/api/папка_проекта
-source .venv/bin/activate
-python src/main.py
+poetry run uvicorn src.main:app
 ```
 
 Если ты хочешь создать сервис в linux, перейди в **/etc/systemd/system**.
@@ -141,7 +140,7 @@ python src/main.py
 [Service]
 User=имя_пользователя_под_которым_будет_запущен_сервер
 WorkingDirectory=/opt/apps/api
-ExecStart=poetry run uvicorn src.main:app
+ExecStart=/bin/bash /opt/apps/api/back_starter.sh
 Restart=always
 
 [Install]
@@ -156,6 +155,7 @@ WantedBy=multi-user.target
 
 Также можно добавить следующие параметры, чтобы сервис перезапустился сам, если упадет:
 ```
+[Service]
 Restart=on-failure
 RestartSec=5s
 ```
@@ -185,3 +185,17 @@ sudo systemctl restart backend.service
 ```shell
 sudo journalctl -u backend.service
 ```
+
+Также можно перенаправлять выводы сервиса в логи:
+```
+[Service]
+StandardOutput=append:/var/log/back/log_std.log
+StandardError=append:/var/log/back/log_err.log
+```
+
+И просматривать их тогда можно либо как просто текстовый файл, 
+либо командой tail в режиме реального времени:
+```shell
+tail -f /var/log/back/log_std.log
+```
+Ключ -f отвечает за просмотр в режиме реального времени.
