@@ -1,5 +1,5 @@
 [project]
-name = "l2-environment-variables"
+name = "l3-separating-project-layers"
 version = "0.1.0"
 description = ""
 authors = [
