@@ -7,7 +7,7 @@ from src.config import settings
 
 app = FastAPI(
     openapi_url=f"{settings.BASE_ROUTE_PATH}/openapi.json",
-    docs_url=f"{settings.BASE_ROUTE_PATH}/docs",
+    docs_url=f"/api/v1/docs",
 )
 
 router = APIRouter(prefix=settings.BASE_ROUTE_PATH)
@@ -15,10 +15,6 @@ router = APIRouter(prefix=settings.BASE_ROUTE_PATH)
 router.include_router(user_router, prefix='/user', tags=['user'])
 
 app.include_router(router)
-
-
-# приложение, которое ничего не делает
-app = FastAPI()
 
 if __name__ == '__main__':
     uvicorn.run(
