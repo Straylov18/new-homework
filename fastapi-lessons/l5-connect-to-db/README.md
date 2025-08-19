@@ -142,4 +142,4 @@ poetry run alembic revision --autogenerate -m "Initial revision"
 poetry run alembic upgrade head
 ```
 
-[//]: # (TODO обновление данных из бэка)
+[//]: # (TODO обновление данных БД из бэка)
