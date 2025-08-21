@@ -56,8 +56,38 @@ class User(Base):
 Также такие поля по умолчанию являются уникальными, 
 те в таблице не может быть двух сущностей с одинаковым набором primary_key полей.
 
-[//]: # (TODO autoincrement)
-[//]: # (TODO uuid)
+Если же нужно, чтобы числовой primary_key увеличивался на 1 сам для каждого нового объекта, 
+то можно добавить к полю параметр **autoincrement=True**.
+Он создаст в БД специальный индекс,
+который будет хранить в себе номер следующего элемента 
+и увеличиваться на один каждое добавление новой строки в таблицу. 
+Этот индекс будет как отдельное внетабличное значение.
+
+Однако вместо id в числовом формате сейчас более широко распространен 
+другой способ создания уникальных ключей в таблицах.
+Можно каждый раз с помощью специального алгоритма генерировать особый уникальный набор символов без привязки к каким-то индексам - **uid**.
+На данный момент один из самых популярных алгоритмов генерации таких uid-ов - UUID4.
+Он по умолчанию встроен во многие движки БД.
+При таком подходе не будет возникать ситуаций, 
+когда индекс наибольшего элемента в таблице собьется
+и не будет соответствовать реальности (поскольку в случае генерации uuid, никаких состояний в БД не хранится).
+
+В коде проекта генерация uid будет выглядеть следующим образом:
+```python
+import uuid
+from sqlalchemy import UUID
+from sqlalchemy import String, Integer
+from sqlalchemy.orm import Mapped, mapped_column
+from src.db.session import Base
+
+
+class User(Base):
+    __tablename__ = 'users'
+
+    uid: Mapped[uuid.UUID] = mapped_column(UUID, primary_key=True, default=uuid.uuid4)
+    name: Mapped[str] = mapped_column(String, nullable=False)
+    email: Mapped[str] = mapped_column(String, nullable=False)
+```
 
 ## Миграции
 
@@ -74,7 +104,6 @@ poetry run alembic init -t async migrations
 
 В файле **db/session.py** необходимо заменить текст между импортами и методами на:
 ```python
-
 import sys
 from os.path import dirname, abspath
 
@@ -141,5 +170,11 @@ poetry run alembic revision --autogenerate -m "Initial revision"
 ```shell
 poetry run alembic upgrade head
 ```
+
+## Введение в SQL
+
+[//]: # (TODO )
+
+## Обработка данных БД из python приложения
 
 [//]: # (TODO обновление данных БД из бэка)
