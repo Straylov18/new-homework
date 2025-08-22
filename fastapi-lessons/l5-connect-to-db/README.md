@@ -175,6 +175,10 @@ poetry run alembic upgrade head
 
 [//]: # (TODO )
 
+
+Чтобы набить руку на создании SQL запросов, рекомендуется порешать задачки легкого уровня на leetcode:
+https://leetcode.com/problemset/database/.
+
 ## Обработка данных БД из python приложения
 
 [//]: # (TODO обновление данных БД из бэка)

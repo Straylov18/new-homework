@@ -7,7 +7,7 @@ from src.config import settings
 
 app = FastAPI(
     openapi_url=f"{settings.BASE_ROUTE_PATH}/openapi.json",
-    docs_url=f"/api/v1/docs",
+    docs_url=f"{settings.BASE_ROUTE_PATH}/docs",
 )
 
 router = APIRouter(prefix=settings.BASE_ROUTE_PATH)
