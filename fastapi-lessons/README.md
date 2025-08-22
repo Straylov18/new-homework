@@ -49,10 +49,23 @@
 - Описание слоя моделей для взаимодействия с базами данных
 - Настройка таблиц баз данных через миграции
 - Автоматическая генерация миграций на основе моделей
+- Введение в SQL
 - Обновление данных в базе данных и получение данных из базы данных при помощи sqlalchemy
 
 [Итоговый проект урока 5](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l5-connect-to-db)
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l5-connect-to-db/README.md)
+
+## Урок 6
+
+Темы урока:
+- Запуск базы данных как отдельный сервис на примере PostgreSQL
+- Небольшое введение в Docker
+- Запуск PostgreSQL базы данных через docker контейнер
+
+[Итоговый проект урока 6](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l6-docker)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l6-docker/README.md)
+
 
 [//]: # (TODO дальнейшие уроки)
