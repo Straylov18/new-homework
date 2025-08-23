@@ -69,3 +69,17 @@
 
 
 [//]: # (TODO дальнейшие уроки)
+
+
+## Урок 10
+
+Темы урока:
+- 
+- Проверка стиля кода с использованием python библиотеки flake8
+- Настройка стилизации проекта в pyproject.toml
+
+[Итоговый проект урока 6](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l6-docker)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l6-docker/README.md)
+
+[//]: # (TODO дальнейшие уроки)
