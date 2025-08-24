@@ -41,4 +41,38 @@ poetry add --group test pep8-naming
 
 ## Конфигурация настроек flake8 в pyproject.toml
 
-[//]: # (TODO)
+Чтобы задать дополнительные настройки стиля проекта, можно добавить секцию flake8 в pyproject.toml:
+```toml
+[tool.flake8]
+max-line-length = 120
+ignore = [
+    # W503: line break before binary operator
+    "W503"
+]
+exclude = [
+    ".git",
+    "__pycache__",
+    "conf",
+    "venv",
+    ".venv",
+    ".vscode",
+    ".idea",
+]
+per-file-ignores = [
+#    "migrations/env.py:F401",
+#    "migrations/versions/*:W291",
+]
+```
+Так, в предложенном примере конфигурации:
+- задана максимальная длина строки 120 символов
+- указаны коды ошибок, которые flake8 должен игнорировать (W503)
+- указаны файлы, которые flake8 должен пропускать
+- указаны исключения кодов ошибок для конкретных файлов 
+(не учитывается F401 для **migrations/env.py** и W291 для файлов внутри папки **migrations/versions**)
+
+Эти параметры можно задавать и при вызове из консоли, например:
+```shell
+poetry run flake8 --ignore F401 src
+```
+
+Подробнее о конфигурации flake8 можно почитать в документации: https://flake8.pycqa.org/en/latest/user/configuration.html.

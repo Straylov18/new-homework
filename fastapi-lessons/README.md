@@ -63,9 +63,9 @@
 - Небольшое введение в Docker
 - Запуск PostgreSQL базы данных через docker контейнер
 
-[Итоговый проект урока 6](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l6-docker)
+[Итоговый проект урока 6](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l6-postgres)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l6-docker/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l6-postgres/README.md)
 
 
 [//]: # (TODO дальнейшие уроки)
@@ -74,12 +74,12 @@
 ## Урок 10
 
 Темы урока:
-- 
+- Установки зависимостей отдельными группами
 - Проверка стиля кода с использованием python библиотеки flake8
 - Настройка стилизации проекта в pyproject.toml
 
-[Итоговый проект урока 6](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l6-docker)
+[Итоговый проект урока 10](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l10-linting-code)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l6-docker/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l10-linting-code/README.md)
 
 [//]: # (TODO дальнейшие уроки)
