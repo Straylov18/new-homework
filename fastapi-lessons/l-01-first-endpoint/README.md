@@ -198,7 +198,7 @@ app = FastAPI(
 В данном случае, если приложение разворачивается локально, документация будет доступна по адресу "http://localhost:8000/api/v1/docs".
 Выглядеть она будет следующим образом:
 
-![img.png](https://github.com/user-attachments/assets/7fae4bb0-c67c-4ee1-8479-03bea573e5ff)
+![img.png](https://github-production-user-asset-6210df.s3.amazonaws.com/40954951/477284968-7fae4bb0-c67c-4ee1-8479-03bea573e5ff.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20250825%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250825T232551Z&X-Amz-Expires=300&X-Amz-Signature=ecd00d9126918f81aa14b40f897b01fc84010911bfa77f6a290c66a857f74d67&X-Amz-SignedHeaders=host)
 
 Прямо из этой веб странички ты можешь и протестировать отправку запросов на нужные тебе речки.
 
