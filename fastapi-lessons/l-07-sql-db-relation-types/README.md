@@ -74,4 +74,52 @@ from src.models.user_post import UserPost
 
 ## Упрощение конвертирования сложных моделей в схемы
 
-[//]: # (TODO)
+Модели и схемы часто приходится переводить друг в друга. 
+Чтобы не делать это вручную в каждом месте можно автоматизировать эти процессы.
+
+### Конвертация модели в схему
+
+Чтобы руками не переводить sqlachemy модель в pydantic схему, 
+можно просто для этого прописать в классе модели специальный метод.
+
+Метод конвертации для модели User:
+```python
+class User(Base):
+    # остальное описание модели
+    
+    def serialize(self) -> UserFromDB:
+        return UserFromDB(
+            uid=self.uid,
+            name=self.name,
+            email=self.email,
+        )
+```
+А для модели UserPost это будет выглядеть следующим образом:
+```python
+class UserPost(Base):
+    # остальное описание модели
+    
+    def serialize(self) -> UserPostFromDB:
+        return UserPostFromDB(
+            uid=self.uid,
+            title=self.title,
+            text=self.text,
+            date_created=self.date_created,
+            user_uid=self.user_uid,
+        )
+```
+
+### Конвертация схемы в модель
+
+Тут все еще проще, 
+по умолчанию у базовой sqlalchemy модели есть конструктор, 
+принимающий на вход все ее поля.
+У базовой pydantic схемы же есть метод, 
+конвертирующий ее в список полей со значениями.
+
+Получается можно просто передать развертку pydantic модели 
+в конструктор sqlalchemy схемы в качестве параметров:
+```python
+new_user_post = UserPost(**user_scheme.model_dump())
+```
+где user_scheme - схема, унаследованная от базовой pydantic схемы.

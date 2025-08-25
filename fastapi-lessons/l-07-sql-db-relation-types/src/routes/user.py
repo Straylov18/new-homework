@@ -16,8 +16,9 @@ async def get_users_list(db_session: AsyncSession = Depends(get_session)) -> lis
 
 
 @router.post('/')
-async def create_user(body: UserCreate, db_session: AsyncSession = Depends(get_session)) -> UserFromDB:
-    new_user = User(name=body.name, email=body.email)
+async def create_user(data: UserCreate, db_session: AsyncSession = Depends(get_session)) -> UserFromDB:
+    new_user = User(**data.model_dump(exclude_unset=True))
+    # new_user = User(name=data.name, email=data.email)  # создание без model_dump
     db_session.add(new_user)
     await db_session.commit()
     return new_user.serialize()
