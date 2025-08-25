@@ -67,6 +67,17 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-06-postgres/README.md)
 
+## Урок 7
+
+Темы урока:
+- Создание связей между таблицами реляционной БД
+- Типы связей между таблицами и случаи их применения
+- Более удобная сериализация моделей
+
+[Итоговый проект урока 7](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-07-sql-db-relation-types)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-07-sql-db-relation-types/README.md)
+
 
 [//]: # (TODO дальнейшие уроки)
 
