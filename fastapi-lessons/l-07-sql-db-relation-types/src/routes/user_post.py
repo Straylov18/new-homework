@@ -17,7 +17,7 @@ async def get_user_posts_list(db_session: AsyncSession = Depends(get_session)) -
 
 @router.post('/')
 async def create_user_post(body: UserPostCreate, db_session: AsyncSession = Depends(get_session)) -> UserPostFromDB:
-    new_user_post = UserPost(name=body.name, email=body.email)
+    new_user_post = UserPost(title=body.title, text=body.text, user_uid=body.user_uid)
     db_session.add(new_user_post)
     await db_session.commit()
     return new_user_post.serialize()

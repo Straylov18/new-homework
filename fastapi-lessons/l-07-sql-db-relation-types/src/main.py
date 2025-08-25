@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.routing import APIRouter
 
 from src.routes.user import router as user_router
+from src.routes.user_post import router as user_post_router
 from src.config import settings
 
 app = FastAPI(
@@ -13,6 +14,7 @@ app = FastAPI(
 router = APIRouter(prefix=settings.BASE_ROUTE_PATH)
 
 router.include_router(user_router, prefix='/user', tags=['user'])
+router.include_router(user_post_router, prefix='/user-post', tags=['user_post'])
 
 app.include_router(router)
 
