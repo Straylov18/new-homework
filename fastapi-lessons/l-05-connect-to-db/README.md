@@ -173,12 +173,62 @@ poetry run alembic upgrade head
 
 ## Введение в SQL
 
-[//]: # (TODO )
+Все запросы бэкенда (в том числе миграции) перед исполнением в БД на самом деле переводятся в язык SQL.
+На нем как минимум полезно уметь писать запросы на получение, вставку, обновление, удаление информации 
+(select, insert, update, delete запросы).
 
+Диалекты SQL могут немного отличаться в зависимости от БД 
+(postgres, mysql, sqlite, итд. будут иметь свои небольшие отличия).
+Поэтому при возникновении вопросов в плане написания запросов, ищи ответы в документации по конкретной БД.
 
 Чтобы набить руку на создании SQL запросов, рекомендуется порешать задачки легкого уровня на leetcode:
 https://leetcode.com/problemset/database/.
 
 ## Обработка данных БД из python приложения
 
-[//]: # (TODO обновление данных БД из бэка)
+Чтобы произвести запрос в БД, необходимо открыть сессию взаимодействия с БД.
+Чтобы каждый раз не описывать создание этой сессии можно создать генератор сессий в **src/db/session.py**:
+```python
+async def get_session() -> AsyncSession:
+    async with async_session() as session:
+        yield session
+```
+
+И чтобы не вызывать этот генератор каждый раз, можно например описывать его в методах роутера через зависимость 
+(сделать параметру по умолчанию значение Depends(get_session)):
+```python
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
+
+from src.schemes.user import UserFromDB
+from src.db.session import get_session
+
+@router.get('/list')
+async def get_users_list(db_session: AsyncSession = Depends(get_session)) -> list[UserFromDB]:
+    query_result = await db_session.execute(select(User))
+    return query_result.scalars().all()
+```
+При вызове описанного выше метода произойдет следующее:
+- Откроется сессия.
+- В этой сессии выполниться код "select(User)".
+Запрос "select(User)" является аналогом SQL запроса "SELECT id, name, email FROM users;" (те автоматом подставляются все поля модели и имя таблицы)
+- Код "query_result.scalars().all()" получит все строки из ответа на запрос и переведет данные из них в объекты python.
+Поскольку никаких фильтров в запросе не было, эта ручка будет выдавать всю таблицу пользователей.
+
+Ручка для создания объекта в БД же может выглядеть следующим образом:
+```python
+@router.post('/')
+async def create_user(body: UserCreate, db_session: AsyncSession = Depends(get_session)) -> UserFromDB:
+    new_user = User(name=body.name, email=body.email)
+    db_session.add(new_user)
+    await db_session.commit()
+    return new_user
+```
+В ней:
+- Создается объект модели при помощи "new_user = User(name=body.name, email=body.email)".
+- Он добавляется к списку объектов на внесение изменений в текущей сессии кодом "db_session.add(new_user)" (приложение запоминает, что при фиксации данной сессии необходимо сделать INSERT в таблицу).
+- Происходит фиксация сессии через "await db_session.commit()".
+- Поскольку после фиксации сессии объект модели обновится в соответствии с данными из БД, 
+он уже будет содержать автозаполняемые базой данных поля (id в нашем случае).
+Получается new_user вернется уже в том виде, в котором он будет лежать в БД.

@@ -4,7 +4,7 @@ from sqlalchemy import select
 
 from src.schemes.user import UserCreate, UserFromDB
 from src.models.user import User
-from src.db.session import engine, get_session
+from src.db.session import get_session
 
 router = APIRouter()
 
