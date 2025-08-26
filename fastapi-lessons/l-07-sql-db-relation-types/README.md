@@ -70,10 +70,25 @@ from src.models.user_post import UserPost
 которая будет содержать пары внешних ключей от обеих таблиц.
 Таким образом каждая строка такой таблицей будет описывать одну связь между двумя объектами.
 
-[//]: # (TODO)
+Например, таблица лайков пользователя в данном проекте 
+будет реализовывать связь "многие ко многим", 
+и будет выглядеть следующим образом:
+```python
+class UserLike(Base):
+    __tablename__ = 'user_like'
 
-Также у таблицы можно задать у таблицы, который будет проверять уникальность набора полей.
-В данном случае, чтобы один пользователь не мог поставить несколько лайков под одним постом, задается индекс на уникальность связки полей user_uid и user_post_uid в таблице user_like:
+    uid: Mapped[uuid.UUID] = mapped_column(UUID, primary_key=True, default=uuid.uuid4)
+
+    user_uid: Mapped[uuid.UUID] = mapped_column(UUID, ForeignKey("user.uid"), nullable=False)
+    user_post_uid: Mapped[uuid.UUID] = mapped_column(UUID, ForeignKey("user_post.uid"), nullable=False)
+
+    user = relationship("User", backref="user_likes")
+    user_post = relationship("UserPost", backref="user_post_likes")
+```
+
+Также у таблицы можно задать индекс, который будет проверять уникальность набора полей.
+В данном случае, чтобы один пользователь не мог поставить несколько лайков под одним постом, 
+задается индекс на уникальность связки полей user_uid и user_post_uid в таблице user_like:
 ```python
 
 class UserLike(Base):
