@@ -72,6 +72,22 @@ from src.models.user_post import UserPost
 
 [//]: # (TODO)
 
+Также у таблицы можно задать у таблицы, который будет проверять уникальность набора полей.
+В данном случае, чтобы один пользователь не мог поставить несколько лайков под одним постом, задается индекс на уникальность связки полей user_uid и user_post_uid в таблице user_like:
+```python
+
+class UserLike(Base):
+    __tablename__ = 'user_like'
+    __table_args__ = (UniqueConstraint('user_uid', 'user_post_uid', name='_user_post_to_user'),)
+    ...
+```
+
+По итогу стоит не забывать импортировать новую модель в **src/migrations/env.py**, 
+чтобы они включились в следующую миграцию:
+```python
+from src.models.user_like import UserLike
+```
+
 ## Упрощение конвертирования сложных моделей в схемы
 
 Модели и схемы часто приходится переводить друг в друга. 

@@ -18,6 +18,7 @@ from src.db.session import Base
 # should add all models here
 from src.models.user import User
 from src.models.user_post import UserPost
+from src.models.user_like import UserLike
 
 
 target_metadata = Base.metadata
