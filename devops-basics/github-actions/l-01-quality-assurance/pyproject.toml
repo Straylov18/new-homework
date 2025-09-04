@@ -1,0 +1,45 @@
+[project]
+name = "l-01-first-endpoint"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Your Name",email = "you@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi (>=0.116.1,<0.117.0)",
+    "uvicorn (>=0.35.0,<0.36.0)"
+]
+
+
+[tool.poetry.group.test.dependencies]
+flake8 = "^7.3.0"
+isort = "^6.0.1"
+pep8-naming = "^0.15.1"
+flake8-pyproject = "^1.2.3"
+
+
+[tool.flake8]
+max-line-length = 120
+ignore = [
+    # W503: line break before binary operator
+    "W503"
+]
+exclude = [
+    ".git",
+    "__pycache__",
+    "conf",
+    "venv",
+    ".venv",
+    ".vscode",
+    ".idea",
+]
+per-file-ignores = [
+    "*/__init__.py:F401",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

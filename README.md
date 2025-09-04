@@ -33,3 +33,13 @@ https://github.com/TheYeniseiTrireme/homework-materials/blob/main/ssh-basics/REA
 ## Запуск приложений на серверах
 
 https://github.com/TheYeniseiTrireme/homework-materials/blob/main/run-apps-as-services-on-server/README.md
+
+
+## База Docker контейнеров
+
+https://github.com/TheYeniseiTrireme/homework-materials/blob/main/docker-basics/README.md
+
+
+## Базовый курс DevOps инженеринга
+
+https://github.com/TheYeniseiTrireme/homework-materials/blob/main/devops-basics/README.md
