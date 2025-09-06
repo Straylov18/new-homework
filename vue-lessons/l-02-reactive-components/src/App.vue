@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {ref} from "vue"
 
+const inputText = ref<string>("")
 const isShowing = ref<boolean>(false)
 
 function handleClick() {
@@ -16,8 +17,14 @@ function handleClick() {
         <v-btn class="v-col-12" @click="handleClick">
           Отобразить остальные элементы
         </v-btn>
-        <v-col>
-        </v-col>
+      </v-row>
+      <v-row v-if="isShowing && true">
+        <v-textarea v-model="inputText"></v-textarea>
+      </v-row>
+      <v-row v-if="isShowing && true">
+        <v-btn v-for="char in inputText" :key="char">
+          {{ char }}
+        </v-btn>
       </v-row>
     </v-container>
   </v-app>
