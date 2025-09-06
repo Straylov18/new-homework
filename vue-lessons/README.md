@@ -1,3 +1,4 @@
+# Курс уроков по созданию frontend приложений с использованием фреймворка Vue
 
 [//]: # (TODO lessons description from first to last)
 
@@ -10,5 +11,37 @@
 [Итоговый проект урока 1](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/vue-lessons/l-01-simple-vue-vite-app)
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/l-01-simple-vue-vite-app/README.md)
+
+## Урок 2
+
+Темы урока:
+- Использование переменных для изменения состояния компонентов
+- Использование стандартных методов для описания логики при обновлениях страницы, отдельных переменных итд.
+
+[Итоговый проект урока 2](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/vue-lessons/l-02-reactive-components)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/l-02-reactive-components/README.md)
+
+## Урок 3
+
+Темы урока:
+- Описание кастомных компонентов
+- Передача параметров через props
+
+[Итоговый проект урока 3](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/vue-lessons/l-03-custom-components)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/l-03-custom-components/README.md)
+
+## Урок 4
+
+Темы урока:
+- Принципы single page application приложений
+- Описание перехода между страницами через роутер
+- Манипуляции с историей перехода между страницами
+
+[Итоговый проект урока 4](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/vue-lessons/l-04-router)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/l-04-router/README.md)
+
 
 [//]: # (TODO дальнейшие уроки)

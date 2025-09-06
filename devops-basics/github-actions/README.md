@@ -42,8 +42,8 @@
 - Создание workflow для автоматической проверки стилизации python кода
 - Лучшие практики для проверки качества кода с помощью CI пайплайнов
 
-[Итоговый проект урока 1](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/vue-lessons/l-01-quality-assurance)
+[Итоговый проект урока 1](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/devops-basics/github-actions/l-01-quality-assurance)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/l-01-quality-assurance/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/devops-basics/github-actions/l-01-quality-assurance/README.md)
 
 [//]: # (TODO дальнейшие уроки)
