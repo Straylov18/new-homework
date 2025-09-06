@@ -22,8 +22,10 @@ function handleClick() {
         <v-textarea v-model="inputText"></v-textarea>
       </v-row>
       <v-row v-if="isShowing && true">
-        <v-btn v-for="char in inputText" :key="char">
-          {{ char }}
+        <v-btn v-for="(char, index) in inputText">
+          <v-label :style="`color: rgb(${index*10}, 0, ${index*2})`">
+            {{ char }}
+          </v-label>
         </v-btn>
       </v-row>
     </v-container>
