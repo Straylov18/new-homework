@@ -8,5 +8,9 @@ req:
 flake8: req
 	poetry run flake8
 
+.PHONY: isort
+isort: req
+	poetry run isort
+
 .PHONY: QA
-QA: flake8
+QA: flake8 isort

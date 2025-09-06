@@ -43,5 +43,15 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/l-04-router/README.md)
 
+## Урок 5
+
+Темы урока:
+- Разбор жизненного цикла страниц и компонентов
+- Исполнение кода на определенных этапах жизненного цикла страницы и компонента
+
+[Итоговый проект урока 5](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/vue-lessons/l-05-page-lifecycle)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/l-05-page-lifecycle/README.md)
+
 
 [//]: # (TODO дальнейшие уроки)
