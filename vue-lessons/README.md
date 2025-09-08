@@ -53,5 +53,15 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/l-05-page-lifecycle/README.md)
 
+## Урок 6
+
+Темы урока:
+- Использование переменных окружения при запуске приложения
+- Конфигурация переменных окружения в **.env** и **.env.production** файлах для локальной и продуктивной сборок
+
+[Итоговый проект урока 5](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/vue-lessons/l-06-env-variables)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/l-06-env-variables/README.md)
+
 
 [//]: # (TODO дальнейшие уроки)
