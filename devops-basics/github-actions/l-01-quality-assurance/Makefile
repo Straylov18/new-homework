@@ -1,15 +1,15 @@
 all: QA
 
-.PHONY: req
-req:
+.PHONY: requirements
+requirements:
 	poetry install --no-root
 
 .PHONY: flake8
-flake8: req
+flake8: requirements
 	poetry run flake8
 
 .PHONY: isort
-isort: req
+isort: requirements
 	poetry run isort
 
 .PHONY: QA

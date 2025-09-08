@@ -1,7 +1,7 @@
-name: Flake8
+name: QA
 on: [push]
 jobs:
-  Flake8:
+  QA:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
