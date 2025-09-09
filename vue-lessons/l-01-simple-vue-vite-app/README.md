@@ -54,13 +54,24 @@ npm i vuetify
 npm i vite-plugin-html vite-plugin-vue-devtools vite-plugin-vuetify --save-dev
 ```
 
+
 ## Использование компонентов из vuetify
 
-Для использования элементов vuetify необходимо добавить его как плагин в **vite.config.ts**:
+Для использования элементов vuetify необходимо добавить его как плагин в **vite.config.ts**.
+Также добавим туда vueDevTools.
+Тогда **vite.config.ts** будет выглядеть:
 ```ts
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import vuetify from "vite-plugin-vuetify"
+import vueDevTools from "vite-plugin-vue-devtools"
+import { createHtmlPlugin } from "vite-plugin-html"
+
 export default defineConfig({
     plugins: [
+        createHtmlPlugin(),
         vue(),
+        vueDevTools(),
         vuetify()
     ],
 })
