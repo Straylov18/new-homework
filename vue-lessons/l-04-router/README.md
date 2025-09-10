@@ -88,8 +88,65 @@ export default router
 Тут на место тега <routerView/> будут подставляться страницы роутера.
 Остальные элементы с **App.vue** будут общими для всех страниц.
 
-[//]: # (TODO описание для:)
-[//]: # (**/components/pages/MainPage.vue**, **/components/pages/Page1.vue**, **/components/pages/Page2.vue**)
+Добавим основную страницу **/components/pages/MainPage.vue** 
+(основная, потому что в **router/index.ts** она прикреплена к пути "/"):
+```vue
+<script setup lang="ts">
+import router from '@/router/index'
+
+</script>
+
+<template>
+  <v-container max-width="600">
+    <v-label>Главная страница</v-label>
+    <v-btn class="v-col-12" @click="router.push('/page1')">
+      Страница 1
+    </v-btn>
+    <v-btn class="v-col-12" @click="router.push('/page2')">
+      Страница 2
+    </v-btn>
+  </v-container>
+</template>
+```
+На основной странице есть две кнопки, 
+при нажатии на которые будет осуществляться переход на другую страницу.
+Переход на другую страницу делается при помощи вызова JS кода "router.push('/page1')", 
+где '/page1' - адрес страницы, на которую будет осуществляться переход 
+(адрес описывали в **router/index.ts**).
+
+По аналогии сделаем обратные переходы на страницах Page1 и Page2.
+
+Страница **/components/pages/Page1.vue**:
+```vue
+<script setup lang="ts">
+import router from '@/router/index'
+</script>
+
+<template>
+  <v-container max-width="600">
+    <v-label>Страница 1</v-label>
+    <v-btn class="v-col-12" @click="router.push('/')">
+      Вернуться на главную
+    </v-btn>
+  </v-container>
+</template>
+```
+
+Страница **/components/pages/Page2.vue**:
+```vue
+<script setup lang="ts">
+import router from '@/router/index'
+</script>
+
+<template>
+  <v-container max-width="600">
+    <v-label>Страница 2</v-label>
+    <v-btn class="v-col-12" @click="router.push('/')">
+      Вернуться на главную
+    </v-btn>
+  </v-container>
+</template>
+```
 
 Подробнее об использовании роутинга во vue приложении можно почитать тут:
 https://vuejs.org/guide/scaling-up/routing.html.
