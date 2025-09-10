@@ -5,7 +5,7 @@
   <v-app>
     <v-label>Элементы чердака (хэдера) можно добавлять тут</v-label>
     <vMain>
-      <routerView />
+      <routerView/>
     </vMain>
     <v-label>Элементы подвала (футера) можно добавлять тут</v-label>
   </v-app>
