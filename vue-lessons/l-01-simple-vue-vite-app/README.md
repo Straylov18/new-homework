@@ -53,6 +53,18 @@ npm i vuetify
 ```shell
 npm i vite-plugin-html vite-plugin-vue-devtools vite-plugin-vuetify --save-dev
 ```
+Благодаря пакету **vite-plugin-html** vite быстрее собирает html шаблоны в проекте.
+
+Благодаря пакету **vite-plugin-vue-devtools** 
+ты сможешь использовать отладочное меню снизу странице в браузере 
+(там появится иконка с буквой V). 
+Оно дает тебе возможность исследовать элементы в том виде, 
+в котором они прописаны в .vue файлах (в отличие от обычного отладочного окна браузера на F12), 
+смотреть значения всех переменных страницы и много других полезных вещей.
+Подробнее об этом плагине можно почитать тут: https://devtools.vuejs.org/guide/vite-plugin.
+
+Благодаря пакету **vite-plugin-vuetify** ты сможешь удобнее работать с библиотекой vuetify при использовании vite сборщика.
+Например, с этим плагином не нужно импортировать стили и компоненты vuetify в каждом файле, чтобы их использовать.
 
 
 ## Использование компонентов из vuetify
@@ -65,11 +77,9 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vuetify from "vite-plugin-vuetify"
 import vueDevTools from "vite-plugin-vue-devtools"
-import { createHtmlPlugin } from "vite-plugin-html"
 
 export default defineConfig({
     plugins: [
-        createHtmlPlugin(),
         vue(),
         vueDevTools(),
         vuetify()
