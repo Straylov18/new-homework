@@ -59,9 +59,18 @@
 - Использование переменных окружения при запуске приложения
 - Конфигурация переменных окружения в **.env** и **.env.production** файлах для локальной и продуктивной сборок
 
-[Итоговый проект урока 5](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/vue-lessons/l-06-env-variables)
+[Итоговый проект урока 6](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/vue-lessons/l-06-env-variables)
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/l-06-env-variables/README.md)
+
+## Урок 7
+
+Темы урока:
+- Запуск функций в момент обновления переменных
+
+[Итоговый проект урока 7](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/vue-lessons/l-07-watch-variables-update)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/l-07-watch-variables-update/README.md)
 
 
 [//]: # (TODO дальнейшие уроки)

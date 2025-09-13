@@ -1,5 +1,5 @@
 {
-  "name": "l-01-simple-vue-vite-app",
+  "name": "l-06-env-variables",
   "private": true,
   "version": "0.0.0",
   "type": "module",
