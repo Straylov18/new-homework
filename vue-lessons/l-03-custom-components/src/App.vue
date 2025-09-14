@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ref} from "vue"
-import ProductCard from "./components/ProductCard.vue";
+import ProductCard from "./components/ProductCard.vue"
 
 const products = ref<Object[]>([
   {
@@ -28,6 +28,28 @@ const products = ref<Object[]>([
     ],
   },
 ])
+
+const productsWithDiscount = ref<Object[]>([
+  {
+    title: 'Подушка',
+    price: 42,
+    discount: 3,
+    params: [
+      'большая',
+      'перьевая',
+    ],
+  },
+  {
+    title: 'Лабубу',
+    price: 70,
+    discount: 11,
+    params: [
+      'хайпово',
+      'все берут',
+    ],
+  },
+])
+
 </script>
 
 <template>
@@ -44,6 +66,20 @@ const products = ref<Object[]>([
               v-for="p in products"
               :title="p.title"
               :price="p.price"
+              :parameters-list="p.params"
+          />
+        </v-row>
+        <v-row class="ma-3">
+          <h1>
+            Товары по скидке
+          </h1>
+        </v-row>
+        <v-row>
+          <product-card
+              v-for="p in productsWithDiscount"
+              :title="p.title"
+              :price="p.price"
+              :discount="p.discount"
               :parameters-list="p.params"
           />
         </v-row>

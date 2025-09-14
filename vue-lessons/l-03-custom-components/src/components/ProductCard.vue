@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import {ref} from 'vue'
-
-const props = defineProps<{
+const props = defineProps({
   title: {
     type: String,
     default: null,
@@ -11,12 +9,14 @@ const props = defineProps<{
     default: [],
   },
   price: {
-    type: number,
+    type: Number,
     default: 0,
   },
-}>()
-
-const count = ref(0)
+  discount: {
+    type: Number,
+    default: 0,
+  },
+})
 </script>
 
 <template>
@@ -37,10 +37,14 @@ const count = ref(0)
       </v-col>
     </v-row>
     <v-row class="card-row">
-      <v-label>{{ 'Цена: ' + price }}</v-label>
+      <v-label v-if="!discount">{{ 'Цена: ' + price }}</v-label>
+      <v-label v-if="discount">
+        {{ `Цена: ${price-discount}` }}
+      </v-label>
+      <v-label v-if="discount" class="discount-price ml-1">{{ price }}</v-label>
     </v-row>
     <v-row class="card-row">
-      <v-btn class="add-btn">Добавить</v-btn>
+      <v-btn class="v-col-12 add-btn">Добавить в корзину</v-btn>
     </v-row>
   </v-container>
 </template>
@@ -67,6 +71,10 @@ const count = ref(0)
 
 .parameter-row {
   margin: 4px;
+}
+
+.discount-price {
+  text-decoration: line-through;
 }
 
 .add-btn {
