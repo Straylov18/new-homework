@@ -40,7 +40,7 @@ backend разработчик должен иметь хотя бы базов�
 
 ## Тестирование
 
-[//]: # (TODO)
+[//]: # (TODO unit, integrational, etc)
 
 ## Docker
 

@@ -22,7 +22,7 @@ watch(inputText, () => {
     <v-container max-width="800">
       <v-label class="red-label" v-if="isLabel">Обновился текст</v-label>
       <v-label class="red-label" v-if="isLabel">(сообщение уйдет через секунду)</v-label>
-      <v-label>При вводе текста отработает событие:</v-label>
+      <v-label>При вводе текста отработает событие</v-label>
       <v-textarea v-model="inputText"></v-textarea>
     </v-container>
   </v-app>
