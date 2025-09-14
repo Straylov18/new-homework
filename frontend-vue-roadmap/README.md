@@ -1,48 +1,36 @@
 # Путь становления frontend разработчика на примере Vue.js
 
-[//]: # (TODO)
+В данном документе предлагается последовательность изучения технологий
+для начинающего frontend разработчика.
 
 ## Основы html, css, js
 
 [//]: # (TODO)
 
-## Сетевые взаимодействия
+## Базовое понимание сетевых взаимодействий между web приложениями
 
 [//]: # (TODO why important?)
-
-### Как запросы гуляют по интернету и находят адреса, DNS
-
-[//]: # (TODO)
-
-### HTTPS, SSL, TLS
-
-[//]: # (TODO)
-
-### DNS
-
-[//]: # (TODO)
+[Курс по основам сетевых взаимодействий](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/network-basics/README.md).
 
 ## Frontend фреймворк (Vue.js)
 
-[//]: # (TODO)
+[Курс уроков по Vue](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/README.md).
 
-### Много много всего про Vue.js
+## OpenAPI
 
-[//]: # (TODO)
+Frontend разработчик должен уметь читать OpenAPI документацию backend приложений.
 
-### Single page applications, Routing
+## Основы разворачивания frontend приложений
 
-[//]: # (TODO)
-
-## REST
-
-[//]: # (TODO)
-
-### OpenAPI
-
-[//]: # (TODO)
+[//]: # (TODO, nginx, stat files, etc.)
 
 ## Docker
 
-[//]: # (TODO)
+Базовый курс для ознакомления с базовыми принципами запуска Docker контейнеров.
+[введение в Docker](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/docker-basics/README.md)
 
+[//]: # (TODO сборка проектов с помощью docker и их запуск с помощью docker-compose)
+
+## Тестирование
+
+[//]: # (TODO unit, e2e, ...)
