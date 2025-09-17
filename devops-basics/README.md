@@ -14,4 +14,12 @@
 [//]: # ()
 [//]: # ([Описание курса вводных уроков по ansible]&#40;https://github.com/TheYeniseiTrireme/homework-materials/blob/main/devops-basics/ansible/README.md&#41;)
 
+
+## Создание инструментов для команды разработчиков
+
+[Курс создание инструментов для команды разработчиков](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/devops-basics/creating-tools-for-developers)
+
+[Описание курса создание инструментов для команды разработчиков](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/devops-basics/creating-tools-for-developers/README.md)
+
+
 [//]: # (TODO тулзы для команды разработчиков на примере bash скриптов, make итд.)
