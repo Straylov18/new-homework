@@ -5,7 +5,7 @@
 
 ## Основы Python
 
-[Курс python для начинающих](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/python-basic-lessons/README.md).
+[Курс python для начинающих](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/python-basics-lessons/README.md).
 
 ## Базовое понимание сетевых взаимодействий между web приложениями
 
