@@ -47,3 +47,7 @@
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/devops-basics/github-actions/l-01-quality-assurance/README.md)
 
 [//]: # (TODO дальнейшие уроки)
+
+
+Более подробно про создание CI / CD через github actions можно почитать тут:
+https://docs.github.com/en/actions/get-started/quickstart#next-steps.
