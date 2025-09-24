@@ -87,6 +87,7 @@
 
 Темы урока:
 - Обработка событий из внешних компонентов при помощи emitter привязок
+- Использование библиотеки mdi иконок в приложении
 
 [Итоговый проект урока 9](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/vue-lessons/l-09-emitter)
 

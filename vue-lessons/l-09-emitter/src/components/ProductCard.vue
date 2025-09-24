@@ -26,9 +26,26 @@ const props = defineProps({
       <v-label>{{ 'Цена: ' + price }}</v-label>
     </v-row>
     <v-row class="card-row">
-      <v-btn class="v-col-4 card-btn" @click="$emit('deleteProduct', index)">Удалить</v-btn>
-      <v-btn class="v-col-4 card-btn" @click="$emit('increaseProductPrice', index)">Стонкс</v-btn>
-      <v-btn class="v-col-4 card-btn" @click="$emit('decreaseProductPrice', index)">Не стонкс</v-btn>
+      <v-btn
+          class="delete-card-btn"
+          flat
+          icon="mdi-trash-can-outline"
+          @click="$emit('deleteProduct', index)"
+      ></v-btn>
+      <v-spacer/>
+      <v-btn
+          class="card-btn"
+          flat
+          icon="mdi-numeric-positive-1"
+          @click="$emit('increaseProductPrice', index)"
+      ></v-btn>
+      <v-spacer/>
+      <v-btn
+          class="card-btn"
+          flat
+          icon="mdi-numeric-negative-1"
+          @click="$emit('decreaseProductPrice', index)"
+      ></v-btn>
     </v-row>
   </v-container>
 </template>
@@ -52,7 +69,12 @@ const props = defineProps({
   margin: 4px 0 4px 0px;
 }
 
+.delete-card-btn {
+  color: #a14646;
+  background-color: #0000;
+}
+
 .card-btn {
-  background-color: #666666;
+  background-color: #0000;
 }
 </style>
