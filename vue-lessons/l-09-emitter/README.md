@@ -180,4 +180,69 @@ https://pictogrammers.com/library/mdi/icon.
 
 ## Использование emitter во Vue
 
-[//]: # (TODO)
+Теперь добавим обработку нажатия на кнопки в компонентах.
+
+Поскольку компонент карточки продукта **components/ProductCard.vue** 
+не может манипулировать списком продуктов, описанном в **App.vue**, 
+необходимо описывать работу со списком продуктов в **App.vue**.
+
+Напишем в **App.vue** функции, отвечающие за изменение цены и удаление соответствующего продукта 
+(по его позиции в списке):
+```ts
+function increaseProductPriceFunc(position) {
+  products.value[position].price += 1;
+}
+
+function decreaseProductPriceFunc(position) {
+  products.value[position].price -= 1;
+}
+
+function deleteProductFunc(position) {
+  products.value.splice(position, 1);
+}
+```
+
+Однако эти методы необходимо вызывать из самого компонента.
+Для этого как раз и нужен emit метод.
+
+Запросим обработку события при нажатии на кнопки в компоненте:
+```vue
+    <v-row class="card-row">
+      <v-btn
+          class="delete-card-btn"
+          flat
+          icon="mdi-trash-can-outline"
+          @click="$emit('deleteProduct', index)"
+      ></v-btn>
+      <v-spacer/>
+      <v-btn
+          class="card-btn"
+          flat
+          icon="mdi-numeric-positive-1"
+          @click="$emit('increaseProductPrice', index)"
+      ></v-btn>
+      <v-spacer/>
+      <v-btn
+          class="card-btn"
+          flat
+          icon="mdi-numeric-negative-1"
+          @click="$emit('decreaseProductPrice', index)"
+      ></v-btn>
+    </v-row>
+```
+
+В **App.vue** привяжем вызов событий из компонентов к запуску соответствующих функций, описанных в **App.vue**:
+```vue
+<product-card
+    v-for="(p, index) in products"
+    :title="p.title"
+    :price="p.price"
+    :index="index"
+    v-on:deleteProduct="deleteProductFunc"
+    v-on:increaseProductPrice="increaseProductPrice"
+    v-on:decreaseProductPrice="decreaseProductPrice"
+/>
+```
+
+Теперь при нажатии на кнопки компонентов (**components/ProductCard.vue**), 
+будут меняться данные там, где эти компоненты описывались (**App.vue**).

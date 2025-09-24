@@ -21,14 +21,15 @@ const products = ref<Object[]>([
   }
 ])
 
-function increaseProductPrice(position) {
+function increaseProductPriceFunc(position) {
   products.value[position].price += 1;
 }
-function decreaseProductPrice(position) {
+
+function decreaseProductPriceFunc(position) {
   products.value[position].price -= 1;
 }
 
-function deleteProduct(position) {
+function deleteProductFunc(position) {
   products.value.splice(position, 1);
 }
 
@@ -49,9 +50,9 @@ function deleteProduct(position) {
               :title="p.title"
               :price="p.price"
               :index="index"
-              v-on:deleteProduct="deleteProduct"
-              v-on:increaseProductPrice="increaseProductPrice"
-              v-on:decreaseProductPrice="decreaseProductPrice"
+              v-on:deleteProduct="deleteProductFunc"
+              v-on:increaseProductPrice="increaseProductPriceFunc"
+              v-on:decreaseProductPrice="decreaseProductPriceFunc"
           />
         </v-row>
       </div>
