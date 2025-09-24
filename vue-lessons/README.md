@@ -73,4 +73,24 @@
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/l-07-watch-variables-update/README.md)
 
 
+## Урок 8
+
+Темы урока:
+- Более гибкое описание компонентов при помощи слотов
+
+[Итоговый проект урока 8](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/vue-lessons/l-08-component-slots)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/l-08-component-slots/README.md)
+
+
+## Урок 9
+
+Темы урока:
+- Обработка событий из внешних компонентов при помощи emitter привязок
+
+[Итоговый проект урока 9](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/vue-lessons/l-09-emitter)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/l-09-emitter/README.md)
+
+
 [//]: # (TODO дальнейшие уроки)
