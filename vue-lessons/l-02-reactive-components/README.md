@@ -59,7 +59,7 @@ https://vuetifyjs.com/en/api/v-app/
 https://vuetifyjs.com/en/api/v-container/, https://vuetifyjs.com/en/components/grids/.
 
 - v-row
-Компоненты v-row и v-col нужны для задания столбцов и колонок в табличной верстке.
+Компоненты v-row и v-col нужны для задания столбцов и строк в табличной верстке.
 ```vue
 <v-row>
 </v-row>

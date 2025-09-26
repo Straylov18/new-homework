@@ -140,7 +140,8 @@ npm i material-design-icons-iconfont @mdi/font
 
 Чтобы данную библиотеку можно было использовать, импортируем ее в **main.ts**, 
 тогда он будет выглядеть следующим образом:
-```tsimport { createApp } from 'vue'
+```ts
+import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 import { createVuetify } from 'vuetify'

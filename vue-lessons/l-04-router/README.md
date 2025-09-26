@@ -19,7 +19,7 @@
 npm i vue-router
 ```
 Как обычно, модуль нужно добавить в импорты в **main.ts**:
-```vue
+```ts
 import { createApp } from 'vue'
 import "./style.css"
 import App from "./App.vue"
