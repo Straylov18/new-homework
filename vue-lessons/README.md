@@ -94,4 +94,14 @@
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/l-09-emitter/README.md)
 
 
+## Урок 10
+
+Темы урока:
+- Обновление props компонентов при помощи v-model
+
+[Итоговый проект урока 10](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/vue-lessons/l-10-component-handle-props-updates)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/vue-lessons/l-10-component-handle-props-updates/README.md)
+
+
 [//]: # (TODO дальнейшие уроки)

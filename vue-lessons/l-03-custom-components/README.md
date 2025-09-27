@@ -122,7 +122,7 @@ const props = defineProps({
 ```vue
 <script setup lang="ts">
   import {ref} from "vue"
-  import ProductCard from "./components/ProductCard.vue"
+  import ProductCard from "./components/ItemCard.vue"
 
   const products = ref<Object[]>([
     {
