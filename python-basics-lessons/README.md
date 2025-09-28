@@ -30,9 +30,9 @@
 Темы урока:
 - Принцип работы модулей и импортов
 
-[Итоговый проект урока 3](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basic-lessons/l-03-modules)
+[Итоговый проект урока 3](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basic-lessons/l-03-imports)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/python-basic-lessons/l-03-modules/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/python-basic-lessons/l-03-imports/README.md)
 
 ## Урок 4
 
