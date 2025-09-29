@@ -6,5 +6,6 @@ print_city_population("New-York")
 
 if __name__ == '__main__':
     print("запустили main.py")
+    # тут пишется код, который необходимо выполнять при обособленном старте приложения
 else:
     print("main.py импортировали")
