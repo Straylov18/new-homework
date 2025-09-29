@@ -98,7 +98,7 @@ print(', '.join(initial_tuple))  # выдаст "str1, str2, str3"
 # разделение символов строк
 initial_str = 'qwer'
 # разделители между символами строки
-print(' '.join(initial_list))  # выдаст "q w e r"
+print(' '.join(initial_str))  # выдаст "q w e r"
 ```
 
 ## Генерация листов, кортежей и словарей
