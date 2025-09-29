@@ -10,7 +10,7 @@
 - Условия
 - Циклы
 - Функции
-- Листы, словари, сеты, картежи
+- Листы, словари, сеты, кортежи
 
 [Итоговый проект урока 1](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basic-lessons/l-01-variables-types-conditions-loops-functions)
 
@@ -19,7 +19,8 @@
 ## Урок 2
 
 Темы урока:
-- Синтаксис для более быстрой работы с листами, словарями и картежами
+- Синтаксис для более быстрой работы с листами, словарями и кортежами
+- Работа со строками
 
 [Итоговый проект урока 2](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basic-lessons/l-02-syntax-sugar)
 
