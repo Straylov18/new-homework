@@ -12,9 +12,9 @@
 - Функции
 - Листы, словари, сеты, кортежи
 
-[Итоговый проект урока 1](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basic-lessons/l-01-variables-types-conditions-loops-functions)
+[Итоговый проект урока 1](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-01-variables-types-conditions-loops-functions)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/python-basic-lessons/l-01-variables-types-conditions-loops-functions/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-01-variables-types-conditions-loops-functions/README.md)
 
 ## Урок 2
 
@@ -22,36 +22,36 @@
 - Синтаксис для более быстрой работы с листами, словарями и кортежами
 - Работа со строками
 
-[Итоговый проект урока 2](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basic-lessons/l-02-syntax-sugar)
+[Итоговый проект урока 2](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-02-syntax-sugar)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/python-basic-lessons/l-02-syntax-sugar/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-02-syntax-sugar/README.md)
 
 ## Урок 3
 
 Темы урока:
 - Принцип работы модулей и импортов
 
-[Итоговый проект урока 3](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basic-lessons/l-03-imports)
+[Итоговый проект урока 3](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-03-imports)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/python-basic-lessons/l-03-imports/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-03-imports/README.md)
 
 ## Урок 4
 
 Темы урока:
 - Декораторы
 
-[Итоговый проект урока 4](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basic-lessons/l-04-decorators)
+[Итоговый проект урока 4](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-04-decorators)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/python-basic-lessons/l-04-decorators/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-04-decorators/README.md)
 
 ## Урок 5
 
 Темы урока:
 - ООП
 
-[Итоговый проект урока 5](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basic-lessons/l-05-objects)
+[Итоговый проект урока 5](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-05-objects)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/python-basic-lessons/l-05-objects/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-05-objects/README.md)
 
 
 [//]: # (TODO возможно добавить домашки)
