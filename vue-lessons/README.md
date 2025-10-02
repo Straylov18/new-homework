@@ -98,6 +98,7 @@
 
 Темы урока:
 - Обновление props компонентов при помощи v-model
+- Computed поля во Vue
 
 [Итоговый проект урока 10](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/vue-lessons/l-10-component-handle-props-updates)
 
