@@ -54,4 +54,4 @@
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/python-basic-lessons/l-05-objects/README.md)
 
 
-[//]: # (TODO дальнейшие уроки)
+[//]: # (TODO возможно добавить домашки)
