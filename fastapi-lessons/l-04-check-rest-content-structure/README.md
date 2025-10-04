@@ -20,6 +20,8 @@
 
 Хранить данные схемы для удобства опять же лучше в отдельном слое:
 ```python
+from pydantic import BaseModel, Field
+
 class UserCreate(BaseModel):
     name: str | None = Field(description="Name", default=None)
     email: str | None = Field(description="Email", default=None)
