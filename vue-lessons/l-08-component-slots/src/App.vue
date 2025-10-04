@@ -17,8 +17,6 @@ import InputWrapper from "@/components/InputWrapper.vue"
           >
             <v-text-field placeholder="Введите текст"></v-text-field>
           </input-wrapper>
-<!--        </v-row>-->
-<!--        <v-row>-->
           <input-wrapper
               title="Свитч"
           >

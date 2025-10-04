@@ -3,10 +3,6 @@ const props = defineProps({
   title: {
     type: String,
     default: null,
-  },
-  modelValue: {
-    type: Number,
-    default: 0,
   }
 })
 </script>
@@ -21,6 +17,9 @@ const props = defineProps({
     <v-row class="card-row">
       <slot></slot>
     </v-row>
+<!--    <v-row class="card-row">-->
+<!--      <slot name="cardFooter"></slot>-->
+<!--    </v-row>-->
   </v-container>
 </template>
 
