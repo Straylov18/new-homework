@@ -17,9 +17,9 @@ const props = defineProps({
     <v-row class="card-row">
       <slot></slot>
     </v-row>
-<!--    <v-row class="card-row">-->
-<!--      <slot name="cardFooter"></slot>-->
-<!--    </v-row>-->
+    <v-row class="card-row">
+      <slot name="cardFooter"></slot>
+    </v-row>
   </v-container>
 </template>
 

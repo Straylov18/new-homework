@@ -88,6 +88,46 @@ import InputWrapper from "@/components/InputWrapper.vue"
 
 ## Несколько слотов в одном компоненте (именованные слоты)
 
+В одном компоненте может быть также несколько слотов, 
+которые можно вызывать поименно.
+
+Например, добавим именованный слот в **InputWrapper.vue**:
+```vue
+    <v-row class="card-row">
+      <slot name="cardFooter"></slot>
+    </v-row>
+```
+
+Тогда в **App.vue** при использовании элементов 
+можно описать второй слот в отдельном месте:
+```vue
+
+<v-row>
+  <input-wrapper
+      title="Текстовое поле ввода"
+  >
+    <v-text-field placeholder="Введите текст"></v-text-field>
+
+    <template v-slot:cardFooter>
+      <!-- content for the cardFooter slot -->
+      {{ 'Футер для карточки ввода текста' }}
+    </template>
+  </input-wrapper>
+  <input-wrapper
+      title="Свитч"
+  >
+    <template v-slot:cardFooter>
+      <!-- content for the cardFooter slot -->
+      {{ 'Футер для карточки со свичом' }}
+    </template>
+    <v-switch label="Не нинтендо свитч"></v-switch>
+  </input-wrapper>
+</v-row>
+```
+Как видно, от последовательности описания слотов, результат не меняется.
+
+## Использование props для слотов
+
 [//]: # (TODO)
 
 Подробнее о слотах можно почитать тут:

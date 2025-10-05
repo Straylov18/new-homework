@@ -16,10 +16,19 @@ import InputWrapper from "@/components/InputWrapper.vue"
               title="Текстовое поле ввода"
           >
             <v-text-field placeholder="Введите текст"></v-text-field>
+
+            <template v-slot:cardFooter>
+              <!-- content for the cardFooter slot -->
+              {{ 'Футер для карточки ввода текста' }}
+            </template>
           </input-wrapper>
           <input-wrapper
               title="Свитч"
           >
+            <template v-slot:cardFooter>
+              <!-- content for the cardFooter slot -->
+              {{ 'Футер для карточки со свичом' }}
+            </template>
             <v-switch label="Не нинтендо свитч"></v-switch>
           </input-wrapper>
         </v-row>
