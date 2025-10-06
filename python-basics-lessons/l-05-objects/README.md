@@ -163,6 +163,85 @@ print(computer_4)  # print автоматически вызывает str(compu
 
 ## Наследование объектов
 
-[//]: # (TODO inheritance)
+Допустим мы можем создавать объекты класса Computer:
+```python
+class Computer:
+    cores = 2
+    ram = 2
+    disk_space = 1000
+    color = 'gray'
+
+    def __init__(self, cores, ram, disk_space = 0, color = 'gray'):
+        self.cores = cores
+        self.ram = ram
+        self.disk_space = disk_space
+        self.color = color
+
+    def show_main_parameters(self):
+        print(f'{self.cores} ядра, {self.ram}, гига')
+
+    def __str__(self):
+        return f"компьютер: ({self.cores}, {self.ram}, {self.disk_space}, {self.color})"
+```
+
+И вдруг мы захотели создать класс ноутбука, 
+который будет иметь все свойства и методы класса компьютера, 
+но при этом иметь дополнительные атрибуты и методы.
+Чтобы не переписывать класс полностью мы можем взять класс Computer за основу.
+Такой процесс называется **наследованием**.
+Класс, от которого происходило наследование, называется **родительским**.
+
+Чтобы унаследовать класс, необходимо просто указать родительский класс в скобках.
+
+Унаследуем Notebook от Computer, 
+добавив ему атрибут заряда аккумулятора и методы работы с ним:
+```python
+class Notebook(Computer):
+    batteryLevel = 100
+
+    def recharge(self):
+        self.batteryLevel = 100
+
+    def use(self):
+        self.batteryLevel -= self.ram + 2*self.cores  # энергия расходуется больше, если ядер и оперативки больше
+
+    def show_battery_level(self):
+        print(f'{self.batteryLevel} %')
+```
+
+Совершим операции с его новыми и старыми атрибутами и методами:
+```python
+notebook_1 = Notebook(4, 4)
+notebook_1.show_battery_level()  # выдаст '100 %'
+notebook_1.use()
+notebook_1.show_battery_level()  # выдаст '88 %'
+notebook_1.recharge()
+notebook_1.show_battery_level()  # выдаст '100 %'
+
+# можно также вызывать параметры и методы родительского класса
+notebook_1.show_main_parameters()  # выдаст '4 ядра, 4, гига'
+```
+
+### Полиморфизм
+
+Также мы можем изменить методы, 
+заданные в родительском классе на новые.
+Такой процесс называется полиморфизмом.
+
+Изменим метод отображения объекта в виде строки:
+```python
+class Notebook(Computer):
+    # ... атрибуты и методы, заданные ранее
+
+    def __str__(self):
+        return f"ноутбук: ({self.cores}, {self.ram}, {self.disk_space}, {self.color}, {self.batteryLevel} %)"
+```
+
+Теперь для объектов этого класса отображение в виде строки 
+будет выглядеть отлично от родительского:
+```python
+print(computer_1)  # выдаст 'компьютер: (2, 2, 0, gray)'
+print(notebook_1)  # выдаст 'ноутбук: (4, 4, 0, gray, 100 %)'
+```
 
 [//]: # (TODO _incapsulation)
