@@ -1,20 +1,23 @@
 class Computer:
-    cores = 2
-    ram = 2
-    disk_space = 1000
-    color = 'gray'
+    _cores = 2
+    _ram = 2
+    _disk_space = 1000
+    _color = 'gray'
 
     def __init__(self, cores, ram, disk_space = 0, color = 'gray'):
-        self.cores = cores
-        self.ram = ram
-        self.disk_space = disk_space
-        self.color = color
+        self._cores = cores
+        self._ram = ram
+        self._disk_space = disk_space
+        self._color = color
+
+    def get_color(self):
+        return self._color
 
     def show_main_parameters(self):
-        print(f'{self.cores} ядра, {self.ram}, гига')
+        print(f'{self._cores} ядра, {self._ram}, гига')
 
     def __str__(self):
-        return f"компьютер: ({self.cores}, {self.ram}, {self.disk_space}, {self.color})"
+        return f"компьютер: ({self._cores}, {self._ram}, {self._disk_space}, {self._color})"
 
 
 # создадим компьютер, задав ему только обязательные свойства в конструкторе
@@ -23,19 +26,19 @@ print(computer_1)  # выдаст 'компьютер: (2, 2, 0, gray)'
 
 
 class Notebook(Computer):
-    batteryLevel = 100
+    _batteryLevel = 100
 
     def recharge(self):
-        self.batteryLevel = 100
+        self._batteryLevel = 100
 
     def use(self):
-        self.batteryLevel -= self.ram + 2*self.cores  # энергия расходуется больше, если ядер и оперативки больше
+        self._batteryLevel -= self._ram + 2*self._cores  # энергия расходуется больше, если ядер и оперативки больше
 
     def show_battery_level(self):
-        print(f'{self.batteryLevel} %')
+        print(f'{self._batteryLevel} %')
 
     def __str__(self):
-        return f"ноутбук: ({self.cores}, {self.ram}, {self.disk_space}, {self.color}, {self.batteryLevel} %)"
+        return f"ноутбук: ({self._cores}, {self._ram}, {self._disk_space}, {self._color}, {self._batteryLevel} %)"
 
 
 notebook_1 = Notebook(4, 4)

@@ -52,6 +52,3 @@
 [Итоговый проект урока 5](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-05-objects)
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-05-objects/README.md)
-
-
-[//]: # (TODO возможно добавить домашки)
