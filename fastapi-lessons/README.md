@@ -93,4 +93,13 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-10-linting-code/README.md)
 
+## Урок 11
+
+Темы урока:
+- Улучшение логирования приложения
+
+[Итоговый проект урока 11](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-11-logs-format)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-11-logs-format/README.md)
+
 [//]: # (TODO дальнейшие уроки)
