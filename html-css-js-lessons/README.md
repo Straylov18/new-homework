@@ -4,6 +4,9 @@
 
 Темы урока:
 - HTML
+- DOM дерево
+- Как браузер "видит" web страницы
+- Параметры html тегов
 
 [Итоговый проект урока 1](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-01-html)
 
@@ -13,6 +16,11 @@
 
 Темы урока:
 - CSS
+- Свойство style
+- Свойство class
+- Единицы измерения в CSS
+- Переопределение параметров CSS классов во время событий
+- Свойство transition
 
 [Итоговый проект урока 2](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-02-css)
 
@@ -21,8 +29,13 @@
 ## Урок 3
 
 Темы урока:
-- JS
-- OOP
+- Переменные и типы данных в JS
+- Условия в JS
+- Листы, объекты в JS
+- Циклы в JS
+- Функции в JS
+- Объекты и OOP в JS
+- Изменение состояния страницы с помощью JS
 
 [Итоговый проект урока 3](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-03-js)
 
@@ -31,7 +44,8 @@
 ## Урок 4
 
 Темы урока:
-- TS
+- Типизация в TS
+- Как реализуется совместимость TS с JS
 
 [Итоговый проект урока 4](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-04-ts)
 
