@@ -45,6 +45,8 @@ logging.config.dictConfig(LOG_CONFIG)
 - описание базового описания логов в приложении в **root**
 - логеры библиотек, на которые будут распространятся данные настройки в поле **loggers**
 
+Теперь логи нашего приложения будут форматироваться в указанном формате.
+
 ## Уровни логов
 
 Существует несколько уровней вывода логов:
@@ -114,10 +116,34 @@ LOG_CONFIG = {
 logging.config.dictConfig(LOG_CONFIG)
 ```
 
+Подробнее про логирование и про то какие настройки форматирования можно использовать можно почитать тут:
+
+https://docs.python.org/3/library/logging.html#logging.Formatter
+
+## Вывод своих сообщений в логи
+
+Также можно выводить свои сообщения при помощи логера, на которые применятся все настройки из конфига.
+
+```python
+import logging
+
+logger = logging.getLogger(__name__)
+
+logger.debug("debug message (on routes import)")
+logger.info("info message (on routes import)")
+logger.warning("warning message (on routes import)")
+logger.error("error message (on routes import)")
+logger.critical("critical message (on routes import)")
+```
+
+Это намного лучше, чем просто использовать print функцию, 
+поскольку логи будут содержать в себе доп параметры и будут в едином стиле.
+
 ## Определение своего класса форматирования логов
 
-[//]: # (TODO)
+Для более тонкой настройки логирования можно описывать их через свои классы, унаследованные от классов логирования.
 
+Например, для использования цветов сообщений в логах можно задать свой класс формата логирования:
 ```python
 import logging
 
@@ -155,10 +181,6 @@ console_handler.setFormatter(CustomFormatter())
 logger.addHandler(console_handler)
 ```
 
-```python
-logger.debug("debug message")
-logger.info("info message")
-logger.warning("warning message")
-logger.error("error message")
-logger.critical("critical message")
-```
+Однако для итоговой версии проекта не рекомендуется использовать коды цветов, 
+так как их очень часто придется смотреть из серверной консоли, 
+где цвета не поддерживаются и из-за цветовых кодов логи будут менее читаемыми!

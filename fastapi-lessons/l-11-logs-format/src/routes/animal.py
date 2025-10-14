@@ -1,5 +1,15 @@
 from fastapi import APIRouter
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+logger.debug("debug message (on routes import)")
+logger.info("info message (on routes import)")
+logger.warning("warning message (on routes import)")
+logger.error("error message (on routes import)")
+logger.critical("critical message (on routes import)")
+
 router = APIRouter()
 
 animals = [
