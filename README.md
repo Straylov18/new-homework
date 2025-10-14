@@ -43,3 +43,7 @@ https://github.com/TheYeniseiTrireme/homework-materials/blob/main/docker-basics/
 ## Базовый курс DevOps инженеринга
 
 https://github.com/TheYeniseiTrireme/homework-materials/blob/main/devops-basics/README.md
+
+## Дизайн
+
+https://github.com/TheYeniseiTrireme/homework-materials/blob/main/design-lessons/README.md
