@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import InputWrapper from "@/components/InputWrapper.vue"
+import Clicker from "@/components/Clicker.vue"
 </script>
 
 <template>
@@ -32,10 +33,39 @@ import InputWrapper from "@/components/InputWrapper.vue"
             <v-switch label="Не нинтендо свитч"></v-switch>
           </input-wrapper>
         </v-row>
+        <v-row>
+          <h1>
+            Кастомные кликеры:
+          </h1>
+        </v-row>
+        <v-row>
+          <clicker>
+            <template #default="{ clickedTimes }">
+              <p>
+                {{ "кликов: " + clickedTimes }}
+              </p>
+            </template>
+          </clicker>
+          <clicker>
+            <template #default="{ clickedTimes }">
+              <h2 class="clicker-output pa-1 my-2">
+                {{ clickedTimes }}
+              </h2>
+            </template>
+          </clicker>
+        </v-row>
       </div>
     </v-container>
   </v-app>
 </template>
 
 <style scoped>
+.clicker-output {
+  outline: #535bf2 solid 2px;
+  border-radius: 5px;
+  background-color: rgba(83, 91, 242, 0.26);
+}
+.clicker-output:hover {
+  filter: drop-shadow(0 0 0.5em #646cff);
+}
 </style>
