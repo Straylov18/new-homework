@@ -128,7 +128,83 @@ import InputWrapper from "@/components/InputWrapper.vue"
 
 ## Использование props для слотов
 
-[//]: # (TODO)
+Порой необходимо использовать какие-то внутренние параметры компонента 
+во внешне описываемом шаблоне слота. 
+Для этого можно прокинуть props для нужного слота.
+Сделаем это на примере дефолтного слота.
+
+Создадим еще один компонент со стандартным слотом **components/Clicker.vue**:
+```vue
+<script setup lang="ts">
+import {ref} from "vue";
+const clickedTimes = ref(0)
+</script>
+
+<template>
+  <v-container class="v-col-4 main-product-container ma-3">
+    <v-btn @click="clickedTimes ++" >
+      Жмякнуть!
+    </v-btn>
+    <slot :clickedTimes="clickedTimes"></slot>
+  </v-container>
+</template>
+
+<style scoped>
+.main-product-container {
+  border-radius: 10px;
+  background-color: #bababa;
+}
+</style>
+```
+
+Здесь слоту передается параметр clicks, 
+чтобы количество кликов **clickedTimes** 
+было доступно при описании шаблонов для имеющегося дефолтного слота:
+```vue
+<slot :clicks="clickedTimes"></slot>
+```
+
+Добавим в **App.vue** два кликера с разной стилизацией вывода количества кликов:
+```vue
+<template>
+  ...
+  <v-row>
+    <h1>
+      Кастомные кликеры:
+    </h1>
+  </v-row>
+  <v-row>
+    <clicker>
+      <template #default="{ clickedTimes }">
+        <p>
+          {{ "кликов: " + clickedTimes }}
+        </p>
+      </template>
+    </clicker>
+    <clicker>
+      <template #default="{ clickedTimes }">
+        <h2 class="clicker-output pa-1 my-2">
+          {{ clickedTimes }}
+        </h2>
+      </template>
+    </clicker>
+  </v-row>
+  ...
+</template>
+
+<style scoped>
+  .clicker-output {
+    outline: #535bf2 solid 2px;
+    border-radius: 5px;
+    background-color: rgba(83, 91, 242, 0.26);
+  }
+  .clicker-output:hover {
+    filter: drop-shadow(0 0 0.5em #646cff);
+  }
+</style>
+```
+Как видно в **App.vue** у нас появляется возможность 
+использовать внутренние параметры компонента кликера при описании шаблона (template).
 
 Подробнее о слотах можно почитать тут:
 https://vuejs.org/guide/components/slots.html.

@@ -40,16 +40,16 @@ import Clicker from "@/components/Clicker.vue"
         </v-row>
         <v-row>
           <clicker>
-            <template #default="{ clickedTimes }">
+            <template #default="{ clicks }">
               <p>
-                {{ "кликов: " + clickedTimes }}
+                {{ "кликов: " + clicks }}
               </p>
             </template>
           </clicker>
           <clicker>
-            <template #default="{ clickedTimes }">
+            <template #default="{ clicks }">
               <h2 class="clicker-output pa-1 my-2">
-                {{ clickedTimes }}
+                {{ clicks }}
               </h2>
             </template>
           </clicker>

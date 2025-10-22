@@ -8,7 +8,7 @@ const clickedTimes = ref(0)
     <v-btn @click="clickedTimes ++" >
       Жмякнуть!
     </v-btn>
-    <slot :clickedTimes="clickedTimes"></slot>
+    <slot :clicks="clickedTimes"></slot>
   </v-container>
 </template>
 
