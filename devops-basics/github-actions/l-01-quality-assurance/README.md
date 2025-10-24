@@ -104,7 +104,7 @@ flake8: requirements
 
 .PHONY: isort
 isort: requirements
-	poetry run isort
+	poetry run isort . --skip-gitignore --check-only
 
 .PHONY: QA
 QA: flake8 isort
