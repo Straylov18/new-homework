@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, or_
 
 from src.schemes.user import UserCreate, UserFromDB, Filters
 from src.models.user import User
@@ -10,8 +10,29 @@ router = APIRouter()
 
 
 @router.post('/list')
-async def get_users_list(body: Filters, db_session: AsyncSession = Depends(get_session)) -> list[UserFromDB]:
-    query_result = await db_session.execute(select(User))
+async def get_users_list(filters: Filters, db_session: AsyncSession = Depends(get_session)) -> list[UserFromDB]:
+    query = select(User)
+    if filters.search_str is not None:
+        query = query.filter(
+            or_(
+                User.name.ilike(f"%{filters.search_str}%"),
+                User.email.ilike(f"%{filters.search_str}%"),
+            )
+        )
+    if filters.order_by is not None:
+        query = query.order_by(filters.order_by)
+    if filters.date_created__gte is not None:
+        query = query.filter(User.date_created >= filters.date_created__gte)
+    if filters.date_created__lte is not None:
+        query = query.filter(User.date_created <= filters.date_created__lte)
+    if filters.email__in is not None:
+        query = query.filter(User.email.in_(filters.email__in))
+    if filters.limit is not None and filters.limit >= 0:
+        query = query.limit(filters.limit)
+    if filters.offset is not None:
+        query = query.offset(filters.offset)
+
+    query_result = await db_session.execute(query)
     return query_result.scalars().all()
 
 
