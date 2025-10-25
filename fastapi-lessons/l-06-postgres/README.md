@@ -133,7 +133,7 @@ poetry run alembic upgrade head
 
 И запустить проект:
 ```shell
-poetry run uvicorn src.main:app
+poetry run uvicorn src.main:app --reload
 ```
 
 Теперь ты можешь параллельно с работой приложения спокойно подключаться к БД через SQL клиент.

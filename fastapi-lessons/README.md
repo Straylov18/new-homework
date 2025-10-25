@@ -78,9 +78,17 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-07-sql-db-relation-types/README.md)
 
+## Урок 8
 
-[//]: # (TODO дальнейшие уроки)
+Темы урока:
+- Построение более сложных запросов с фильтрацией
+- Отладка генерируемых SQL запросов
 
+[Итоговый проект урока 8](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-08-db-more-complex-request)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-08-db-more-complex-request/README.md)
+
+[//]: # (TODO 9-й урок)
 
 ## Урок 10
 
