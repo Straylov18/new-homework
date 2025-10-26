@@ -46,10 +46,6 @@ add_package_deploy: requirements
 
 # --- run app ---
 
-.PHONY: run_uvcorn
-run_uvcorn: requirements
-	poetry run uvicorn src.main:app --reload $(ARGS)
-
 .PHONY: migration-generate
 migration-generate: requirements
 	# generate new revision based on current difference with db
@@ -62,3 +58,7 @@ migration-upgrade: requirements
 .PHONY: migration-downgrade
 migration-downgrade: requirements
 	poetry run alembic downgrade -1
+
+.PHONY: run_uvcorn
+run_uvcorn: requirements
+	poetry run uvicorn src.main:app --reload $(ARGS)

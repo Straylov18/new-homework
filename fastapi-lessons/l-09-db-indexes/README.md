@@ -81,3 +81,7 @@ class UserPost(Base):
 
 Подробнее об описании дополнительных аргументов таблиц БД через модели можно почитать тут:
 https://docs.sqlalchemy.org/en/20/core/constraints.html.
+
+## Анализ сложности запросов к БД
+
+[//]: # (TODO EXPLAIN ANALYZE (SELECT ...)

@@ -17,7 +17,7 @@ async def get_user_posts_list(db_session: AsyncSession = Depends(get_session)) -
 
 @router.post('/')
 async def create_user_post(data: UserPostCreate, db_session: AsyncSession = Depends(get_session)) -> UserPostFromDB:
-    new_user_post = UserPost(**data.model_dump(exclude_unset=True))
+    new_user_post = UserPost(number_of_updates=1, **data.model_dump(exclude_unset=True))
     # new_user_post = UserPost(title=data.title, text=data.text, user_uid=data.user_uid)  # создание без model_dump
     db_session.add(new_user_post)
     await db_session.commit()
