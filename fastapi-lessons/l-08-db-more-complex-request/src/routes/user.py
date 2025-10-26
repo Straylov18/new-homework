@@ -19,14 +19,14 @@ async def get_users_list(filters: Filters, db_session: AsyncSession = Depends(ge
                 User.email.ilike(f"%{filters.search_str}%"),
             )
         )
-    if filters.order_by is not None:
-        query = query.order_by(filters.order_by)
     if filters.date_created__gte is not None:
         query = query.filter(User.date_created >= filters.date_created__gte)
     if filters.date_created__lte is not None:
         query = query.filter(User.date_created <= filters.date_created__lte)
     if filters.email__in is not None:
         query = query.filter(User.email.in_(filters.email__in))
+    if filters.order_by is not None:
+        query = query.order_by(filters.order_by)
     if filters.limit is not None and filters.limit >= 0:
         query = query.limit(filters.limit)
     if filters.offset is not None:

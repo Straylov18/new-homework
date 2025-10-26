@@ -88,7 +88,14 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-08-db-more-complex-request/README.md)
 
-[//]: # (TODO 9-й урок)
+## Урок 9
+
+Темы урока:
+- Аргументы таблиц БД (индексы, ограничения итд.)
+
+[Итоговый проект урока 9](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-09-db-indexes)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-09-db-indexes/README.md)
 
 ## Урок 10
 
