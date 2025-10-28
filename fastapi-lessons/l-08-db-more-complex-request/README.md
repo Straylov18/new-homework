@@ -69,6 +69,15 @@ async def get_users_list(filters: Filters, db_session: AsyncSession = Depends(ge
 
 [//]: # (TODO order_by asc desc)
 
+Для выдачи результатов в определенном порядке, 
+необходимо сортировать их по конкретному полю или набору полей при помощи функции order_by:
+```python
+if filters.order_by is not None:
+    query = query.order_by(filters.order_by)
+```
+Сортировка производится по алфавиту.
+Сортировать можно как в прямом, так и в обратном порядке.
+
 ### Строка текстового поиска
 
 Для поиска по тексту объекта обычно делают отдельный параметр запроса.
@@ -96,11 +105,28 @@ ilike не будет учитывать различия в заглавных 
 
 ### Фильтры больше меньше по датам (date_created__gte, date_created__lte)
 
-[//]: # (TODO date filter)
+Очень часто необходимо фильтровать данные по дате.
+Чтобы сравнивать даты в таблицах можно использовать обычные операторы сравнения:
+```python
+if filters.date_created__gte is not None:
+    query = query.filter(User.date_created >= filters.date_created__gte)
+if filters.date_created__lte is not None:
+    query = query.filter(User.date_created <= filters.date_created__lte)
+```
+Здесь для сокращения длины переменных используются часто встречаемые сокращения:
+- gte (greater then or equal)
+- lte (less then or equal)
 
 ### Фильтры по листам данных (email__in)
 
-[//]: # (TODO email in list)
+Чтобы отсортировать строки таблицы, 
+колонки которых имеют одно из предложенных значений, 
+можно воспользоваться функцией in_:
+```python
+if filters.email__in is not None:
+    query = query.filter(User.email.in_(filters.email__in))
+```
+Тогда будут выдаваться все пользователи, имеющие email, упомянутый в листе "filters.email__in".
 
 Подробнее о запросах со сложными выборками можно почитать тут: 
 https://docs.sqlalchemy.org/en/20/tutorial/data_select.html.
