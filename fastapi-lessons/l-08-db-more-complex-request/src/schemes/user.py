@@ -19,6 +19,7 @@ class Filters(BaseModel):
     limit: int | None = Field(description="Limit", default=10)
     offset: int | None = Field(description="Offset", default=0)
     order_by: str | None = Field(description="Order by", default="name")
+    order_desc: bool | None = Field(description="Order in descending order", default=True)
     date_created__gte: datetime | None = Field(description="Show only users created after date", default=None)
     date_created__lte: datetime | None = Field(description="Show only users created before date", default=None)
     email__in: list[str] | None = Field(description="Email in list", default=None)

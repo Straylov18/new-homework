@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, or_
+from sqlalchemy import select, or_, desc
 
 from src.schemes.user import UserCreate, UserFromDB, Filters
 from src.models.user import User
@@ -26,7 +26,11 @@ async def get_users_list(filters: Filters, db_session: AsyncSession = Depends(ge
     if filters.email__in is not None:
         query = query.filter(User.email.in_(filters.email__in))
     if filters.order_by is not None:
-        query = query.order_by(filters.order_by)
+        # query = query.order_by(desc("name"), "email")
+        if filters.order_desc:
+            query = query.order_by(desc(filters.order_by))
+        else:
+            query = query.order_by(filters.order_by)
     if filters.limit is not None and filters.limit >= 0:
         query = query.limit(filters.limit)
     if filters.offset is not None:

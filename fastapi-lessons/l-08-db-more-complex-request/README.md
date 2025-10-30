@@ -33,6 +33,7 @@ class Filters(BaseModel):
     limit: int | None = Field(description="Limit", default=10)
     offset: int | None = Field(description="Offset", default=0)
     order_by: str | None = Field(description="Order by", default="name")
+    order_desc: bool | None = Field(description="Order in descending order", default=True)
     date_created__gte: datetime | None = Field(description="Show only users created after date", default=None)
     date_created__lte: datetime | None = Field(description="Show only users created before date", default=None)
     email__in: list[str] | None = Field(description="Email in list", default=None)
@@ -67,8 +68,6 @@ async def get_users_list(filters: Filters, db_session: AsyncSession = Depends(ge
 
 ### Сортировка (order_by, order_desc)
 
-[//]: # (TODO order_by asc desc)
-
 Для выдачи результатов в определенном порядке, 
 необходимо сортировать их по конкретному полю или набору полей при помощи функции order_by:
 ```python
@@ -77,6 +76,23 @@ if filters.order_by is not None:
 ```
 Сортировка производится по алфавиту.
 Сортировать можно как в прямом, так и в обратном порядке.
+
+Чтобы выбирать прямой или обратный порядок сортировки 
+обычно в фильтрах прокидывают еще один логический параметр (например order_desc):
+```python
+if filters.order_by is not None:
+if filters.order_desc:
+    query = query.order_by(desc(filters.order_by))
+else:
+    query = query.order_by(filters.order_by)
+```
+
+Чтобы отсортировать по нескольким строкам 
+(если встретятся одинаковые значения в одной, эта группа будет сортироваться по другой итд) 
+нужно просто перечислить условия сортировки через запятую:
+```python
+query = query.order_by(desc("name"), "email")
+```
 
 ### Строка текстового поиска
 
