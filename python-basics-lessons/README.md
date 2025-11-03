@@ -52,3 +52,14 @@
 [Итоговый проект урока 5](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-05-objects)
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-05-objects/README.md)
+
+[//]: # (TODO requests)
+
+## Урок 7
+
+Темы урока:
+- Создание простого телеграм бота
+
+[Итоговый проект урока 7](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-07-telegram-bot)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-07-telegram-bot/README.md)
