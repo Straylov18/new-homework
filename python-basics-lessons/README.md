@@ -53,9 +53,18 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-05-objects/README.md)
 
-[//]: # (TODO requests)
+## Урок 6 (необязательно для курса backend разработки)
 
-## Урок 7
+Темы урока:
+- Отправка REST запросов
+- Парсинг сайтов (написание web scrapper приложений)
+
+[Итоговый проект урока 6](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-06-requests)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-06-requests/README.md)
+
+
+## Урок 7 (необязательно для курса backend разработки)
 
 Темы урока:
 - Создание простого телеграм бота
