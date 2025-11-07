@@ -54,6 +54,12 @@ poetry add pytelegrambotapi pydantic-settings
 - pytelegrambotapi (библиотека для работы с telegram)
 - pydantic-settings (для загрузки переменных из окружения, об этом чуть позже)
 
+Дальше нужно установить зависимости нашего проекта:
+```shell
+poetry lock
+poetry install
+```
+
 ## Запуск простого телеграм бота
 
 Для начала напишем простого бота, которое будет приветствовать пользователя при начале общения:
@@ -76,12 +82,16 @@ bot.infinity_polling()
 - создается объект телеграм бота, который будет обрабатывать сообщения (```bot = telebot.TeleBot(token)```)
 - происходит привязка событий прихода сообщений /start и /help через декоратор (```@bot.message_handler(commands=['start', 'help'])```)
 - отправка ответа на сообщение, пришедшее от пользователя (```bot.reply_to(message, 'Hi 👾')```)
-- отправка обычного сообщения (```bot.send_message(message.chat.id, 'ヾ(•ω•`)o')```)
+- отправка обычного сообщения (```bot.send_message(message.chat.id, 'ヾ(•ω•`)o')```).
+Здесь **message.chat.id** - id чата из которого было прислано сообщение. 
+При отправке сообщения на самом деле можно указывать id любого чата, который уже был начат с ботом 
+(те любого пользователя, который однажды нажал '/start' в этом боте).
+Таким образом можно как отвечать в текущий чат, так и делать рассылку сообщений пользователям.
 - запуск бесконечной обработки дальнейших сообщений (```bot.infinity_polling()```)
 
 Запустить приложение можно также с помощью poetry:
 ```shell
-poetry run src/main.py
+poetry run python src/main.py
 ```
 
 Пока приложение будет работать ботом можно будет пользоваться.
@@ -229,6 +239,7 @@ async def start_message(message):
 
 @bot.message_handler(func=lambda message: True)
 async def echo_message(message):
+    print(f'Сообщение пришло от {message.from_user.username}')
     await bot.reply_to(message, message.text)
 
 
@@ -237,7 +248,46 @@ asyncio.run(bot.polling())
 
 ## Кнопки
 
-[//]: # (TODO)
+Телеграм позволяет добавлять меню с кнопкам в диалог или к конкретным сообщениям.
+
+### Прикручивание кнопок к сообщению
+
+Добавим кнопки к какому-нибудь сообщению.
+
+В момент обработки сообщения от пользователя мы можем отправлять еще сообщение одно сообщения с кнопками:
+```python
+@bot.message_handler(func=lambda message: True)
+async def echo_message(message):
+    print(f'Сообщение пришло от {message.from_user.username}')
+    await bot.reply_to(message, message.text)
+    
+    question_text = f'{message.from_user.first_name},  хочешь поговорить об этом?'
+    markup = types.InlineKeyboardMarkup()
+    markup.add(types.InlineKeyboardButton('Я - бивень!', callback_data='bivenq'))
+    await bot.send_message(message.chat.id, question_text, reply_markup=markup)
+```
+Здесь мы:
+- создаем менюшку, которая будет содержать в себе кнопки 
+(```markup = types.InlineKeyboardMarkup()```)
+- добавляем в менюшку кнопку с текстом 'Я - бивень!' и названием события ('bivenq'), которое должно вызываться при нажатии
+(```markup.add(types.InlineKeyboardButton('Я - бивень!', callback_data='bivenq'))```)
+- прикручиваем эту менюшку к отправляемому сообщению при помощи параметра "reply_markup=markup"
+(```await bot.send_message(message.chat.id, question_text, reply_markup=markup)```)
+
+Чтобы обработать событие 'bivenq' необходимо добавить обработчик событий (аналогично обработчику сообщений):
+```python
+@bot.callback_query_handler(func=lambda callback: True)
+async def callback_message(callback):
+    if callback.data == 'bivenq':
+        await bot.send_message(callback.message.chat.id, 'Ну ты походу бивень .. 🐘')
+```
+Здесь:
+- привязываем обработку всех событий нажатия на кнопки к функции
+(```@bot.callback_query_handler(func=lambda callback: True)```)
+- проверяем, что обработанное событие называлось 'bivenq'
+(```if callback.data == 'bivenq':```)
+- отправляем сообщение в чат, в котором обрабатывалось данное событие
+(```await bot.send_message(callback.message.chat.id, 'Ну ты походу бивень .. 🐘')```)
 
 Подробнее про работу с библиотекой **pytelegrambotapi** можно почитать тут:
 https://pytba.readthedocs.io/en/latest.
