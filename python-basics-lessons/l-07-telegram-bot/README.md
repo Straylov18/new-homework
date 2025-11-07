@@ -289,5 +289,60 @@ async def callback_message(callback):
 - отправляем сообщение в чат, в котором обрабатывалось данное событие
 (```await bot.send_message(callback.message.chat.id, 'Ну ты походу бивень .. 🐘')```)
 
+### Прикручивание кнопок к основному меню
+
+Также кнопки можно прикручивать к основной менюшке (возле поля ввода текста).
+Такой тип кнопок будет отправлять сообщение в чат от имени пользователя, 
+после чего данное сообщение можно обрабатывать как команду.
+
+Для этого в какой-то момент необходимо прикрутить особую разметку к сообщению.
+
+Сделаем это в момент вызова команды '/start', чтобы кнопки были видно при первом входе в бота.
+Объявление разметки с кнопками в основном меню будет выглядеть следующим образом:
+```python
+markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+markup.add(types.KeyboardButton("Помощь"))
+markup.add(types.KeyboardButton("Заказать морскую соль"))
+```
+Здесь:
+- задана разметка для основного меню
+(```types.ReplyKeyboardMarkup(resize_keyboard=True)```)
+- добавлены кнопки основного меню, которые будут отправлять текст из кнопки от имени пользователя при нажатии на них
+(например ```markup.add(types.KeyboardButton("Помощь"))```)
+
+Прикрутить эту разметку нужно к методу отправки сообщении все тем же параметром "reply_markup=markup". 
+
+Тогда новая функция обработки команды /start будет выглядеть:
+```python
+@bot.message_handler(commands=['start', 'help'])
+async def start_message(message):
+    await bot.reply_to(message, 'Hi 👾')
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add(types.KeyboardButton("Помощь"))
+    markup.add(types.KeyboardButton("Заказать морскую соль"))
+    await bot.send_message(message.chat.id,
+                           '*ヾ(•ω•`)o*  [ссылка на этот урок](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-07-telegram-bot)',
+                           parse_mode='markdown',
+                           reply_markup=markup)
+```
+
+Пока эти кнопки просто будут отправлять сообщения в чат от имени пользователя.
+Теперь обработаем сообщения от этих кнопок, переписав метод обработки сообщений:
+```python
+@bot.message_handler(func=lambda message: True)
+async def echo_message(message):
+    if message.text == "Помощь":
+        await bot.send_message(message.chat.id, "Данный бот поддерживает команды /start и /help")
+    elif message.text == "Заказать морскую соль":
+        await bot.send_message(message.chat.id, "Не во всех телеграм ботах можно заказывать морскую соль! Тут низя ..")
+    else:
+        ...дальнейшая обработка обычных сообщений...
+```
+Т.е. тут мы просто проверяем, что пришло название кнопки из меню, 
+иначе просто обрабатываем сообщения как раньше.
+
+В остальном можно делать все манипуляции, которые позволяет телеграм 
+(удалять, редактировать сообщения, отправлять картинки, стикеры, итд.).
+
 Подробнее про работу с библиотекой **pytelegrambotapi** можно почитать тут:
 https://pytba.readthedocs.io/en/latest.
