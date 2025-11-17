@@ -117,4 +117,18 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-11-logs-format/README.md)
 
+## Урок 12
+
+Темы урока:
+- Авторизация
+- Аутентификация
+- Аутентификация с помощью session_id и с помощью jwt токенов
+- Передача токенов через хэдеры запросов
+- Передача токенов через cookies в запросах
+- Хранение паролей в хэшированом виде
+
+[Итоговый проект урока 12](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-12-auth)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-12-auth/README.md)
+
 [//]: # (TODO дальнейшие уроки)
