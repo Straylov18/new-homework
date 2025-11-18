@@ -49,12 +49,12 @@
 - в хэдерах запроса
 - в cookies запроса
 
-### Передача в хедере запроса
+### Передача токена в хедере запроса
 
 [//]: # (TODO )
 Не так удобно, поскольку придется подпихивать к каждому запросу.
 
-### Передача в cookies запроса
+### Передача токена в cookies запроса
 
 [//]: # (TODO )
 
@@ -62,7 +62,181 @@
 
 ## FastAPI приложение обрабатывающее jwt токены в cookies запросов
 
-[//]: # (TODO )
+Чтобы обрабатывать jwt токены в нашем бэкенд приложении, 
+у нас должен быть секретный ключ, 
+которым мы будем шифровать и расшифровывать все jwt токены.
+
+Зададим его в конфиге (файле **src/config.py**):
+```python
+from pydantic_settings import SettingsConfigDict, BaseSettings
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        extra='ignore',
+        env_file='.env'
+    )
+    BASE_ROUTE_PATH: str = '/api/v1'
+    SECRET_KEY: str = '/api/v1'
+
+
+settings = Settings()
+```
+
+Теперь опишем методы для работы с jwt токенами.
+Делать мы это будем в отдельном файле **src/auth.py**.
+
+Опишем метод создания jwt токена:
+```python
+import jwt
+from datetime import datetime, timedelta, timezone
+
+from src.config import settings
+
+def create_access_token(data: dict) -> str:
+    to_encode = data.copy()
+    expire = datetime.now(timezone.utc) + timedelta(days=7)
+    to_encode.update({"exp": expire})
+    encode_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm='HS256')
+    return encode_jwt
+```
+Здесь 
+
+[//]: # (TODO)
+
+Добавим также метод, который будет проверять валидность jwt токена, 
+и выдавать нам его содержимое, если он валиден:
+```python
+def get_token_payload_if_valid(token) -> dict:
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms='HS256')
+    except jwt.InvalidTokenError:
+        raise HTTPException(403, "Нет валидного jwt токена!")
+
+    expire: str = payload.get('exp')
+    expire_time = datetime.fromtimestamp(int(expire), tz=timezone.utc)
+    if (not expire) or (expire_time < datetime.now(timezone.utc)):
+        raise HTTPException(403, "jwt токен просрочился")
+
+    return payload
+```
+Здесь:
+
+[//]: # (TODO)
+
+Также добавим метод, который будет непосредственно вытягивать jwt токен 
+из cookies входящего запроса:
+```python
+from fastapi import Request, HTTPException
+
+def get_token(request: Request):
+    token = request.cookies.get('access_token')
+    if not token:
+        raise HTTPException(403, "нету токена")
+    return token
+```
+Здесь:
+- на вход приходит объект запроса (```request: Request```), 
+который будет автоматически получаться в функции обработки роута 
+от FastAPI при обработке REST запроса.
+- из cookies запроса вытягивается токен по ключу 'access_token' (```request.cookies.get('access_token')```) 
+
+Добавим описание роута для входа в систему (получения jwt токена):
+```python
+import uvicorn
+from fastapi import FastAPI, Response, HTTPException, Depends
+from fastapi.routing import APIRouter
+from pydantic import EmailStr
+
+from src.auth import create_access_token, get_token, get_token_payload_if_valid
+
+BASE_ROUTE_PATH = "/api/v1"
+
+app = FastAPI(
+    openapi_url=f"{BASE_ROUTE_PATH}/openapi.json",
+    docs_url=f"{BASE_ROUTE_PATH}/docs",
+)
+
+router = APIRouter(prefix=BASE_ROUTE_PATH)
+
+users = [
+    {
+        'id': 0,
+        'email': 'shaytan@cheburnetomail.ru',
+        'password': '1',
+    },
+    {
+        'id': 1,
+        'email': 'admin@cheburnetomail.ru',
+        'password': '1235',
+    },
+]
+
+
+@router.get('/login')
+async def login(email: EmailStr, password: str, response: Response):
+    for u in users:
+        if u["email"] == email and u["password"] == password:
+            jwt_token_data = {"email": email}
+            jwt_token = create_access_token(jwt_token_data)
+            response.set_cookie("access_token", jwt_token)
+            return "Успешный вход!"
+    return "Пользователь не найден:("
+
+
+app.include_router(router)
+
+if __name__ == '__main__':
+    uvicorn.run(
+        'main:app',
+        host='localhost',
+        port=8000,
+        reload=True,
+    )
+```
+Здесь:
+- описана импровизированная база данных пользователей (переменная users)
+- ручка '/login', которая принимает на вход логин (email) и пароль. 
+В ней также в параметрах передается response, 
+к которому будет прикрепляться cookie с jwt токеном.
+- при логине мы проверяем есть ли такой пользователь, 
+и совпадает ли его логин и пароль с введенным
+- мы создаем данные, 
+которые запишутся в jwt токен (помимо срока его действия и дефолтных), 
+в нашем случае это просто email (```{"email": email}```)
+- создаем jwt токен при помощи нашей функции из **src/auth.py** (```jwt_token = create_access_token(jwt_token_data)```)
+- прикрепляем cookie к ответу запроса (```response.set_cookie("access_token", jwt_token)```), 
+чтобы эта cookie записалась в браузере пользователя 
+и все время прикреплялась к запросам пользователя
+
+Для выхода пользователя из аккаунта нужно всего лишь убрать jwt токен из его cookie:
+```python
+@router.post("/logout")
+async def logout_user(response: Response):
+    response.delete_cookie(key="access_token")
+    return {'message': 'Пользователь вышел из системы. Бб, дружище!'}
+```
+
+Если же мы теперь хотим в какой-то ручке проверить, 
+что наш пользователь успешно вошел (ну и получить прочую информацию о нем), 
+можно прикрутить dependency injection для получения токена, 
+которая будет вызывать описанную нами в **src/auth.py** функцию "get_token":
+```python
+@router.get('/hello')
+async def hello_user(token: str = Depends(get_token)):
+    payload = get_token_payload_if_valid(token)
+
+    user_email: str = payload.get('email')
+    if not user_email:
+        raise HTTPException(403, "Нет такого пользователя! Обманщик!")
+
+    return f"Hi, {payload.get('email')}!"
+```
+Здесь:
+- получаем токен из cookie запроса при помощи нашего метода "get_token" (```token: str = Depends(get_token)```)
+- мы проверяем правильность токена (```payload = get_token_payload_if_valid(token)```)
+- получаем email пользователя прямо из jwt токена, 
+чтобы потом его вывести обратно (```user_email: str = payload.get('email')```)
 
 ## Хранение паролей в хэшированом виде
 

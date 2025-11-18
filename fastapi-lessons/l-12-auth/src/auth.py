@@ -6,6 +6,7 @@ from fastapi import Request, HTTPException
 
 from src.config import settings
 
+
 # pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 #
 #
@@ -37,6 +38,7 @@ def create_access_token(data: dict) -> str:
     to_encode.update({"exp": expire})
     encode_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm='HS256')
     return encode_jwt
+
 
 def get_token_payload_if_valid(token) -> dict:
     try:

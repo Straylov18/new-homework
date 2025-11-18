@@ -43,14 +43,14 @@ async def login(email: EmailStr, password: str, response: Response):
 async def hello_user(token: str = Depends(get_token)):
     payload = get_token_payload_if_valid(token)
 
-    user_id: str = payload.get('email')
-    if not user_id:
+    user_email: str = payload.get('email')
+    if not user_email:
         raise HTTPException(403, "Нет такого пользователя! Обманщик!")
 
     return f"Hi, {payload.get('email')}!"
 
 
-@router.post("/logout/")
+@router.post("/logout")
 async def logout_user(response: Response):
     response.delete_cookie(key="access_token")
     return {'message': 'Пользователь вышел из системы. Бб, дружище!'}
