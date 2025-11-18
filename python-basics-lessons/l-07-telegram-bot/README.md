@@ -256,6 +256,8 @@ asyncio.run(bot.polling())
 
 В момент обработки сообщения от пользователя мы можем отправлять еще сообщение одно сообщения с кнопками:
 ```python
+from telebot import types
+
 @bot.message_handler(func=lambda message: True)
 async def echo_message(message):
     print(f'Сообщение пришло от {message.from_user.username}')
