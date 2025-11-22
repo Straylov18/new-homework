@@ -265,7 +265,3 @@ async def hello_user(token: str = Depends(get_token)):
 - мы проверяем правильность токена (```payload = get_token_payload_if_valid(token)```)
 - получаем email пользователя прямо из jwt токена, 
 чтобы потом его вывести обратно (```user_email: str = payload.get('email')```)
-
-## Хранение паролей в хэшированом виде
-
-[//]: # (TODO )

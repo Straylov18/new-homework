@@ -131,4 +131,25 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-12-auth/README.md)
 
+## Урок 13
+
+Темы урока:
+- Хранение данных пользователей в БД
+- Хранение паролей в хэшированом виде
+
+[Итоговый проект урока 13](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-13-auth-db)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-13-auth-db/README.md)
+
+## Урок 14
+
+Темы урока:
+- Получение одного или нескольких файлов
+- Отправка файлов
+- Потоковая отправка файлов
+
+[Итоговый проект урока 14](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-14-files-in-requests)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-14-files-in-requests/README.md)
+
 [//]: # (TODO дальнейшие уроки)
