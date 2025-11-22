@@ -21,4 +21,26 @@ OUTPUT_LINES=10000; for i in $(seq 1 $OUTPUT_LINES); do echo "tarabara rastabara
 
 http://127.0.0.1:8000/api/v1/file/tarabara_rastabara_naprimer.txt
 
+## Потоковая передача данных
+
+Для начала создадим функцию, 
+читающую файл и генерирующую поток данных из этого файла:
+```python
+def iterate_file(filename: str):
+    with open(get_file_path(filename), "rb") as f:
+        while file_chunk := f.read(1024 * 1024):
+            yield file_chunk
+```
+Здесь:
+- происходит побитовое чтение файла при помощи параметра "rb" 
+(```with open(get_file_path(filename), "rb") as f:```)
+- чтение куска файла, размером 1024 * 1024 B = 1Mb
+(```f.read(1024 * 1024)```)
+- при помощи моржового оператора ":=" мы присваиваем значение переменной file_chunk и выдаем присвоенное значение в условие while 
+(```while file_chunk := f.read(1024 * 1024)```)
+- выдаем кусок данных при следующем запросе генератора 
+(```yield file_chunk```)
+
+[//]: # (TODO урок в python-basic-lessons про генераторы)
+
 [//]: # (TODO лучше проверять потоковую выдачу на примере видео)
