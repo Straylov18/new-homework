@@ -152,4 +152,15 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-14-files-in-requests/README.md)
 
+## Урок 15
+
+Темы урока:
+- Unit тесты (на примере pytest)
+- Покрытие тестов
+- Многопоточный запуск тестов
+
+[Итоговый проект урока 15](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-15-unit-tests)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-15-unit-tests/README.md)
+
 [//]: # (TODO дальнейшие уроки)
