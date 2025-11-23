@@ -1,5 +1,15 @@
-def factorial():
-    pass
+def my_factorial(n: int):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * my_factorial(n - 1)
+
+
+def divide_and_conquer(num: int, denum: int):
+    if denum == 0:
+        raise Exception("denum must not be 0!")
+    else:
+        return f"conquered {num // denum} times"
 
 
 def get_dominant_color(r: int, g: int, b: int) -> str:
