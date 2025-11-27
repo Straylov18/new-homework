@@ -75,7 +75,7 @@
 ## * Урок 8 (необязательно для курса backend разработки)
 
 Темы урока:
-- Простая игра
+- Создание простой игры
 
 [Итоговый проект урока 8](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-08-pygame)
 
