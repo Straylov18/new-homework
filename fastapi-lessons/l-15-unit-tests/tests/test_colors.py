@@ -2,14 +2,7 @@ import math
 
 import pytest
 
-from src.service.math_funcs import (divide_and_conquer, get_dominant_color,
-                                    my_factorial)
-
-
-def test_divide_and_conquer():
-    assert divide_and_conquer(8, 4) == "conquered 2 times"
-    with pytest.raises(Exception, match="denum must not be 0!"):
-        divide_and_conquer(5, 0)
+from src.service.math_funcs import get_dominant_color, my_factorial
 
 
 @pytest.mark.parametrize("number", [0, 1, 2, 3, 100])

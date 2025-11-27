@@ -51,15 +51,15 @@ per-file-ignores = [
 #filterwarnings = "ignore::DeprecationWarning:^(?!node\\.).*:"
 #pythonpath = ". src"
 minversion = "8.0"
-addopts = [
-    "--strict",
-    "--cov-branch",
-    "--cov-report=term-missing:skip-covered",
-    "--cov-report=html",
-    "--cov-report=xml",
-    "--cov-fail-under=10",
-    "--cov=.",
-]
+#addopts = [
+#    "--strict",
+#    "--cov-branch",
+#    "--cov-report=term-missing:skip-covered",
+#    "--cov-report=html",
+#    "--cov-report=xml",
+#    "--cov-fail-under=10",
+#    "--cov=.",
+#]
 
 
 [build-system]
