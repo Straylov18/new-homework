@@ -18,7 +18,6 @@ for i in gen2:  # for цикл под капотом как раз исполь�
 
 
 def fibonacci_numbers(n: int):
-    # def generator():
     last = 1
     before_last = 0
     for _ in range(n):
@@ -42,14 +41,6 @@ for i in short_form_generators:
     print(i)
 # выдаст 0 потом 2 потом 4 ... до 8
 
-print("----конвертации генераторов----")
-# перевод в лист
-l = list(range(5))
-print(l)  # выдаст [0, 1, 2, 3, 4]
-# подсчет числа элементов последовательности
-length = sum(1 for _ in range(5))
-print(length)  # выдаст 5
-
 print("----конвейеры (пайплайны) генераторов----")
 # следующий код выполниться без сохранения промежуточных листов
 range_gen = range(5)
@@ -58,3 +49,11 @@ multiply_by_2_gen = (2 * i for i in minus_one_gen)
 for i in multiply_by_2_gen:
     print(i)
 # выдаст -2, 0, 2, 4, 6 (иными словами числа соответствующие формуле 2*(i-1))
+
+print("----конвертации генераторов----")
+# перевод в лист
+l = list(range(5))
+print(l)  # выдаст [0, 1, 2, 3, 4]
+# подсчет числа элементов последовательности
+length = sum(1 for _ in range(5))
+print(length)  # выдаст 5
