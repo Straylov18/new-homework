@@ -53,7 +53,7 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-05-objects/README.md)
 
-## Урок 6 (необязательно для курса backend разработки)
+## * Урок 6 (необязательно для курса backend разработки)
 
 Темы урока:
 - Отправка REST запросов
@@ -63,8 +63,7 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-06-requests/README.md)
 
-
-## Урок 7 (необязательно для курса backend разработки)
+## * Урок 7 (необязательно для курса backend разработки)
 
 Темы урока:
 - Создание простого телеграм бота
@@ -72,3 +71,22 @@
 [Итоговый проект урока 7](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-07-telegram-bot)
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-07-telegram-bot/README.md)
+
+## * Урок 8 (необязательно для курса backend разработки)
+
+Темы урока:
+- Простая игра
+
+[Итоговый проект урока 8](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-08-pygame)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-08-pygame/README.md)
+
+## Урок 9
+
+Темы урока:
+- Кастомные генераторы в python
+
+[Итоговый проект урока 9](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-09-advanced-generators)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-09-advanced-generators/README.md)
+
