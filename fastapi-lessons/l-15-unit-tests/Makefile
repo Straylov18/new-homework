@@ -37,10 +37,6 @@ isort: requirements
 
 .PHONY: pytest
 pytest: requirements
-	poetry run pytest -v -rs -n auto $(ARGS)
-
-.PHONY: pytest_1
-pytest_1: requirements
 	poetry run pytest -v -rs $(ARGS)
 
 .PHONY: full_qa

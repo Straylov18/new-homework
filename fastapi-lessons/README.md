@@ -161,12 +161,22 @@
 - Параметризированный запуск тестов через матрицу проверочных значений 
 - Запуск тестов в определенной последовательности
 
-[//]: # (лучше в отдельный урок "Конфигурация pytest, генерация отчетов о тестировании")
-- Многопоточный запуск тестов
-- Покрытие тестов (в том числе покрытие по ветвям)
-
 [Итоговый проект урока 15](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-15-unit-tests)
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-15-unit-tests/README.md)
+
+## Урок 16
+
+Темы урока:
+- Конфигурация pytest
+- Многопоточный запуск тестов
+- Покрытие тестов (в том числе покрытие по ветвям)
+- Генерация отчетов о тестировании
+
+[Итоговый проект урока 16](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-16-tests-configuration)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-16-tests-configuration/README.md)
+
+
 
 [//]: # (TODO дальнейшие уроки)

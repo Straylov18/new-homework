@@ -1,4 +1,5 @@
 import math
+
 import pytest
 
 from src.service.math_funcs import my_factorial
