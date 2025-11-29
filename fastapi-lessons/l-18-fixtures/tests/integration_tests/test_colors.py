@@ -1,30 +1,4 @@
 import pytest
-from httpx import AsyncClient, ASGITransport
-
-from src.main import app
-
-
-@pytest.fixture
-def red_color_params():
-    return {'r': 100, 'g': 2, 'b': 3}
-
-
-@pytest.fixture
-def green_color_params():
-    return {'r': 1, 'g': 200, 'b': 3}
-
-
-@pytest.fixture
-def blue_color_params():
-    return {'r': 1, 'g': 2, 'b': 300}
-
-
-@pytest.fixture
-def async_client():
-    return AsyncClient(
-        transport=ASGITransport(app=app),
-        base_url='http://test'
-    )
 
 
 @pytest.fixture

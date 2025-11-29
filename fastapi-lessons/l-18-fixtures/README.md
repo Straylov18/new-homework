@@ -206,8 +206,15 @@ class TestColors:
     ... остальные методы
 ```
 
-Теперь мы можем заставлять какие-то фикстуры выполнять 
-перед этим обработкой этого тестового класса.
+Теперь мы можем удобнее работать с тестами из этого класса, 
+например запускать их:
+```shell
+poetry run pytest tests/test_colors.py::TestColors
+```
+
+Теперь мы также можем заставлять какие-то фикстуры выполнять 
+перед этим обработкой этого тестового класса 
+(ведь фикстуры могут ничего не возвращать, а просто выполнять какие-то действия при вызове).
 Для этого мы будем перед классом писать специальный декоратор "@pytest.mark.usefixtures":
 ```python
 @pytest.fixture
@@ -222,4 +229,56 @@ class TestColors:
 
 ## Вынесение fixture в conftest.py
 
-[//]: # (TODO)
+Если в корневой папке тестов (**tests**) создать файл **conftest.py**, 
+то pytest будет запускать его каждый раз перед запуском тестов.
+Поэтому какие-то настроки, используемые всеми тестами можно положить именно в него, 
+например fixture клиента:
+```python
+from httpx import AsyncClient, ASGITransport
+
+from src.main import app
+
+
+@pytest.fixture
+def async_client():
+    return AsyncClient(
+        transport=ASGITransport(app=app),
+        base_url='http://test'
+    )
+```
+Тогда ее не обязательно будет прописывать в других местах, 
+поскольку pytest сам сканирует нужные fixture.
+
+### Дочерние conftest.py файлы
+
+Если в папке с тестами будет подпапка, 
+в ней можно будет задать свой **conftest.py**, 
+влияние которого будет распространяться только на эту папку.
+
+Поскольку тесты принято разбивать на папки как минимум по типу тестов (unit, integration, e2e, итд.), 
+перенесем наши интеграционные тесты в папку **integration_tests** 
+(те. **tests/integration_tests/test_colors.py**).
+
+Тогда фикстуры для этих тестов тоже можно вынести в **tests/integration_tests/conftest.py**:
+```python
+import pytest
+
+
+@pytest.fixture
+def red_color_params():
+    return {'r': 100, 'g': 2, 'b': 3}
+
+
+@pytest.fixture
+def green_color_params():
+    return {'r': 1, 'g': 200, 'b': 3}
+
+
+@pytest.fixture
+def blue_color_params():
+    return {'r': 1, 'g': 2, 'b': 300}
+```
+
+Тогда фикстуры в наших интеграционных тестах 
+будут подтягиваться из глобального **conftest.py** 
+и локального для интеграционных тестов **conftest.py**. 
