@@ -177,6 +177,28 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-16-tests-configuration/README.md)
 
+## Урок 17
+
+Темы урока:
+- Интеграционные тесты
+- Моделирование отправки запросов на бэк через TestClient
+- Создание асинхронного клиента при помощи httpx
+
+[Итоговый проект урока 17](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-17-integration-tests)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-17-integration-tests/README.md)
+
+## Урок 18
+
+Темы урока:
+- Fixtures в тестах
+- Тестовые классы
+- Вынесение fixture в conftest.py (глобальные и локальные)
+
+[Итоговый проект урока 18](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-17-integration-tests)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-17-integration-tests/README.md)
+
 
 
 [//]: # (TODO дальнейшие уроки)
