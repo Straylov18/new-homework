@@ -5,12 +5,19 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.model.user_post import UserPost
 from src.scheme.user_post import UserPostCreate
+from src.service.user import UserService
+from src.utils.auth import get_token_payload_if_valid
 
 
 class UserPostService:
 
     @staticmethod
-    async def create_user_post(data: UserPostCreate, db_session: AsyncSession) -> UserPost:
+    async def create_user_post(data: UserPostCreate, token: str, db_session: AsyncSession) -> UserPost:
+        token_payload = get_token_payload_if_valid(token)
+        user = await UserService.get_user_by_email(token_payload['email'], db_session)
+        if user.uid != data.user_uid:
+            raise HTTPException(400, "вам можно создавать только от своего имени!")
+            # лучше конечно делать свои кастомные исключения на базе дефолтных и выносить их в отдельный слой
         new_user_post = UserPost(**data.model_dump(exclude_unset=True))
         db_session.add(new_user_post)
         await db_session.commit()

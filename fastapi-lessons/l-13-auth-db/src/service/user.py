@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.model.user import User
 from src.scheme.user import UserCreate, UserLogin
 from src.utils.auth import (authenticate_user, create_access_token,
-                            get_password_hash)
+                            get_password_hash, get_token_payload_if_valid)
 
 
 class UserService:
@@ -14,7 +14,7 @@ class UserService:
     @staticmethod
     async def create_user(data: UserCreate, db_session: AsyncSession) -> User:
         if await UserService.is_user_already_exists(data.email, db_session):
-            raise  HTTPException(400, "такой пользователь уже есть")
+            raise HTTPException(400, "такой пользователь уже есть")
         new_user = User(**data.model_dump(exclude_unset=True))
         new_user.password = get_password_hash(new_user.password)
         new_user.is_admin = False
@@ -40,8 +40,11 @@ class UserService:
         return user
 
     @staticmethod
-    async def get_users_list(db_session: AsyncSession) -> list[User]:
-        # TODO show how to check is_admin using token
+    async def get_users_list(token: str, db_session: AsyncSession) -> list[User]:
+        token_payload = get_token_payload_if_valid(token)
+        user = await UserService.get_user_by_email(token_payload['email'], db_session)
+        if not user.is_admin:
+            raise HTTPException(403, "просматривать список пользователей может только админ!")
         query_result = await db_session.execute(select(User))
         return query_result.scalars().all()
 
