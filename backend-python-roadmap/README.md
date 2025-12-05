@@ -36,15 +36,16 @@ backend разработчик должен иметь хотя бы базов�
 В рамках [курса уроков по FastAPI](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/README.md)
 рассматривается взаимодействие с SQL базами данных на примере MongoDB.
 Также предлагается ознакомиться с еще одним-двумя вариантами no-sql баз данных 
-(например рассмотреть примеры использования in-memory баз данных на подобии Celery или Redis).
+(например рассмотреть примеры использования in-memory базы данных на подобии Redis).
 
 ## Тестирование
 
-[//]: # (TODO unit, integrational, etc)
+В рамках [курса уроков по FastAPI](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/README.md)
+рассмотреть способы тестирования бэкенд приложений (написания юнит тестов и интеграционных тестов).
 
 ## Docker
 
-Базовый курс для ознакомления с базовыми принципами запуска Docker контейнеров.
+Базовый курс для ознакомления с базовыми принципами сборки и запуска Docker контейнеров.
 [введение в Docker](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/docker-basics/README.md)
 
 [//]: # (TODO сборка проектов с помощью docker и их запуск с помощью docker-compose)

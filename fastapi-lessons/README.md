@@ -138,7 +138,6 @@
 - Безопасное хранение паролей в хэшированом виде
 - Что такое "соль" в пароле
 - Создание базовых пользователей через миграции
-- Repository слой приложения
 
 [Итоговый проект урока 13](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-13-auth-db)
 
@@ -147,15 +146,22 @@
 ## Урок 14
 
 Темы урока:
+- Repository слой приложения
+
+[//]: # (TODO)
+
+## Урок 15
+
+Темы урока:
 - Получение одного или нескольких файлов
 - Отправка файлов
 - Потоковая отправка файлов
 
-[Итоговый проект урока 14](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-14-files-in-requests)
+[Итоговый проект урока 15](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-15-files-in-requests)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-14-files-in-requests/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-15-files-in-requests/README.md)
 
-## Урок 15
+## Урок 16
 
 Темы урока:
 - Unit тесты (на примере pytest)
@@ -164,11 +170,11 @@
 - Параметризированный запуск тестов через матрицу проверочных значений 
 - Запуск тестов в определенной последовательности
 
-[Итоговый проект урока 15](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-15-unit-tests)
+[Итоговый проект урока 16](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-16-unit-tests)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-15-unit-tests/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-16-unit-tests/README.md)
 
-## Урок 16
+## Урок 17
 
 Темы урока:
 - Конфигурация pytest
@@ -176,31 +182,31 @@
 - Покрытие тестов (в том числе покрытие по ветвям)
 - Генерация отчетов о тестировании
 
-[Итоговый проект урока 16](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-16-tests-configuration)
+[Итоговый проект урока 17](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-17-tests-configuration)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-16-tests-configuration/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-17-tests-configuration/README.md)
 
-## Урок 17
+## Урок 18
 
 Темы урока:
 - Интеграционные тесты
 - Моделирование отправки запросов на бэк через TestClient
 - Создание асинхронного клиента при помощи httpx
 
-[Итоговый проект урока 17](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-17-integration-tests)
+[Итоговый проект урока 18](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-18-integration-tests)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-17-integration-tests/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-18-integration-tests/README.md)
 
-## Урок 18
+## Урок 19
 
 Темы урока:
 - Fixtures в тестах
 - Тестовые классы
 - Вынесение fixture в conftest.py (глобальные и локальные)
 
-[Итоговый проект урока 18](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-17-integration-tests)
+[Итоговый проект урока 18](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-19-fixtures)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-17-integration-tests/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-19-fixtures/README.md)
 
 
 
