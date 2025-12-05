@@ -5,10 +5,13 @@ Revises:
 Create Date: 2025-12-04 00:04:22.438167
 
 """
+import uuid
 from typing import Sequence, Union
 
 import sqlalchemy as sa
 from alembic import op
+
+from src.utils.auth import get_password_hash
 
 # revision identifiers, used by Alembic.
 revision: str = 'f09f6f49395a'
@@ -39,6 +42,20 @@ def upgrade() -> None:
     sa.PrimaryKeyConstraint('uid')
     )
     # ### end Alembic commands ###
+
+    # Create an initial admin user
+    op.execute(
+        f"""
+        INSERT INTO "user" (uid, name, email, password, is_admin)
+        VALUES (
+            '{str(uuid.uuid4())}',
+            'Admin user',
+            'admin@example.com',
+            '{get_password_hash('123')}',
+            true
+        )
+        """
+    )
 
 
 def downgrade() -> None:
