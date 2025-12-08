@@ -90,3 +90,14 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-09-advanced-generators/README.md)
 
+## Урок 10
+
+Темы урока:
+- Вызов исключений (Exception) и их обработка с помощью try, catch, finally
+- Использование контекстных менеджеров и их вызовы с помощью with
+- Примеры использования контекстных менеджеров
+
+[Итоговый проект урока 10](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-10-exception-handling)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-10-exception-handling/README.md)
+
