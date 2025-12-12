@@ -1,28 +1,8 @@
-# from passlib.context import CryptContext
-# from pydantic import EmailStr
 import jwt
 from datetime import datetime, timedelta, timezone
 from fastapi import Request, HTTPException
 
 from src.config import settings
-
-
-# pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-#
-#
-# def get_password_hash(password: str) -> str:
-#     return pwd_context.hash(password)
-#
-#
-# def verify_password(plain_password: str, hashed_password: str) -> bool:
-#     return pwd_context.verify(plain_password, hashed_password)
-#
-#
-# def authenticate_user(email: EmailStr, password: str):
-#     user = {"hashed_password": "123"}  # TODO get by email
-#     if not user or verify_password(plain_password=password, hashed_password=user.hashed_password) is False:
-#         return None
-#     return user
 
 
 def get_token(request: Request):
