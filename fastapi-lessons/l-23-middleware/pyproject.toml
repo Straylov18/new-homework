@@ -1,5 +1,5 @@
 [project]
-name = "l-02-environment-variables"
+name = "l-23-middleware"
 version = "0.1.0"
 description = ""
 authors = [
