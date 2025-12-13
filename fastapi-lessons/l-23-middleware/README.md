@@ -19,7 +19,86 @@
 
 ## Простейший способ написания middleware
 
-[//]: # (TODO)
+Напишем простую middleware функцию, 
+которая будет ограничивать количество запросов к определенной ручке, 
+если они приходят от одного и того же адреса. 
+
+Для начала добавим две ручки в **src/route/some_routes.py**:
+```python
+from src.config import settings
+
+router = APIRouter(prefix=settings.BASE_ROUTE_PATH)
+
+@router.get('/hello')
+async def hello_world():
+    return 'Hi mam!'
+
+
+@router.get('/only-one-chance')
+async def will_be_blocked_in_middleware():
+    return 'No more calls here!'
+```
+Далее будем делать так, 
+чтобы наш middleware разрешал делать 
+сколько угодно запросов к ручке '/hello', 
+но ручку '/only-one-chance' разрешал дергать 
+только один раз с одного и того же адреса.
+
+Добавим в **src/main.py** функцию, 
+которая будет способна делать какие-то действия до и после каждого запроса:
+```python
+from typing import Callable
+
+@app.middleware('http')
+async def handle_spam(request: Request, call_next: Callable):
+    print('Вылезает до запроса')
+    response = await call_next(request)
+    print('Вылезает осле запроса')
+    return response
+```
+Здесь:
+- ```@app.middleware('http')``` - декоратор, 
+заставляющий эту функцию запускаться при появлении новых запросов 
+и вызывающую основную обработку запросов в себе.
+- ```request: Request``` - объект входящего запроса
+- ```call_next: Callable``` - функция, которая может вызвать основную обработку запроса
+- ```response = await call_next(request)``` - вызов основной обработки запроса
+- ```return response``` - передача ответа пользователю
+
+Теперь добавим сюда логику ограничения запросов для пользователей (по адресам):
+```python
+blocked_addresses = []
+
+@app.middleware('http')
+async def handle_spam(request: Request, call_next: Callable):
+    client_address = request.client.host
+    print(f'call from {client_address}')
+    if client_address in blocked_addresses:
+        return Response(status_code=429, content="Вы отправляли запрос на этот адрес!")
+    if '/only-one-chance' in str(request.url):  # если это запрос к той самой ручке, то блокируем адрес
+        blocked_addresses.append(client_address)
+    # для самой обработка запроса (вызов функции, к которой прикреплен соответствующий декоратор):
+    response = await call_next(request)
+    return response
+```
+Здесь:
+- ```blocked_addresses = []``` - создание списка адресов, 
+которые уже сделали запросы к нашей одноразовой ручке
+- ```client_address = request.client.host``` - получение адреса от пользователя
+- ```return Response(status_code=429, content="Вы отправляли запрос на этот адрес!")``` - 
+отправка ошибки "Too many requests" 
+(поскольку этот код в ```if client_address in blocked_addresses:```, 
+то он вызовется только если от адреса уже был запрос на искомую ручку)
+- ```if '/only-one-chance' in str(request.url):``` - 
+проверяем, на одноразовую ручку пришел запрос или нет 
+(если да, то добавляем адрес в список тех, 
+кто уже посещал эту ручку с помощью ```blocked_addresses.append(client_address)``)
+
+Таким образом приложение будет разрешать делать
+сколько угодно запросов к ручке '/hello',
+но ручку '/only-one-chance' можно будет дернуть
+только один раз с одного и того же адреса.
+
 
 ## Описание middleware через классы (более чистый способ)
 
