@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>GET-запрос</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            min-height: 50px;
+        }
+
+        .error {
+            color: red;
+            background-color: #ffe6e6;
+        }
+
+        .cors-error {
+            color: #740000;
+            background-color: #ff9bbd;
+            border-left: 4px solid red;
+        }
+
+        .network-error {
+            color: #740000;
+            background-color: #d5ae9d;
+            border-left: 4px solid #dc3545;
+        }
+
+        .success {
+            color: #155724;
+            background-color: #d4edda;
+        }
+    </style>
+</head>
+<body>
+<h1>GET-запрос</h1>
+<button id="fetchButton">Выполнить запрос</button>
+<div id="result"></div>
+
+<script>
+    document.getElementById('fetchButton').addEventListener('click', async () => {
+        const resultDiv = document.getElementById('result');
+        resultDiv.textContent = 'Загрузка...';
+        resultDiv.className = ''; // сбрасываем классы
+
+        try {
+            const response = await fetch('http://127.0.0.1:8000/some-endpoint');
+
+            // Отображаем статус
+            resultDiv.innerHTML = `<strong>Статус:</strong> ${response.status}<br>`;
+
+            if (response.status === 200) {
+                const data = await response.json();
+                resultDiv.innerHTML += `<strong>Данные:</strong> <pre>${JSON.stringify(data, null, 2)}</pre>`;
+                resultDiv.classList.add('success');
+            } else {
+                resultDiv.innerHTML += `<strong>Ошибка:</strong> Неудачный статус ответа`;
+                resultDiv.classList.add('error');
+            }
+        } catch (error) {
+            // Обрабатываем ошибки сети и CORS
+            if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                resultDiv.innerHTML = `
+            <strong>Ошибка CORS или сети:</strong> Не удалось выполнить запрос.<br>
+            <em>Возможные причины:</em>
+            <ul>
+              <li>Сервер не отправил заголовки CORS (<code>Access-Control-Allow-Origin</code>)</li>
+              <li>Неверный URL или сервер недоступен</li>
+              <li>Проблемы с сетью или блокировщик рекламы</li>
+            </ul>
+          `;
+                resultDiv.classList.add('cors-error');
+            } else {
+                resultDiv.innerHTML = `<strong>Сетевая ошибка:</strong> ${error.message}`;
+                resultDiv.classList.add('network-error');
+            }
+        }
+    });
+</script>
+</body>
+</html>
