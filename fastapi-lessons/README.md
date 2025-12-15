@@ -208,6 +208,31 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-19-fixtures/README.md)
 
+[//]: # (TODO дальнейшие уроки)
+
+## Урок 23
+
+Темы урока:
+- Оборачивание запросов в middleware функции
+- Описание middleware через функции
+- Описание middleware через классы
+
+[Итоговый проект урока 23](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-23-middleware)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-23-middleware/README.md)
+
+## Урок 24
+
+Темы урока:
+- Ограничение числа запросов на основе библиотеки slowapi
+
+[Итоговый проект урока 24](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-24-rate-limiting)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-24-rate-limiting/README.md)
+
+[//]: # (# Урок 25)
+
+[//]: # (TODO)
 
 
 [//]: # (TODO дальнейшие уроки)

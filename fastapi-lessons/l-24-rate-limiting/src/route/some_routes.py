@@ -12,12 +12,12 @@ router = APIRouter(prefix=settings.BASE_ROUTE_PATH)
 @router.get('/hello')
 @limiter.limit("1/second", per_method=True)
 @limiter.limit("5/minute", per_method=True)
-async def hello_world(request: Request):  # параметр 'request: Request' должен быть
+async def hello_world(request: Request):  # параметр 'request: Request' должен быть при использовании limiter декоратора
     return 'Hi mam!'
 
 
 @router.get('/some-complex-logic')
 @limiter.limit("5/minute", per_method=True)
-async def sleepy_get(request: Request):
+async def sleepy_get(request: Request):  # параметр 'request: Request' должен быть при использовании limiter декоратора
     sleep(1)
     return 'Done!'
