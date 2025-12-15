@@ -12,6 +12,4 @@ if [ "$old_docker_container_id" != '' ]; then
 fi
 docker run -d --name "$container_name" -p "$external_port":80 "$image_name" || echo "failed!"
 
-echo ""
-echo "WEB PAGE PORT: $external_port"
-echo ""
+echo -e "\nWEB PAGE PORT: $external_port\n"
