@@ -1,5 +1,5 @@
 [project]
-name = "l-18-integration-tests"
+name = "l-17-unit-tests"
 version = "0.1.0"
 description = ""
 authors = [
@@ -20,13 +20,8 @@ flake8 = "^7.3.0"
 pep8-naming = "^0.15.1"
 flake8-pyproject = "^1.2.3"
 pytest = "^9.0.1"
-asyncio = "^4.0.0"
-pytest-cov = "^7.0.0"
-pytest-xdist = "^3.8.0"
 pytest-ordering = "^0.6"
 isort = "^7.0.0"
-pytest-asyncio = "^1.3.0"
-httpx = "^0.28.1"
 
 [tool.flake8]
 max-line-length = 120
@@ -46,21 +41,6 @@ exclude = [
 per-file-ignores = [
     "migrations/env.py:F401",
     "migrations/versions/*:W291",
-]
-
-
-[tool.pytest.ini_options]
-#filterwarnings = "ignore::DeprecationWarning:^(?!node\\.).*:"
-pythonpath = ". src"
-minversion = "8.0"
-addopts = [
-    "--strict",
-    "--cov-branch",
-    "--cov-report=term-missing:skip-covered",
-    "--cov-report=html",
-    "--cov-report=xml",
-    "--cov-fail-under=10",
-    "--cov=.",
 ]
 
 

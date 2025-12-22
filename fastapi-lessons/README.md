@@ -167,17 +167,26 @@
 ## Урок 16
 
 Темы урока:
+- Простая обработка фоновых задач при помощи BackgroundTasks в fastapi
+
+[Итоговый проект урока 16](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-16-simple-background-tasks)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-16-simple-background-tasks/README.md)
+
+## Урок 17
+
+Темы урока:
 - Unit тесты (на примере pytest)
 - Тесты исключений
 - Запуск конкретных тестов или запуск тестов по определенным фильтрам
 - Параметризированный запуск тестов через матрицу проверочных значений 
 - Запуск тестов в определенной последовательности
 
-[Итоговый проект урока 16](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-16-unit-tests)
+[Итоговый проект урока 17](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-17-unit-tests)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-16-unit-tests/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-17-unit-tests/README.md)
 
-## Урок 17
+## Урок 18
 
 Темы урока:
 - Конфигурация pytest
@@ -185,42 +194,33 @@
 - Покрытие тестов (в том числе покрытие по ветвям)
 - Генерация отчетов о тестировании
 
-[Итоговый проект урока 17](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-17-tests-configuration)
+[Итоговый проект урока 18](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-18-tests-configuration)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-17-tests-configuration/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-18-tests-configuration/README.md)
 
-## Урок 18
+## Урок 19
 
 Темы урока:
 - Интеграционные тесты
 - Моделирование отправки запросов на бэк через TestClient
 - Создание асинхронного клиента при помощи httpx
 
-[Итоговый проект урока 18](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-18-integration-tests)
+[Итоговый проект урока 19](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-19-integration-tests)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-18-integration-tests/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-19-integration-tests/README.md)
 
-## Урок 19
+## Урок 20
 
 Темы урока:
 - Fixtures в тестах
 - Тестовые классы
 - Вынесение fixture в conftest.py (глобальные и локальные)
 
-[Итоговый проект урока 18](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-19-fixtures)
+[Итоговый проект урока 20](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-20-fixtures)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-19-fixtures/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-20-fixtures/README.md)
 
 [//]: # (TODO дальнейшие уроки)
-
-## Урок 22
-
-Темы урока:
-- Простая обработка фоновых задач при помощи BackgroundTasks в fastapi
-
-[Итоговый проект урока 22](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-22-simple-background-tasks)
-
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-22-simple-background-tasks/README.md)
 
 ## Урок 23
 
