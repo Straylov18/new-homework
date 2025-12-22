@@ -11,9 +11,9 @@ app = FastAPI(
 
 def save_text_to_file(text: str):
     sleep(5)
-    print('file saved')
     with open('some_file.json', 'w') as f:
         f.write(text)
+    print('file saved')
 
 
 @app.post('/save-file')
