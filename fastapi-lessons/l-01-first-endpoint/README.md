@@ -14,6 +14,10 @@
 ```shell
 curl -sSL https://install.python-poetry.org | python3
 ```
+или же через pipx:
+```shell
+pipx install poetry
+```
 
 Файл с зависимостями **pyproject.toml** (и прочими настройками проекта) 
 можно создать с помощью того же poetry.
