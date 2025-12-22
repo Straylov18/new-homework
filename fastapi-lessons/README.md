@@ -213,6 +213,15 @@
 
 [//]: # (TODO дальнейшие уроки)
 
+## Урок 22
+
+Темы урока:
+- Простая обработка фоновых задач при помощи BackgroundTasks в fastapi
+
+[Итоговый проект урока 22](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-22-simple-background-tasks)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-22-simple-background-tasks/README.md)
+
 ## Урок 23
 
 Темы урока:
