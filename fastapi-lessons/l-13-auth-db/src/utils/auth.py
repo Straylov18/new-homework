@@ -27,7 +27,6 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 
 async def authenticate_user(email: EmailStr, password: str, db_session: AsyncSession) -> User:
-    # TODO move manipulations with db to repository layer
     query = await db_session.execute(select(User).where(User.email == email))
     user = query.scalar_one_or_none()
     if not user:
