@@ -21,7 +21,6 @@ class UserPostService:
         new_user_post = UserPost(**data.model_dump(exclude_unset=True))
         db_session.add(new_user_post)
         await db_session.commit()
-        await db_session.refresh(new_user_post)
         return new_user_post
 
     @staticmethod

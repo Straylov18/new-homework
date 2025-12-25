@@ -24,9 +24,15 @@ from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_
 from src.config import settings
 
 engine = create_async_engine(url=settings.SQLALCHEMY_DATABASE_URL)
-async_session_maker = async_sessionmaker(engine, class_=AsyncSession)
+async_session_maker = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 Base = declarative_base()
 ```
+Здесь:
+- ```engine``` - создание движка работы с конкретной базой данных 
+(ссылка на базу данных передается при создании)
+- ```async_session_maker``` - асинхронный генератор сессий на основе выше созданного движка
+- ```Base = declarative_base()``` - базовая описание объекта, 
+с помощью которого мы будем описывать содержимое базы данных 
 
 Для описания моделей принято использовать отдельный слой, например **models**.
 Опишем модель пользователя:
