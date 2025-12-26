@@ -30,10 +30,6 @@ class SQLAlchemyRepository(AbstractRepository):
             session.add(obj)
             await session.commit()
         return obj
-        # async with self.async_session_maker() as session:
-        #     query = insert(self.model).values(**data)
-        #     res = await session.execute(query).returning(self.model.uid)
-        # return res
 
     async def get_one(self, **filter_by):
         async with self.async_session_maker() as session:
