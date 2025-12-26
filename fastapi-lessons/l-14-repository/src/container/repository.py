@@ -2,10 +2,10 @@ from dataclasses import dataclass
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
+from src.adapter.db.session import async_session_maker
 from src.config import Settings, settings
 from src.repository.user import UserRepository
 from src.repository.user_post import UserPostRepository
-from src.adapter.db.session import async_session_maker
 
 
 @dataclass

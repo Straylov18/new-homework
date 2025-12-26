@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Response
 
 from src.scheme.user import UserCreate, UserFromDB, UserLogin
 from src.service.user import UserService

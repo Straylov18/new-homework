@@ -1,12 +1,9 @@
 from fastapi import HTTPException
 from pydantic import UUID4
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.container.repository import repository_container
 from src.model.user_post import UserPost
 from src.scheme.user_post import UserPostCreate
-from src.service.user import UserService
-from src.container.repository import repository_container
 from src.utils.auth import get_token_payload_if_valid
 
 

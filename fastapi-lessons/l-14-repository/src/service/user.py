@@ -1,12 +1,11 @@
 from fastapi import HTTPException, Response
 from pydantic import EmailStr
-from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.container.repository import repository_container
 from src.model.user import User
 from src.scheme.user import UserCreate, UserLogin
-from src.container.repository import repository_container
 from src.utils.auth import (authenticate_user, create_access_token,
-                            get_password_hash, get_token_payload_if_valid)
+                            get_token_payload_if_valid)
 
 
 class UserService:
