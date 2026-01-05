@@ -1,7 +1,9 @@
 import pygame
 
 from cookie import Cookie
-from game_constants import COOKIE_RADIUS, DISPLAY_HEIGHT, DISPLAY_WIDTH, PLAYER_RADIUS_INCREASING, PLAYER_VELOCITY_INCREASING
+from game_constants import (COOKIE_RADIUS, DISPLAY_HEIGHT, DISPLAY_WIDTH,
+                            PLAYER_RADIUS_INCREASING,
+                            PLAYER_VELOCITY_INCREASING)
 from information_renderer import InfoRenderer
 from player import Player
 
@@ -20,11 +22,38 @@ class GameScene:
 
         self.best_time = None
 
-    def restart_game(self):
+    def _restart_game(self):
         self.player = Player()
         self.cookies = Cookie.generate_cookies_list()
         self.dt = 0
         self.game_time = 0
+
+    def _check_restart_call(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_RETURN]:
+            self._restart_game()
+
+    def _check_collisions(self):
+        # Обход печенек с конца (с конца чтобы легче было их удалять в случае съедания)
+        for i in range(len(self.cookies) - 1, -1, -1):
+            # Удаление печеньки, если пользователь соприкоснулся с ней
+            dx = self.player.x - self.cookies[i].x
+            dy = self.player.y - self.cookies[i].y
+            sum_r = self.player.radius + COOKIE_RADIUS
+            if (dx * dx) + (dy * dy) < (sum_r * sum_r):
+                self.cookies.pop(i)
+                self.player.radius += PLAYER_RADIUS_INCREASING
+                self.player.v += PLAYER_VELOCITY_INCREASING
+
+    def _handle_time(self):
+        # Подсчет прошедшего времени в секундах
+        self.dt = self.clock.tick(60) / 1000
+        # Если еще остались печеньки прибавляем текущее время
+        if len(self.cookies) > 0:
+            self.game_time += self.dt
+        elif self.best_time is None or self.best_time > self.game_time:
+            # Если игра закончилась и игрок успел за более короткое время, то новый рекорд - текущее время
+            self.best_time = self.game_time
 
     def draw_all(self):
         # Отчистка экрана
@@ -44,23 +73,6 @@ class GameScene:
     def handle_game_logic(self):
         # Обработка нажатий на клавиши игроком
         self.player.handle_keys(self.dt)
-        # Обработка перезапуска игры
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_RETURN]:
-            self.restart_game()
-        # Обход печенек с конца (с конца чтобы легче было их удалять в случае съедания)
-        for i in range(len(self.cookies) - 1, -1, -1):
-            # Удаление печеньки, если пользователь соприкоснулся с ней
-            dx = self.player.x - self.cookies[i].x
-            dy = self.player.y - self.cookies[i].y
-            sum_r = self.player.radius + COOKIE_RADIUS
-            if (dx * dx) + (dy * dy) < (sum_r * sum_r):
-                self.cookies.pop(i)
-                self.player.radius += PLAYER_RADIUS_INCREASING
-                self.player.v += PLAYER_VELOCITY_INCREASING
-        # Подсчет прошедшего времени в секундах
-        self.dt = self.clock.tick(60) / 1000
-        if len(self.cookies) > 0:
-            self.game_time += self.dt
-        elif self.best_time is None or self.best_time > self.game_time:
-                self.best_time = self.game_time
+        self._check_restart_call()
+        self._check_collisions()
+        self._handle_time()

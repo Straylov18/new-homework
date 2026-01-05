@@ -6,29 +6,50 @@ from game_constants import DISPLAY_HEIGHT, DISPLAY_WIDTH, TEXT_FONT
 class InfoRenderer:
 
     @staticmethod
-    def render_time(game_time, screen):
-        text_game_time = TEXT_FONT.render(f'{game_time:.2f} сек.', True, (255, 0, 0))
-        rect_text_game_time = text_game_time.get_rect()
-        rect_text_game_time.center = (DISPLAY_WIDTH / 2, 50)
-        screen.blit(text_game_time, rect_text_game_time)
+    def _render_text(text, color, x, y, screen):
+        pygame_text = TEXT_FONT.render(text, True, color)
+        rect_text = pygame_text.get_rect()
+        rect_text.center = (x, y)
+        screen.blit(pygame_text, rect_text)
 
-    @staticmethod
-    def render_win_screen(game_time, best_time, screen):
+    @classmethod
+    def render_time(cls, game_time, screen):
+        cls._render_text(
+            f'{game_time:.2f} сек.',
+            (255, 0, 0),
+            DISPLAY_WIDTH / 2,
+            50,
+            screen
+        )
+
+    @classmethod
+    def render_win_screen(cls, game_time, best_time, screen):
         rect1 = pygame.Rect((DISPLAY_WIDTH / 2 - 250, DISPLAY_HEIGHT / 2 - 100, 500, 200))
         panel_color = (100, 150, 255)
         if best_time >= game_time:
             panel_color = (125, 255, 150)
         pygame.draw.rect(screen, panel_color, rect1)
-        text_your_time = TEXT_FONT.render(f'Ты съел все за {game_time:.2f} сек.', True, (255, 0, 0))
-        rect_text_your_time = text_your_time.get_rect()
-        rect_text_your_time.center = (DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 - 65)
-        screen.blit(text_your_time, rect_text_your_time)
-        text_enter = TEXT_FONT.render('"Enter" - начать заново.', True, (255, 0, 0))
-        rect_text_enter = text_enter.get_rect()
-        rect_text_enter.center = (DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2)
-        screen.blit(text_enter, rect_text_enter)
+        cls._render_text(
+            f'Ты съел все за {game_time:.2f} сек.',
+            (255, 0, 0),
+            DISPLAY_WIDTH / 2,
+            DISPLAY_HEIGHT / 2 - 65,
+            screen
+        )
+        cls._render_text(
+            '"Enter" - начать заново.',
+            (255, 0, 0),
+            DISPLAY_WIDTH / 2,
+            DISPLAY_HEIGHT / 2,
+            screen
+        )
+        text_about_record = f'Наилучший результат: {best_time:.2f}'
         if best_time >= game_time:
-            text_new_record = TEXT_FONT.render('Новый рекорд!', True, (255, 0, 0))
-            rect_text_new_record = text_new_record.get_rect()
-            rect_text_new_record.center = (DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2 + 65)
-            screen.blit(text_new_record, rect_text_new_record)
+            text_about_record = 'Новый рекорд!'
+        cls._render_text(
+            text_about_record,
+            (255, 0, 0),
+            DISPLAY_WIDTH / 2,
+            DISPLAY_HEIGHT / 2 + 65,
+            screen
+        )

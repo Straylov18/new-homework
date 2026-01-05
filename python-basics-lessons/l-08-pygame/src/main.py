@@ -13,7 +13,6 @@ while run_game_loop:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             run_game_loop = False
-
     scene.draw_all()
     scene.handle_game_logic()
 
