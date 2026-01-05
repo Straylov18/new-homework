@@ -36,6 +36,22 @@ TOMLi = {version = "*", markers = "python_version < \"3.11\""}
 dev = ["Flit (>=3.4)", "pyTest (>=7)", "pyTest-cov (>=7) ; python_version >= \"3.10\""]
 
 [[package]]
+name = "isort"
+version = "7.0.0"
+description = "A Python utility / library to sort Python imports."
+optional = false
+python-versions = ">=3.10.0"
+groups = ["test"]
+files = [
+    {file = "isort-7.0.0-py3-none-any.whl", hash = "sha256:1bcabac8bc3c36c7fb7b98a76c8abb18e0f841a3ba81decac7691008592499c1"},
+    {file = "isort-7.0.0.tar.gz", hash = "sha256:5513527951aadb3ac4292a41a16cbc50dd1642432f5e8c20057d414bdafb4187"},
+]
+
+[package.extras]
+colors = ["colorama"]
+plugins = ["setuptools"]
+
+[[package]]
 name = "mccabe"
 version = "0.7.0"
 description = "McCabe checker, plugin for flake8"
@@ -212,4 +228,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10"
-content-hash = "c9e09c647628f23f04be264da2dbeaa9760c4d8e5a84cc4b86df157d7b1d946a"
+content-hash = "e73db3e15f962f89d2302ffbd535d4a3da3f445c83635cd39ebf08d4b263f5db"

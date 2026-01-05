@@ -16,6 +16,7 @@ dependencies = [
 flake8 = "^7.3.0"
 flake8-pyproject = "^1.2.4"
 pep8-naming = "^0.15.1"
+isort = "^7.0.0"
 
 
 [tool.flake8]
