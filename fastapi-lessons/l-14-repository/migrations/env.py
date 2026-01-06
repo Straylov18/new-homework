@@ -16,7 +16,6 @@ from src.config import settings
 from src.model.user import User
 from src.model.user_post import UserPost
 
-target_metadata = Base.metadata
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
