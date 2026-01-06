@@ -16,6 +16,8 @@ class RedisSettings(BaseSettings):
     REDIS_PASSWORD: str
     REDIS_DB: str = "0"
 
+    REDIS_CACHE_EXPIRE_TIME: int = 10
+
     REDIS_URI: str | None = None
 
     @field_validator('REDIS_URI', mode='before')

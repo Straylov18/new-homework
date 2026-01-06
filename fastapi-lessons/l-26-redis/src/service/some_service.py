@@ -1,5 +1,7 @@
 from time import sleep
 
+from src.config import settings
+
 
 async def long_string_generation(id: str) -> str:
     print('generating new value')
@@ -13,7 +15,7 @@ async def get_some_string(id, redis_session):
         return cashed_value
 
     new_value = await long_string_generation(id)
-    await redis_session.set(id, new_value, 10)
+    await redis_session.set(id, new_value, settings.REDIS.REDIS_CACHE_EXPIRE_TIME)
     # to set expire time separetly
     # await redis_session.expire(id, 3)
     return new_value

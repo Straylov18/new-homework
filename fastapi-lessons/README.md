@@ -246,5 +246,17 @@
 
 [//]: # (TODO)
 
+## Урок 26
+
+Темы урока:
+- NoSQL базы данных
+- Подключение redis к fastapi приложению
+- Типы данных в redis
+- Концепции pub/sub, stream, queue
+
+[Итоговый проект урока 26](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-26-redis)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-26-redis/README.md)
+
 
 [//]: # (TODO дальнейшие уроки)
