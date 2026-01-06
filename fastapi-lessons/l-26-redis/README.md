@@ -10,3 +10,9 @@
 ```shell
 poetry add aioredis
 ```
+
+## Дополнительные типы данных в redis
+
+[//]: # (TODO hash, list, set, etc.)
+
+https://aioredis.readthedocs.io/en/v1.3.0/mixins.html

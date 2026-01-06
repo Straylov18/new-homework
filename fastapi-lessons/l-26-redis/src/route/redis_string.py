@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends
 
 from src.adapter.redis import get_redis_connection
-from src.service.some_service import delete_some_string_cache, get_some_string
+from src.service.redis_operations_service import (delete_some_string_cache,
+                                                  filter_cache_by_prefix,
+                                                  get_some_string)
 
 router = APIRouter()
 
@@ -16,13 +18,7 @@ async def clear_same_data_cache(id: str, redis_session=Depends(get_redis_connect
     await delete_some_string_cache(id, redis_session)
     return f'deleted cache for string with id: {id}'
 
-# TODO about scan keys
 
-# TODO more about set/get hash, list, set etc.
-
-# data = await redis_session.hgetall(id)
-# return data if data else None
-
-# await self.redis.hset(id, mapping=data)
-
-# ...
+@router.get('/get-all-cache-with-prefix/{cache_key_prefix}')
+async def get_all_cache_with_prefix(cache_key_prefix: str, redis_session=Depends(get_redis_connection)):
+    return await filter_cache_by_prefix(cache_key_prefix, redis_session)
