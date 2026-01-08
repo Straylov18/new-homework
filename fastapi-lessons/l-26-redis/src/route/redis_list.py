@@ -18,6 +18,6 @@ async def get_first_list_value(redis_session=Depends(get_redis_connection)):
     return await rpop_list_value(redis_session)
 
 
-@router.get('/push-list-value/{value}')
+@router.post('/push-list-value/{value}')
 async def push_list_value(value: str, redis_session=Depends(get_redis_connection)) -> int:
     return await push_value_to_list(value, redis_session)

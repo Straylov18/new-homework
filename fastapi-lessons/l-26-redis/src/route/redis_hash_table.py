@@ -12,6 +12,6 @@ async def get_hash_table_values(redis_session=Depends(get_redis_connection)):
     return await get_all_hash_table_values(redis_session)
 
 
-@router.get('/set-hash-table-value/{hkey}/{hvalue}')
+@router.post('/set-hash-table-value/{hkey}/{hvalue}')
 async def set_hash_table_value(hkey: str, hvalue: str, redis_session=Depends(get_redis_connection)):
     return await add_value_to_hash_table(hkey, hvalue, redis_session)
