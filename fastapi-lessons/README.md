@@ -242,9 +242,15 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-24-rate-limiting/README.md)
 
-[//]: # (# Урок 25)
+## Урок 24
 
-[//]: # (TODO)
+Темы урока:
+- Что такое CORS (Cross‑Origin Resource Sharing) и зачем он нужен
+- Как добавить middleware для обработки CORS хэдеров запросов
+
+[Итоговый проект урока 25](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-25-cors)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-25-cors/README.md)
 
 ## Урок 26
 
