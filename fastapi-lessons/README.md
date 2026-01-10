@@ -242,7 +242,7 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-24-rate-limiting/README.md)
 
-## Урок 24
+## Урок 25
 
 Темы урока:
 - Что такое CORS (Cross‑Origin Resource Sharing) и зачем он нужен
