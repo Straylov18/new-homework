@@ -1,7 +1,7 @@
 from fastapi import Request
 from fastapi.responses import HTMLResponse
-from starlette.middleware.base import BaseHTTPMiddleware
 from pyinstrument import Profiler
+from starlette.middleware.base import BaseHTTPMiddleware
 
 from src.config import settings
 

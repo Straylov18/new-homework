@@ -1,5 +1,5 @@
-from time import sleep
 from random import randint
+from time import sleep
 
 from fastapi.routing import APIRouter
 

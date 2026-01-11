@@ -1,8 +1,8 @@
 import uvicorn
 from fastapi import FastAPI
 
-from src.middleware import ProfilingMiddleware
 from src.config import settings
+from src.middleware import ProfilingMiddleware
 from src.route.some_routes import router
 
 app = FastAPI(

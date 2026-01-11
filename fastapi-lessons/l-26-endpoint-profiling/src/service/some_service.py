@@ -1,5 +1,6 @@
-from random import randint
 import math
+from random import randint
+
 
 def get_huge_random_number(seed1, seed2):
     output = 0
