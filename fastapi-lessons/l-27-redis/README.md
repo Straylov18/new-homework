@@ -324,10 +324,11 @@ async def push_value_to_list(value, redis_session):
 Здесь команды ```lpop``` и ```rpop``` будут 
 при получении элемента листа слева или справа сразу удалять его из редиса.
 
-Больше информации о подключений redis в python приложение 
-при помощи aioredis можно почитать тут:
+Больше информации о подключении redis в python приложение 
+при помощи библиотеки aioredis можно почитать тут:
 https://aioredis.readthedocs.io/en/v1.3.0/mixins.html.
 
 ## Pub/Sub, stream механизмы в Redis
+
 
 [//]: # (TODO)

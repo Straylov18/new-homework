@@ -149,9 +149,12 @@
 ## Урок 14
 
 Темы урока:
-- Repository слой приложения
+- Вынесение операций с базой данных в repository слой приложения
+- Слой контейнеров
 
-[//]: # (TODO)
+[Итоговый проект урока 14](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-14-repository)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-14-repository/README.md)
 
 ## Урок 15
 
@@ -255,14 +258,24 @@
 ## Урок 26
 
 Темы урока:
+- Исследование bottleneck-ов при помощи профилирование кода
+- Пример профилирования ручек backend приложения
+
+[Итоговый проект урока 26](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-26-endpoint-profiling)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-26-endpoint-profiling/README.md)
+
+## Урок 27
+
+Темы урока:
 - NoSQL базы данных
 - Подключение redis к fastapi приложению
 - Типы данных в redis
 - Концепции pub/sub, stream, queue
 
-[Итоговый проект урока 26](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-26-redis)
+[Итоговый проект урока 27](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-27-redis)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-26-redis/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-27-redis/README.md)
 
 
 [//]: # (TODO дальнейшие уроки)
