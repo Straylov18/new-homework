@@ -14,7 +14,7 @@ async_client = AsyncClient(
 async def test_login_counter(mocker):
     async with async_client as ac:
         mock_login = mocker.patch('src.service.some_service.httpx.post')
-        mock_login.return_value.json = lambda: 'login succeeded'
+        mock_login.return_value.json.return_value = 'login succeeded'
 
         response = await ac.post('/api/v1/some-router/login', json={'email': '1', 'password': '1'})
         mock_login.assert_called_once_with(

@@ -51,19 +51,19 @@ def iterate_file(filename: str):
 
 def get_filename_media_type(filename: str) -> str:
     file_extension = filename.split('.')[-1]
-    if file_extension == '.txt':
+    if file_extension == 'txt':
         return 'text/txt'
-    elif file_extension == '.html':
+    elif file_extension == 'html':
         return 'text/html'
-    elif file_extension == '.png':
+    elif file_extension == 'png':
         return 'image/mp4'
-    elif file_extension == '.jpeg':
+    elif file_extension == 'jpeg':
         return 'image/jpg'
-    elif file_extension == '.gif':
+    elif file_extension == 'gif':
         return 'image/gif'
-    elif file_extension == '.mp4':
+    elif file_extension == 'mp4':
         return 'video/mp4'
-    elif file_extension == '.mpeg':
+    elif file_extension == 'mpeg':
         return 'video/mpeg'
 
 

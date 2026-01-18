@@ -225,6 +225,15 @@
 
 [//]: # (TODO дальнейшие уроки)
 
+## Урок 22
+
+Темы урока:
+- Мокирование объектов и функций приложения при написании тестов
+
+[Итоговый проект урока 22](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-22-mocking)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-22-mocking/README.md)
+
 ## Урок 23
 
 Темы урока:
