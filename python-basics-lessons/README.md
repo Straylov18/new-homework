@@ -21,6 +21,7 @@
 Темы урока:
 - Синтаксис для более быстрой работы с листами, словарями и кортежами
 - Работа со строками
+- Лямбда функции в python
 
 [Итоговый проект урока 2](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-02-syntax-sugar)
 
