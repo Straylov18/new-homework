@@ -41,7 +41,7 @@ pytest: requirements
 
 .PHONY: pytest_1
 pytest_1: requirements
-	poetry run pytest -v -rs $(ARGS)
+	poetry run pytest -vv -rs $(ARGS)
 
 .PHONY: full_qa
 full_qa: flake8 isort pytest_1

@@ -129,9 +129,10 @@ settings = Settings()
 
 Как мы и оговорили выше, в основном сервисе будут использоваться те же схемы.
 
-Пусть основное приложение будет иметь только две ручки:
+Пусть основное приложение будет иметь только три ручки:
 - одна будет логинить пользователя через сервис авторизации
 - вторая будет выдавать информацию о последних успешных логинах
+- третья будет чистить информацию о последних успешных логах
 
 Тогда описание ручек в **api1/src/route/some_router.py** будет выглядеть так:
 ```python
@@ -151,6 +152,11 @@ async def login(body: User):
 @router.get('/list-successful-logins')
 async def get_logins_info() -> list[User]:
     return get_successful_logins()
+
+
+@router.delete('/clear-login-logs')
+async def clear_login_logs():
+    return remove_successful_logins()
 ```
 
 Опишем в сервисе **api1/src/service/some_service.py** взаимодействие с другим модулем:
@@ -181,9 +187,18 @@ def login_user(user: User):
 
 def get_successful_logins() -> list[User]:
     return successful_logins
+
+
+def remove_successful_logins():
+    successful_logins.clear()
 ```
 Здесь запросы ко второму сервису мы делаем с помощью библиотеки httpx 
 (встроена в библиотеку starlette, на основе которой сделан fastapi).
+
+Его мы будем запускать на другом порту (допустим на 8000):
+```shell
+poetry run uvicorn src.main:app --port 8000 --reload
+```
 
 ## Тесты
 

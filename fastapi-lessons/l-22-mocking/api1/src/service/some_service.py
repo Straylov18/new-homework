@@ -24,3 +24,7 @@ def login_user(user: User):
 
 def get_successful_logins() -> list[User]:
     return successful_logins
+
+
+def remove_successful_logins():
+    successful_logins.clear()
