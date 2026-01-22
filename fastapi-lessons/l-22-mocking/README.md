@@ -207,7 +207,56 @@ poetry run uvicorn src.main:app --port 8000 --reload
 
 ### Тесты для основного приложения
 
-При вызове ручек основного приложения оно дергает ручки сервиса авторизации.
+#### Фикстуры
+
+Для начала сделаем фикстуры в **api1/tests/conftest.py**:
+```python
+import pytest
+from fastapi.testclient import TestClient
+from httpx import ASGITransport, AsyncClient
+
+from src.main import app
+
+
+@pytest.fixture
+def client():
+    return TestClient(app)
+
+
+@pytest.fixture
+def async_client():
+    return AsyncClient(
+        transport=ASGITransport(app=app),
+        base_url='http://test'
+    )
+
+
+@pytest.fixture
+def user_data_1():
+    return {'email': 'first@mail.com', 'password': '1'}
+
+
+@pytest.fixture
+def user_data_2():
+    return {'email': 'second@mail.com', 'password': '22'}
+
+
+@pytest.fixture
+def clear_login_logs(client):
+    client.delete('/api/v1/some-router/clear-login-logs')
+```
+Здесь мы создаем:
+- фикстуры клиентов для отправки запросов на наше приложение
+- фикстуры данных пользователей (двух видов)
+- фикстуру для отчистки логов успешных логинов приложения 
+(Тут посредством дерганья ручки этого приложения. 
+Но вообще если бы мы не хранили данные в оперативке, 
+то лучше было бы просто питоновским кодом дернуть например запрос на удаление данных из БД, 
+чтобы избавиться от лишнего усложнения тестов)
+
+### Мокирование запросов к сервису авторизации
+
+При вызове ручек основного приложения, оно дергает ручки сервиса авторизации.
 Таким образом при стандартной конфигурации без сервиса авторизации оно не сможет работать.
 
 Однако запускать оба приложения для прогона тестов достаточно тяжело, 
@@ -222,7 +271,77 @@ poetry run uvicorn src.main:app --port 8000 --reload
 poetry add pytest-mock --group test
 ```
 
-[//]: # (TODO)
+Напишем тест на ручку логирования в **api1/tests/test_auth_server_integrations.py**:
+```python
+@pytest.mark.asyncio
+async def test_login_succeeded(mocker, async_client, user_data_1):
+    async with async_client as ac:
+        mock_login = mocker.patch('src.service.some_service.httpx.post')
+        mock_login.return_value.json.return_value = 'login succeeded'
+
+        response = await ac.post('/api/v1/some-router/login', json=user_data_1)
+        mock_login.assert_called_once_with(
+            f'{settings.AUTH_SERVER_ADDRESS}/user/login',
+            json=user_data_1
+        )
+        assert response.json() == 'Залогинились через отдельностоящий сервис'
+        assert response.status_code == 200
+```
+Здесь:
+- в сервисе ```src.service.some_service``` мокируем все ```httpx.post``` 
+(при помощи команды ```mock_login = mocker.patch('src.service.some_service.httpx.post')```)
+- мокируем возвращаемые функцией значения через ```.return_value``` 
+(таким образом строчка ```mock_login.return_value.json.return_value = 'login succeeded'``` мокирует вывод ответа на запрос 
+и мокирует вывод функции ```.json()``` на ```'login succeeded'```). 
+Таким образом мы заменяем строчку из **api1/src/service/some_service.py** 
+```r = httpx.post(f'{settings.AUTH_SERVER_ADDRESS}/user/login', json=user.model_dump())``` 
+на ```r = 'login succeeded'```.
+- потом мы в тесте делаем вызов и ожидаем, что наш вызов дернет нашу замокированную функцию
+- мы можем также проверить, вызвалась ли наша замокированная функция с нужными параметрами при помощи 
+```mock_login.assert_called_once_with(...)```
+
+Напишем аналогичный тест на проверку неуспешной попытки логина:
+```python
+@pytest.mark.asyncio
+async def test_login_failed(mocker, async_client, user_data_1):
+    async with async_client as ac:
+        mock_login = mocker.patch('src.service.some_service.httpx.post')
+        mock_login.return_value.json.return_value = 'NOT succeeded (be-be he-he)'
+
+        response = await ac.post('/api/v1/some-router/login', json=user_data_1)
+        mock_login.assert_called_once_with(
+            f'{settings.AUTH_SERVER_ADDRESS}/user/login',
+            json=user_data_1
+        )
+        assert response.json() == {'detail': 'Не получилось войти через отдельностоящий сервис!'}
+        assert response.status_code == 400
+```
+Здесь мы все также можем проверять, что запрос в сторонний сервис уходил.
+
+Также проверим ручку получения логов, отчистив логи через фикстуру ```clear_login_logs```, 
+после чего сделав пару успешных и неуспешный запросы логина к сервису:
+```python
+@pytest.mark.asyncio
+async def test_login_counter(mocker, async_client, clear_login_logs, user_data_1, user_data_2):
+    async with async_client as ac:
+        mock_login = mocker.patch('src.service.some_service.httpx.post')
+        mock_login.return_value.json.return_value = 'login succeeded'
+
+        await ac.post('/api/v1/some-router/login', json=user_data_1)
+        await ac.post('/api/v1/some-router/login', json=user_data_2)
+
+        mock_login = mocker.patch('src.service.some_service.httpx.post')
+        mock_login.return_value.json.return_value = 'login NOT succeeded (be-be he-he)'
+
+        # не должно записывать в логи, потому что мы замокировали ошибку
+        await ac.post('/api/v1/some-router/login', json=user_data_2)
+
+        response = await ac.get('/api/v1/some-router/list-successful-logins')
+        assert response.json() == [user_data_1, user_data_2]
+        assert response.status_code == 200
+```
+Здесь мы несколько раз за тест мокируем ответ от сервиса авторизации, 
+чтобы проверить лишь часть кода, отвечающую за запись логов.
 
 Подробнее о функционале библиотеки pytest-mock можно прочитать тут:
 https://pytest-mock.readthedocs.io/en/latest/.
