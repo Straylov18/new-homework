@@ -1,14 +1,18 @@
+import logging
+
 from apscheduler.triggers.interval import IntervalTrigger
 
 from src.container.scheduler import SchedulerContainer
 from src.scheduler.task_scheduler import schedule_task
 from src.scheme.scheduler_job import SchedulerJob
 
+logger = logging.getLogger(__name__)
+
 
 class SchedulerJobService:
 
     @staticmethod
-    async def create_task_scheduler_job(data: SchedulerJob) -> SchedulerJob:
+    async def create_task_scheduler_job(data: SchedulerJob):
         current_scheduler_id = data.id
         scheduler = SchedulerContainer.get_scheduler()
         scheduler.add_job(
@@ -18,7 +22,7 @@ class SchedulerJobService:
             replace_existing=True,
             kwargs={'scheduler_id': current_scheduler_id}
         )
-        return scheduler.get_job(current_scheduler_id)
+        logger.debug('created new job: ' + scheduler.get_job(current_scheduler_id))
 
     @staticmethod
     async def get_task_scheduler_jobs_list() -> list[SchedulerJob]:

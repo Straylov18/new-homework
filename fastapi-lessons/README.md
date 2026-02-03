@@ -286,5 +286,16 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-27-redis/README.md)
 
+## Урок 28
+
+Темы урока:
+- Использование планировщика задач на примере apscheduler
+- Манипуляции с периодическими задачами в планировщике
+- Хранение информации о задачах планировщика в redis и распределение задач на несколько воркеров бекенд приложения 
+
+[Итоговый проект урока 28](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-28-task-scheduling)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-28-task-scheduling/README.md)
+
 
 [//]: # (TODO дальнейшие уроки)

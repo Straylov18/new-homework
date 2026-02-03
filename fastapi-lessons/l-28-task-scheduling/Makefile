@@ -63,3 +63,8 @@ migration-downgrade: requirements
 .PHONY: run_uvcorn
 run_uvcorn: requirements migration-upgrade
 	poetry run uvicorn src.main:app --reload $(ARGS)
+
+
+.PHONY: run_uvcorn_4_workers
+run_uvcorn_4_workers: requirements migration-upgrade
+	poetry run uvicorn src.main:app --workers 4 $(ARGS)
