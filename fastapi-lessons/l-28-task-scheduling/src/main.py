@@ -33,15 +33,17 @@ async def lifespan(app: FastAPI):
         logger.error(f'Task scheduler default job initialization errors: {e}')
     finally:
         SchedulerContainer.get_scheduler().shutdown()
+        # SchedulerContainer.get_scheduler().shutdown(wait=True)
         logger.info('Task scheduler job stopped')
 
 
 app = FastAPI(
     openapi_url=f'{settings.BASE_ROUTE_PATH}/openapi.json',
     docs_url=f'{settings.BASE_ROUTE_PATH}/docs',
+    lifespan=lifespan,
 )
 
-router = APIRouter(prefix=settings.BASE_ROUTE_PATH, lifespan=lifespan)
+router = APIRouter(prefix=settings.BASE_ROUTE_PATH)
 
 router.include_router(task_router, prefix='/task', tags=['task'])
 router.include_router(task_scheduler_router, prefix='/task_scheduler', tags=['task_scheduler'])

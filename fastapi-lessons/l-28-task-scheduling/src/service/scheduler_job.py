@@ -22,17 +22,15 @@ class SchedulerJobService:
             replace_existing=True,
             kwargs={'scheduler_id': current_scheduler_id}
         )
-        logger.debug('created new job: ' + scheduler.get_job(current_scheduler_id))
+        logger.info(f'created new job: {scheduler.get_job(current_scheduler_id)}')
 
     @staticmethod
     async def get_task_scheduler_jobs_list() -> list[SchedulerJob]:
         output = []
         for j in SchedulerContainer.get_scheduler().get_jobs():
-            interval_str = str(j.trigger.interval)
-            i_split = [int(i) for i in interval_str.split(':')]
             output.append(SchedulerJob(
                 id=j.id,
-                period=i_split[2] + 60 * i_split[1] + 3600 * i_split[0]
+                period=j.trigger.interval.seconds
             ))
         return output
 

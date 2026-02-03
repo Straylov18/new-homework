@@ -11,5 +11,5 @@ class TaskCreate(BaseModel):
 class TaskInfo(BaseModel):
     uid: UUID4 = Field(description="Task uid")
     description: str | None = Field(description="Task description", default=None)
-    datetime_created: datetime = Field(description="The date when task was created")
+    date_created: datetime = Field(description="The date when task was created")
     scheduler_id: str = Field(description="Scheduler id")

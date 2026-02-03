@@ -36,7 +36,7 @@ target_metadata = Base.metadata
 
 # updating database url
 configuration = config.get_section(config.config_ini_section, {})
-configuration["sqlalchemy.url"] = str(settings.DB.SQLALCHEMY_DATABASE_URI)
+configuration["sqlalchemy.url"] = str(settings.POSTGRES.SQLALCHEMY_DATABASE_URI)
 
 
 def run_migrations_offline() -> None:

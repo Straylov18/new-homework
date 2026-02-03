@@ -16,10 +16,10 @@ async def get_task_scheduler_jobs_list() -> list[SchedulerJob]:
 
 
 @router.post('/')
-async def create_task_scheduler_job(data: SchedulerJob) -> SchedulerJob:
+async def create_task_scheduler_job(data: SchedulerJob):
     task_scheduler = await SchedulerJobService.create_task_scheduler_job(data)
     logger.info(f'Created new scheduler {task_scheduler}')
-    return task_scheduler
+    return 'scheduler changed'
 
 
 @router.delete('/{scheduler_id}')

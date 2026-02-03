@@ -59,11 +59,19 @@ migration-upgrade: requirements
 migration-downgrade: requirements
 	poetry run alembic downgrade -1
 
+# --- run app ---
+
+.PHONY: start_postgres
+start_postgres:
+	./start_postgres_in_docker.sh
+
+.PHONY: start_redis
+start_redis:
+	./start_redis_in_docker.sh
 
 .PHONY: run_uvcorn
 run_uvcorn: requirements migration-upgrade
 	poetry run uvicorn src.main:app --reload $(ARGS)
-
 
 .PHONY: run_uvcorn_4_workers
 run_uvcorn_4_workers: requirements migration-upgrade

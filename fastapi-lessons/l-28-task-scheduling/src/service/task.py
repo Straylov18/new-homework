@@ -10,6 +10,6 @@ class TaskService:
         return new_task
 
     @staticmethod
-    async def get_tasks_list() -> list[TaskInfo]:
+    async def get_tasks_list():
         tasks = await repository_container.task_repository().get_list()
         return tasks
