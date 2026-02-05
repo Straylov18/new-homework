@@ -108,33 +108,32 @@ REDIS_USER=default
 REDIS_PASSWORD=master
 ```
 
-Для работы с redis в python зачастую используют одну из двух библиотек:
-- redis (синхронная)
-- aioredis (асинхронная)
+Для работы с redis в python на данный момент зачастую используют библиотеку:
+- redis
 
 Мы будем использовать асинхронную версию, установим ее в проект:
 ```shell
-poetry add aioredis
+poetry add redis
 ```
 
 Для генерации сессий с redis создадим специальную функцию в adapter-слое 
 в **src/adapter/redis.py**:
 ```python
-import aioredis
+import redis
 
 from src.config import settings
 
 
 async def get_redis_connection():
-    redis = await aioredis.from_url(
+    redis_client = await redis.from_url(
         settings.REDIS.REDIS_URI,
         encoding="utf-8",
         decode_responses=True
     )
     try:
-        yield redis
+        yield redis_client
     finally:
-        await redis.close()
+        await redis_client.close()
 ```
 
 Для еще большей скорости общения с redis, 
@@ -325,8 +324,8 @@ async def push_value_to_list(value, redis_session):
 при получении элемента листа слева или справа сразу удалять его из редиса.
 
 Больше информации о подключении redis в python приложение 
-при помощи библиотеки aioredis можно почитать тут:
-https://aioredis.readthedocs.io/en/v1.3.0/mixins.html.
+при помощи библиотеки redis можно почитать тут:
+https://redis.readthedocs.io/en/stable/index.html.
 
 ## Pub/Sub, stream механизмы в Redis
 
