@@ -369,9 +369,223 @@ async def job_from_decorator():
     logger.warning('called from func scheduled with decorator')
 ```
 
+### Проблема хранения информации о запланированных задачах
+
+На данный момент информация о запланированных задачах храниться в конкретном бэкенде, 
+на котором они будут выполняться.
+Достаточно часто встречаются случаи, 
+когда необходимо развернуть несколько сущностей бэкенда, 
+чтобы распределить между ними нагрузку.
+
+Проверим, что сейчас с этим у нас есть проблемы, запустив приложение на нескольких uvicorn воркерах:
+```shell
+poetry run uvicorn src.main:app --workers 4
+# make run_uvcorn_4_workers
+```
+
+Если сейчас мы будем дергать ручки изменения периодических задач, 
+их будет обрабатывать один из воркеров, 
+который будет менять эту информацию только у себя, не передавая остальным.
+
+### Хранение задач в redis
+
+И если мы хотим допустим,
+чтобы какая-то задача периодически выполнялась сразу несколькими бэкендами,
+то нам необходимо как-то передавать информацию об изменении
+или создании запланированной задачи между ними.
+
+Для подобных целей зачастую используют redis.
+У данной библиотеки уже есть встроенная возможность интеграции с redis, 
+чтобы хранить в нем информации о запланированных задачах.
+
+```python
+from apscheduler.jobstores.redis import RedisJobStore
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+
+from src.config import settings
 
 
-[//]: # (TODO редисню подрубить, чтоб на несколько воркеров/нод можно было шарить задачи)
+class SchedulerContainer:
+    scheduler: AsyncIOScheduler = None
 
-Подробнее см. 
-https://apscheduler.readthedocs.io/en/stable/userguide.html
+    @classmethod
+    def get_scheduler(cls) -> AsyncIOScheduler:
+        if cls.scheduler is None:
+            jobstores = {
+                'default': RedisJobStore(
+                    jobs_key='dispatched_tasks_jobs',
+                    run_times_key='dispatched_tasks_running',
+                    host=settings.REDIS.REDIS_SERVER,
+                    port=settings.REDIS.REDIS_PORT,
+                    db=settings.REDIS.REDIS_DB,
+                    username=settings.REDIS.REDIS_USER,
+                    password=settings.REDIS.REDIS_PASSWORD,
+                )
+            }
+            cls.scheduler = AsyncIOScheduler(jobstores=jobstores)
+
+        return cls.scheduler
+```
+Здесь мы указали в какую БД редиса будет писаться информация о наших запланированных задачах.
+
+Теперь эта информация будет при старте автоматически подтягиваться всеми бэкендами, 
+которые подключены к этому редису.
+
+Добавим настройки подключения к redis в **src/config.py**:
+```python
+import logging.config
+from typing import Any
+
+from pydantic import PostgresDsn, RedisDsn, field_validator
+from pydantic_core.core_schema import ValidationInfo
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class RedisSettings(BaseSettings):
+    model_config = SettingsConfigDict(
+        extra='ignore',
+        env_file='.env'
+    )
+    REDIS_SERVER: str = 'localhost'
+    REDIS_PORT: int = 6379
+    REDIS_USER: str = 'default'
+    REDIS_PASSWORD: str
+    REDIS_DB: str = "0"
+
+    REDIS_URI: str | None = None
+
+    @field_validator('REDIS_URI', mode='before')
+    @classmethod
+    def assemble_redis_connection(cls, v: str | None, info: ValidationInfo) -> Any:
+        if isinstance(v, str):
+            return v
+
+        return str(RedisDsn.build(
+            scheme='redis',
+            username=info.data.get('REDIS_USER'),
+            password=info.data.get('REDIS_PASSWORD'),
+            host=info.data.get('REDIS_SERVER'),
+            port=info.data.get('REDIS_PORT'),
+            path=info.data.get('REDIS_DB') or '0',
+        ))
+
+
+class PostgresSettings(BaseSettings):
+    model_config = SettingsConfigDict(
+        extra='ignore',
+        env_file='.env'
+    )
+    POSTGRES_SERVER: str = 'localhost'
+    POSTGRES_PORT: int = 5432
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_DB: str = "postgres"
+    POSTGRES_DB_ECHO: bool = True
+
+    SQLALCHEMY_DATABASE_URI: str | None = None
+    SQLALCHEMY_DATABASE_URI_ASYNC: str | None = None
+
+    PROFILE_QUERY_MODE: bool = False
+
+    @field_validator('SQLALCHEMY_DATABASE_URI', mode='before')
+    @classmethod
+    def assemble_db_connection(cls, v: str | None, info: ValidationInfo) -> Any:
+        if isinstance(v, str):
+            return v
+
+        return str(PostgresDsn.build(
+            scheme='postgresql+psycopg',
+            username=info.data.get('POSTGRES_USER'),
+            password=info.data.get('POSTGRES_PASSWORD'),
+            host=info.data.get('POSTGRES_SERVER'),
+            port=info.data.get('POSTGRES_PORT'),
+            path=info.data.get('POSTGRES_DB') or '',
+        ))
+
+    @field_validator('SQLALCHEMY_DATABASE_URI_ASYNC', mode='before')
+    @classmethod
+    def assemble_async_db_connection(cls, v: str | None, info: ValidationInfo) -> Any:
+        if isinstance(v, str):
+            return v
+
+        return info.data.get('SQLALCHEMY_DATABASE_URI')
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        extra='ignore',
+        env_file='.env'
+    )
+    BASE_ROUTE_PATH: str = '/api/v1'
+    DEFAULT_SCHEDULING_PERIOD: int = 3
+    POSTGRES: PostgresSettings = PostgresSettings()
+    REDIS: RedisSettings = RedisSettings()
+    LOG_LEVEL: str = 'INFO'
+
+
+settings = Settings()
+
+LOG_CONFIG = {
+    "version": 1,
+    "disable_existing_loggers": True,
+    "formatters": {"default": {"format": "%(asctime)s [%(process)s] %(levelname)s: %(message)s"}},
+    "handlers": {
+        "console": {
+            "formatter": "default",
+            "class": "logging.StreamHandler",
+            "stream": "ext://sys.stdout",
+            "level": settings.LOG_LEVEL,
+        }
+    },
+    "root": {"handlers": ["console"], "level": settings.LOG_LEVEL},
+    "loggers": {
+        "gunicorn": {"propagate": True},
+        "gunicorn.access": {"propagate": True},
+        "gunicorn.error": {"propagate": True},
+        "uvicorn": {"propagate": True},
+        "uvicorn.access": {"propagate": True},
+        "uvicorn.error": {"propagate": True},
+    },
+}
+
+logging.config.dictConfig(LOG_CONFIG)
+```
+
+Тогда **src/.env** будет выглядеть следующим образом:
+```
+BASE_ROUTE_PATH='/api/v1'
+LOG_LEVEL='INFO'
+
+DEFAULT_SCHEDULING_PERIOD=50
+
+# Postgres
+POSTGRES_SERVER=localhost
+POSTGRES_PORT=5435
+POSTGRES_DB=postgres
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=master
+
+# Redis
+REDIS_SERVER=localhost
+REDIS_PORT=6380
+REDIS_DB=0
+REDIS_USER=default
+REDIS_PASSWORD=master
+```
+
+Теперь если например запустить наш бэкенд на нескольких воркера:
+```shell
+poetry run uvicorn src.main:app --workers 4
+# make run_uvcorn_4_workers
+```
+То при изменении запланированной задачи в одном воркере бэкенда, 
+она будет изменяться у всех.
+Это можно проверить сделав запрос в наш бэкенд.
+Его обработает лишь один из воркеров бэкенда, 
+а периодическая задача измениться у всех.
+
+Таким образом можно будет синхронизовать запланированные задачи даже для нескольких узлов бэкенда, 
+развернутых на разных серверах.
+
+Более подробно о функционале библиотеки apscheduler можно почитать тут: 
+https://apscheduler.readthedocs.io/en/stable/userguide.html.
