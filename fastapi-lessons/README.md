@@ -289,6 +289,17 @@
 ## Урок 28
 
 Темы урока:
+- Механизм pub/sub в redis
+
+[Итоговый проект урока 28](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-28-redis-pub-sub)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-28-redis-pub-sub/README.md)
+
+[//]: # (TODO дальнейшие уроки)
+
+## Урок 31
+
+Темы урока:
 - Использование планировщика задач на примере apscheduler
 - Манипуляции с периодическими задачами в планировщике
 - Хранение информации о задачах планировщика в redis и распределение задач на несколько воркеров бекенд приложения 

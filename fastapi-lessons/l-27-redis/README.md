@@ -327,7 +327,5 @@ async def push_value_to_list(value, redis_session):
 при помощи библиотеки redis можно почитать тут:
 https://redis.readthedocs.io/en/stable/index.html.
 
-## Pub/Sub, stream механизмы в Redis
-
-
-[//]: # (TODO)
+Также в новых версиях redis есть механизмы брокера сообщений (Pub/Sub, stream).
+Их мы рассмотрим в дальнейших уроках.
