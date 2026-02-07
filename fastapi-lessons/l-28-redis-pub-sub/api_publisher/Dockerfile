@@ -6,8 +6,6 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONPATH .
 
-
-# Install dependencies
 RUN set -xe \
     && apt-get update \
     && apt-get install -y --no-install-recommends build-essential \
