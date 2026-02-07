@@ -1,0 +1,91 @@
+---
+services:
+
+  publisher:
+    build:
+      context: api_publisher
+    container_name: publisher
+    environment:
+      BASE_ROUTE_PATH: ${BASE_ROUTE_PATH-/api/v1}
+      REDIS_SERVER: $REDIS_SERVER
+      REDIS_PORT: $REDIS_PORT
+      REDIS_DB: $REDIS_DB
+      REDIS_USER: $REDIS_USER
+      REDIS_PASSWORD: $REDIS_PASSWORD
+    ports:
+      - "${API_EXTERNAL_PORT-8000}:8000"
+    networks:
+      - redis-pub-sub
+    depends_on:
+      redis-db:
+        condition: service_healthy
+
+  subscriber1:
+    build:
+      context: api_subscriber
+    container_name: subscriber1
+    environment:
+      CHANNEL_NAME: "bimba"
+      REDIS_SERVER: $REDIS_SERVER
+      REDIS_PORT: $REDIS_PORT
+      REDIS_DB: $REDIS_DB
+      REDIS_USER: $REDIS_USER
+      REDIS_PASSWORD: $REDIS_PASSWORD
+    networks:
+      - redis-pub-sub
+    depends_on:
+      redis-db:
+        condition: service_healthy
+
+  subscriber2:
+    build:
+      context: api_subscriber
+    container_name: subscriber2
+    environment:
+      CHANNEL_NAME: "bimba"
+      REDIS_SERVER: $REDIS_SERVER
+      REDIS_PORT: $REDIS_PORT
+      REDIS_DB: $REDIS_DB
+      REDIS_USER: $REDIS_USER
+      REDIS_PASSWORD: $REDIS_PASSWORD
+    networks:
+      - redis-pub-sub
+    depends_on:
+      redis-db:
+        condition: service_healthy
+
+  subscriber3:
+    build:
+      context: api_subscriber
+    container_name: subscriber3
+    environment:
+      CHANNEL_NAME: "bumba"
+      REDIS_SERVER: $REDIS_SERVER
+      REDIS_PORT: $REDIS_PORT
+      REDIS_DB: $REDIS_DB
+      REDIS_USER: $REDIS_USER
+      REDIS_PASSWORD: $REDIS_PASSWORD
+    networks:
+      - redis-pub-sub
+    depends_on:
+      redis-db:
+        condition: service_healthy
+
+  redis-db:
+    image: "redis:8"
+    container_name: redis-db
+    environment:
+      REDIS_USER_PASSWORD: $REDIS_PASSWORD
+    networks:
+      - redis-pub-sub
+    ports:
+      - "${REDIS_EXTERNAL_PORT-6380}:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "-a", "$REDIS_PASSWORD", "ping" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+networks:
+  redis-pub-sub:
