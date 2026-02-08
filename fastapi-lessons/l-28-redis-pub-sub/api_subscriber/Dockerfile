@@ -18,8 +18,6 @@ RUN poetry install --no-root
 
 ADD ./src ./src
 
-EXPOSE 8000
-
 ARG CHANNEL_NAME
 ENV CHANNEL_NAME=${CHANNEL_NAME}
 
