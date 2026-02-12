@@ -8,15 +8,16 @@ from adapter.redis import get_redis_connection
 from config import settings
 
 
-async def subscribe_channel():
+async def consume_messages():
     redis_session = await get_redis_connection()
-    stream_key = settings.STREAM_KEY
-    group_name = settings.GROUP_NAME
-    consumer_name = settings.CONSUMER_NAME  # consumers with different names can read not delivered messages
 
     # Create consumer group
     try:
-        await redis_session.xgroup_create(stream_key, group_name, '$', mkstream=True)
+        await redis_session.xgroup_create(
+            settings.STREAM_KEY,
+            settings.GROUP_NAME, '$',
+            mkstream=True
+        )
     except ResponseError as e:
         print(f'raised: {e}')  # Already exists
 
@@ -24,10 +25,11 @@ async def subscribe_channel():
 
     while True:
         messages = await redis_session.xreadgroup(
-            group_name, consumer_name,
-            streams={stream_key: '>'},
+            settings.GROUP_NAME,
+            settings.CONSUMER_NAME,
+            streams={settings.STREAM_KEY: '>'},
             count=1,
-            block=10
+            block=1000
         )
 
         if not messages:
@@ -37,11 +39,13 @@ async def subscribe_channel():
             for msg_id, fields in msg_list:
                 data = json.loads(fields['data'])
                 print(f'Consumer received: {msg_id} -> {data}')
-                await redis_session.xack(stream_key, group_name, msg_id)
-        time.sleep(0.1)
+                await redis_session.xack(settings.STREAM_KEY, settings.GROUP_NAME, msg_id)
+                # asyncio.create_task(
+                #     redis_session.xack(settings.STREAM_KEY, settings.GROUP_NAME, msg_id)
+                # )
 
     await redis_session.close()
 
 
 if __name__ == '__main__':
-    asyncio.run(subscribe_channel())
+    asyncio.run(consume_messages())

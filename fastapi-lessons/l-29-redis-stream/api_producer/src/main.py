@@ -1,4 +1,5 @@
 import json
+import asyncio
 from time import time
 
 import uvicorn
@@ -28,6 +29,12 @@ async def publish_message(stream_key: str, message: str, messages_number: int = 
             {'ts': time(), 'v': i, 'data': json.dumps(data)}
         )
         print(f'Producer sent {msg_id}')
+        # asyncio.create_task(
+        #     redis_session.xadd(
+        #         stream_key,
+        #         {'ts': time(), 'v': i, 'data': json.dumps(data)}
+        #     )
+        # )
     success_message = f'stream {stream_key} length: {redis_session.xlen(stream_key)}'
     print(success_message)
     return success_message
@@ -38,7 +45,7 @@ async def delete_messages(stream_key: str, redis_session=Depends(get_redis_conne
     s1 = await redis_session.xread(streams={stream_key: 0})
     for streams in s1:
         stream_name, messages = streams
-        # del all ids from the message list
+        # удаляем все id из листа сообщений стрима
         for i in messages:
             await redis_session.xdel(stream_name, i[0])
 
