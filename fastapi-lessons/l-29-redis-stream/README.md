@@ -168,7 +168,6 @@ settings = Settings()
 ```python
 import asyncio
 import json
-import time
 
 from redis.exceptions import ResponseError
 
@@ -383,5 +382,63 @@ networks:
     - ```consumer4-p-gn1``` (подписан на канал **gn1**)
 - контейнер с редисом ```redis-db-stream```
 
+Запустим это все с помощью:
+```shell
+docker compose up --build
+```
 
-[//]: # (TODO)
+Посмотрим как 4-й потребитель будет один обрабатывать сообщения из 'Pumbaa' потока.
+При отправке запроса ```http://localhost:8000/produce/Pumbaa/5?message=awim%20bavey``` мы получим следующие логи:
+```
+producer          | Producer sent 1770890489312-0
+producer          | Producer sent 1770890489312-1
+producer          | Producer sent 1770890489312-2
+producer          | Producer sent 1770890489312-3
+producer          | Producer sent 1770890489313-0
+consumer4-p-gn1   | Consumer received: 1770890489312-0 -> {'time': 1770890487.076165, 'message': 'awim bavey', 'number': 0, 'balbla': 'blablabla'}
+consumer4-p-gn1   | Consumer received: 1770890489312-1 -> {'time': 1770890487.0761764, 'message': 'awim bavey', 'number': 1, 'balbla': 'blablabla'}
+consumer4-p-gn1   | Consumer received: 1770890489312-2 -> {'time': 1770890487.0761983, 'message': 'awim bavey', 'number': 2, 'balbla': 'blablabla'}
+consumer4-p-gn1   | Consumer received: 1770890489312-3 -> {'time': 1770890487.0762095, 'message': 'awim bavey', 'number': 3, 'balbla': 'blablabla'}
+consumer4-p-gn1   | Consumer received: 1770890489313-0 -> {'time': 1770890487.076221, 'message': 'awim bavey', 'number': 4, 'balbla': 'blablabla'}
+```
+Id сообщения будет в виде '{время}-{номер_сообщения_в_это_время}'.
+Как можно увидеть наш потребитель обрабатывал последовательно все пять сообщений, 
+пока они не кончились. 
+
+Теперь закинем 4 сообщения в стрим 'Timon' через запрос к 
+```http://localhost:8000/produce/Timon/4?message=hakuna%20matata```:
+```
+producer          | Producer sent 1770891758867-0
+consumer2-t-gn1   | Consumer received: 1770891758867-0 -> {'time': 1770891758.84774, 'message': 'hakuna matata', 'number': 0, 'balbla': 'blablabla'}
+consumer3-t-gn2   | Consumer received: 1770891758867-0 -> {'time': 1770891758.84774, 'message': 'hakuna matata', 'number': 0, 'balbla': 'blablabla'}
+producer          | Producer sent 1770891758868-0
+consumer1-t-gn1   | Consumer received: 1770891758868-0 -> {'time': 1770891758.868111, 'message': 'hakuna matata', 'number': 1, 'balbla': 'blablabla'}
+producer          | Producer sent 1770891758869-0
+consumer3-t-gn2   | Consumer received: 1770891758868-0 -> {'time': 1770891758.868111, 'message': 'hakuna matata', 'number': 1, 'balbla': 'blablabla'}
+consumer2-t-gn1   | Consumer received: 1770891758869-0 -> {'time': 1770891758.8689113, 'message': 'hakuna matata', 'number': 2, 'balbla': 'blablabla'}
+producer          | Producer sent 1770891758869-1
+consumer1-t-gn1   | Consumer received: 1770891758869-1 -> {'time': 1770891758.8696053, 'message': 'hakuna matata', 'number': 3, 'balbla': 'blablabla'}
+consumer3-t-gn2   | Consumer received: 1770891758869-0 -> {'time': 1770891758.8689113, 'message': 'hakuna matata', 'number': 2, 'balbla': 'blablabla'}
+consumer3-t-gn2   | Consumer received: 1770891758869-1 -> {'time': 1770891758.8696053, 'message': 'hakuna matata', 'number': 3, 'balbla': 'blablabla'}
+```
+Здесь мы видим, что в первой группе сообщения 
+равномерно распределялись между двумя потребителями:
+```
+consumer2-t-gn1   | Consumer received: 1770891758867-0 -> {'time': 1770891758.84774, 'message': 'hakuna matata', 'number': 0, 'balbla': 'blablabla'}
+consumer1-t-gn1   | Consumer received: 1770891758868-0 -> {'time': 1770891758.868111, 'message': 'hakuna matata', 'number': 1, 'balbla': 'blablabla'}
+consumer2-t-gn1   | Consumer received: 1770891758869-0 -> {'time': 1770891758.8689113, 'message': 'hakuna matata', 'number': 2, 'balbla': 'blablabla'}
+consumer1-t-gn1   | Consumer received: 1770891758869-1 -> {'time': 1770891758.8696053, 'message': 'hakuna matata', 'number': 3, 'balbla': 'blablabla'}
+```
+Также видно, что сообщения приходили и на потребителя из 2-й группы:
+```
+consumer3-t-gn2   | Consumer received: 1770891758867-0 -> {'time': 1770891758.84774, 'message': 'hakuna matata', 'number': 0, 'balbla': 'blablabla'}
+consumer3-t-gn2   | Consumer received: 1770891758868-0 -> {'time': 1770891758.868111, 'message': 'hakuna matata', 'number': 1, 'balbla': 'blablabla'}
+consumer3-t-gn2   | Consumer received: 1770891758869-0 -> {'time': 1770891758.8689113, 'message': 'hakuna matata', 'number': 2, 'balbla': 'blablabla'}
+consumer3-t-gn2   | Consumer received: 1770891758869-1 -> {'time': 1770891758.8696053, 'message': 'hakuna matata', 'number': 3, 'balbla': 'blablabla'}
+```
+
+Таким образом количеством групп можно контролировать 
+сколько раз будут обрабатываться сообщения 
+(зачастую у разных групп разная логика обработки).
+В рамках одной группы же можно распределять нагрузку 
+при помощи добавления новых потребителей.

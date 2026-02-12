@@ -14,8 +14,8 @@ app = FastAPI(
 )
 
 
-@app.get('/produce/{channel}')
-async def publish_message(stream_key: str, message: str, messages_number: int = 1,
+@app.get('/produce/{stream_key}/{messages_number}')
+async def publish_message(stream_key: str, message: str = '', messages_number: int = 1,
                           redis_session=Depends(get_redis_connection)) -> str:
     for i in range(messages_number):
         data = {
