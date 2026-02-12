@@ -15,9 +15,9 @@ async def subscribe_channel():
     while True:
         message = await pubsub.get_message()
         if message and not message['type'] == 'subscribe':
-            print(f"Received: {message['data']}")
+            print(f'Received: {message['data']}')
         time.sleep(0.1)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     asyncio.run(subscribe_channel())

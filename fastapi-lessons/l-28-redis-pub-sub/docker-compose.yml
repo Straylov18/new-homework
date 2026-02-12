@@ -17,7 +17,7 @@ services:
     networks:
       - redis-pub-sub
     depends_on:
-      redis-db:
+      redis-db-pub-sub:
         condition: service_healthy
 
   subscriber1:
@@ -34,7 +34,7 @@ services:
     networks:
       - redis-pub-sub
     depends_on:
-      redis-db:
+      redis-db-pub-sub:
         condition: service_healthy
 
   subscriber2:
@@ -51,7 +51,7 @@ services:
     networks:
       - redis-pub-sub
     depends_on:
-      redis-db:
+      redis-db-pub-sub:
         condition: service_healthy
 
   subscriber3:
@@ -68,12 +68,12 @@ services:
     networks:
       - redis-pub-sub
     depends_on:
-      redis-db:
+      redis-db-pub-sub:
         condition: service_healthy
 
-  redis-db:
+  redis-db-pub-sub:
     image: "redis:8"
-    container_name: redis-db
+    container_name: redis-db-pub-sub
     environment:
       REDIS_USER_PASSWORD: $REDIS_PASSWORD
     networks:

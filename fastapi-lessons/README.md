@@ -295,6 +295,15 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-28-redis-pub-sub/README.md)
 
+## Урок 29
+
+Темы урока:
+- Механизм стриминга в redis
+
+[Итоговый проект урока 29](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-29-redis-stream)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-29-redis-stream/README.md)
+
 [//]: # (TODO дальнейшие уроки)
 
 ## Урок 31

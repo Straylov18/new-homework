@@ -1,0 +1,116 @@
+---
+services:
+
+  producer:
+    build:
+      context: api_producer
+    container_name: producer
+    environment:
+      BASE_ROUTE_PATH: ${BASE_ROUTE_PATH-/api/v1}
+      REDIS_SERVER: $REDIS_SERVER
+      REDIS_PORT: $REDIS_PORT
+      REDIS_DB: $REDIS_DB
+      REDIS_USER: $REDIS_USER
+      REDIS_PASSWORD: $REDIS_PASSWORD
+    ports:
+      - "${API_EXTERNAL_PORT-8000}:8000"
+    networks:
+      - redis-stream
+    depends_on:
+      redis-db-streams:
+        condition: service_healthy
+
+  consumer1-t-gn1:
+    build:
+      context: api_consumer
+    container_name: consumer1-t-gn1
+    environment:
+      STREAM_KEY: "Timon"
+      GROUP_NAME: "gn1"
+      CONSUMER_NAME: "cn1"
+      REDIS_SERVER: $REDIS_SERVER
+      REDIS_PORT: $REDIS_PORT
+      REDIS_DB: $REDIS_DB
+      REDIS_USER: $REDIS_USER
+      REDIS_PASSWORD: $REDIS_PASSWORD
+    networks:
+      - redis-stream
+    depends_on:
+      redis-db-streams:
+        condition: service_healthy
+
+  consumer2-t-gn1:
+    build:
+      context: api_consumer
+    container_name: consumer2-t-gn1
+    environment:
+      STREAM_KEY: "Timon"
+      GROUP_NAME: "gn1"
+      CONSUMER_NAME: "cn2"
+      REDIS_SERVER: $REDIS_SERVER
+      REDIS_PORT: $REDIS_PORT
+      REDIS_DB: $REDIS_DB
+      REDIS_USER: $REDIS_USER
+      REDIS_PASSWORD: $REDIS_PASSWORD
+    networks:
+      - redis-stream
+    depends_on:
+      redis-db-streams:
+        condition: service_healthy
+
+  consumer3-t-gn2:
+    build:
+      context: api_consumer
+    container_name: consumer3-t-gn2
+    environment:
+      STREAM_KEY: "Timon"
+      GROUP_NAME: "gn2"
+      CONSUMER_NAME: "cn3"
+      REDIS_SERVER: $REDIS_SERVER
+      REDIS_PORT: $REDIS_PORT
+      REDIS_DB: $REDIS_DB
+      REDIS_USER: $REDIS_USER
+      REDIS_PASSWORD: $REDIS_PASSWORD
+    networks:
+      - redis-stream
+    depends_on:
+      redis-db-streams:
+        condition: service_healthy
+
+  consumer4-p-gn1:
+    build:
+      context: api_consumer
+    container_name: consumer4-p-gn1
+    environment:
+      STREAM_KEY: "Pumbaa"
+      GROUP_NAME: "gn1"
+      CONSUMER_NAME: "cn4"
+      REDIS_SERVER: $REDIS_SERVER
+      REDIS_PORT: $REDIS_PORT
+      REDIS_DB: $REDIS_DB
+      REDIS_USER: $REDIS_USER
+      REDIS_PASSWORD: $REDIS_PASSWORD
+    networks:
+      - redis-stream
+    depends_on:
+      redis-db-streams:
+        condition: service_healthy
+
+  redis-db-streams:
+    image: "redis:8"
+    container_name: redis-db-streams
+    environment:
+      REDIS_USER_PASSWORD: $REDIS_PASSWORD
+    networks:
+      - redis-stream
+    ports:
+      - "${REDIS_EXTERNAL_PORT-6380}:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "-a", "$REDIS_PASSWORD", "ping" ]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+networks:
+  redis-stream:

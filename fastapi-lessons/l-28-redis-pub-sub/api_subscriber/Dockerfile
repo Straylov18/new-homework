@@ -18,7 +18,4 @@ RUN poetry install --no-root
 
 ADD ./src ./src
 
-ARG CHANNEL_NAME
-ENV CHANNEL_NAME=${CHANNEL_NAME}
-
 CMD poetry run python3 src/main.py
