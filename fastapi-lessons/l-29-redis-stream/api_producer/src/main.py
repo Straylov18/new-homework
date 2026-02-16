@@ -1,5 +1,6 @@
-import json
 import asyncio
+import json
+import math
 from time import time
 
 import uvicorn
@@ -35,7 +36,7 @@ async def publish_message(stream_key: str, message: str = '', messages_number: i
         #         {'ts': time(), 'v': i, 'data': json.dumps(data)}
         #     )
         # )
-    success_message = f'stream {stream_key} length: {redis_session.xlen(stream_key)}'
+    success_message = f'stream {stream_key} length: {await redis_session.xlen(stream_key)}'
     print(success_message)
     return success_message
 
@@ -48,6 +49,14 @@ async def delete_messages(stream_key: str, redis_session=Depends(get_redis_conne
         # удаляем все id из листа сообщений стрима
         for i in messages:
             await redis_session.xdel(stream_name, i[0])
+
+
+@app.delete('/trim-messages/{stream_key}')
+async def trim_messages(stream_key: str, redis_session=Depends(get_redis_connection)):
+    t_start = math.floor(1000 * time())
+    print(t_start)
+    # await redis_session.xtrim(stream_key, maxlen=1000, approximate=True)
+    await redis_session.execute_command('XTRIM', stream_key, 'MINID', f'{t_start}-0')
 
 
 if __name__ == '__main__':
