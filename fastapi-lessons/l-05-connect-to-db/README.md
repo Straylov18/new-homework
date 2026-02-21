@@ -110,7 +110,7 @@ poetry run alembic init -t async migrations
 
 Она сгенерит файл **alembic.ini** и папку **migrations**, в которой и будут храниться миграции.
 
-В файле **db/session.py** необходимо заменить текст между импортами и методами на:
+В файле **migrations/env.py** необходимо заменить текст между импортами и методами на:
 ```python
 import sys
 from os.path import dirname, abspath
