@@ -98,9 +98,8 @@ services:
 
   redis-db-streams:
     image: "redis:8"
+    command: [ "redis-server", "--requirepass", "${REDIS_PASSWORD}" ]
     container_name: redis-db-streams
-    environment:
-      REDIS_USER_PASSWORD: $REDIS_PASSWORD
     networks:
       - redis-stream
     ports:

@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
+from fastapi.routing import APIRouter
 
 from src.config import settings
 from src.route.redis_hash_table import router as hash_table_router
@@ -11,9 +12,13 @@ app = FastAPI(
     docs_url=f"{settings.BASE_ROUTE_PATH}/docs",
 )
 
-app.include_router(strings_router, prefix=f'{settings.BASE_ROUTE_PATH}/string', tags=['string'])
-app.include_router(hash_table_router, prefix=f'{settings.BASE_ROUTE_PATH}/hash-table', tags=['hash-table'])
-app.include_router(lists_router, prefix=f'{settings.BASE_ROUTE_PATH}/list', tags=['list'])
+router = APIRouter(prefix=settings.BASE_ROUTE_PATH)
+
+router.include_router(strings_router, tags=['string'])
+router.include_router(hash_table_router, tags=['hash-table'])
+router.include_router(lists_router, tags=['list'])
+
+app.include_router(router)
 
 if __name__ == '__main__':
     uvicorn.run(

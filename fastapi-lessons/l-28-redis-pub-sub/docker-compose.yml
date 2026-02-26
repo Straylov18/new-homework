@@ -73,6 +73,7 @@ services:
 
   redis-db-pub-sub:
     image: "redis:8"
+    command: [ "redis-server", "--requirepass", "${REDIS_PASSWORD}" ]
     container_name: redis-db-pub-sub
     environment:
       REDIS_USER_PASSWORD: $REDIS_PASSWORD

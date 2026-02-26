@@ -5,7 +5,7 @@ from src.service.redis_operations_service import (delete_some_string_cache,
                                                   filter_cache_by_prefix,
                                                   get_some_string)
 
-router = APIRouter()
+router = APIRouter(prefix='/string')
 
 
 @router.get('/some-data/{id}')

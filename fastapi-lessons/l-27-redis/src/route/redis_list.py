@@ -5,7 +5,7 @@ from src.service.redis_operations_service import (lpop_list_value,
                                                   push_value_to_list,
                                                   rpop_list_value)
 
-router = APIRouter()
+router = APIRouter(prefix='/list')
 
 
 @router.get('/get-last-list-values')

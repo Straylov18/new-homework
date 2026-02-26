@@ -4,7 +4,7 @@ from src.adapter.redis import get_redis_connection
 from src.service.redis_operations_service import (add_value_to_hash_table,
                                                   get_all_hash_table_values)
 
-router = APIRouter()
+router = APIRouter(prefix='/hash-table')
 
 
 @router.get('/get-all-hash-table-values')
