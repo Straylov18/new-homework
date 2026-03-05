@@ -311,11 +311,22 @@
 Темы урока:
 - Использование планировщика задач на примере apscheduler
 - Манипуляции с периодическими задачами в планировщике
-- Хранение информации о задачах планировщика в redis и распределение задач на несколько воркеров бекенд приложения 
+- Хранение информации о задачах планировщика в redis и распределение задач на несколько воркеров бекенд приложения
 
-[Итоговый проект урока 28](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-28-task-scheduling)
+[Итоговый проект урока 31](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-31-task-scheduling)
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-28-task-scheduling/README.md)
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-31-task-scheduling/README.md)
+
+[//]: # (TODO дальнейшие уроки)
+
+## Урок 34
+
+Темы урока:
+- проверка типизации с помощью mypy
+
+[Итоговый проект урока 34](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-34-mypy)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-34-mypy/README.md)
 
 
 [//]: # (TODO дальнейшие уроки)
