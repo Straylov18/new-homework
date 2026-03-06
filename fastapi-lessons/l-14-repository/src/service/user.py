@@ -5,7 +5,7 @@ from src.container.repository import repository_container
 from src.model.user import User
 from src.scheme.user import UserCreate, UserLogin
 from src.utils.auth import (authenticate_user, create_access_token,
-                            get_token_payload_if_valid)
+                            get_password_hash, get_token_payload_if_valid)
 
 
 class UserService:
@@ -15,7 +15,8 @@ class UserService:
         user_with_same_email = await repository_container.user_repository().get_one(email=data.email)
         if user_with_same_email is not None:
             raise HTTPException(400, "такой пользователь уже есть")
-        # data.is_admin = False
+        data.password = get_password_hash(data.password)
+        data.is_admin = False
         new_user = await repository_container.user_repository().add_one(data.model_dump(exclude_unset=True))
         return new_user
 
