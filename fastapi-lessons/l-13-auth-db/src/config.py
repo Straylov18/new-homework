@@ -52,7 +52,7 @@ class Settings(BaseSettings):
         env_file='.env'
     )
     BASE_ROUTE_PATH: str = '/api/v1'
-    SECRET_KEY: str = '/api/v1'
+    SECRET_KEY: str = 'spooky_spooky_skeleton'
     DB: DbSettings = DbSettings()
 
 

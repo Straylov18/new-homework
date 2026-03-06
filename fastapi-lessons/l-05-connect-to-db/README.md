@@ -19,13 +19,19 @@
 Чтобы бэк мог обмениваться с БД информацией через модели необходимо описать движок работы с БД.
 Для этого создадим файл **src/db/session.py** со следующим кодом:
 ```python
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.ext.asyncio import AsyncAttrs, async_sessionmaker, create_async_engine, AsyncSession
+from sqlalchemy.ext.asyncio import (AsyncEngine, AsyncSession,
+                                    async_sessionmaker, create_async_engine)
+from sqlalchemy.orm import DeclarativeBase
+
 from src.config import settings
 
-engine = create_async_engine(url=settings.SQLALCHEMY_DATABASE_URL)
-async_session_maker = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
-Base = declarative_base()
+# database_url = 'sqlite+aiosqlite:///db.sqlite3'
+engine: AsyncEngine = create_async_engine(url=settings.SQLALCHEMY_DATABASE_URL)
+async_session_maker: async_sessionmaker[AsyncSession] = async_sessionmaker(bind=engine, expire_on_commit=False)
+
+
+class Base(DeclarativeBase):
+    pass
 ```
 Здесь:
 - ```engine``` - создание движка работы с конкретной базой данных 
@@ -33,7 +39,7 @@ Base = declarative_base()
 - ```async_session_maker``` - асинхронный генератор сессий 
 (самих соединений с базой, в рамках которых будет происходить обмен информацией), 
 на основе выше созданного движка
-- ```Base = declarative_base()``` - базовая описание объекта, 
+- ```Base(DeclarativeBase)``` - базовая описание объекта, 
 с помощью которого мы будем описывать содержимое базы данных 
 
 Для описания моделей принято использовать отдельный слой, например **models**.
@@ -198,7 +204,7 @@ https://leetcode.com/problemset/database/.
 Чтобы каждый раз не описывать создание этой сессии можно создать генератор сессий в **src/db/session.py**:
 ```python
 async def get_session() -> AsyncSession:
-    async with async_session() as session:
+    async with async_session_maker() as session:
         yield session
 ```
 
