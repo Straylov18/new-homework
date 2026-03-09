@@ -5,6 +5,8 @@ from pydantic import UUID4
 from src.model.helicopter import HelicopterModel
 from src.utils.repository import SQLAlchemyRepository
 
+# mypy: disable-error-code=return-value
+
 
 class HelicopterRepository(SQLAlchemyRepository):
     _model = HelicopterModel

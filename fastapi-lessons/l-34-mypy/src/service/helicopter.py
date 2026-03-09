@@ -14,7 +14,7 @@ class HelicopterService:
         output = await cls.helicopter_repository.get_one(uid=uid)
         if output is None:
             raise NotFoundException()
-        return output
+        return HelicopterOutput(**output.__dict__)
 
     @classmethod
     async def create(cls, body: HelicopterRegistration) -> HelicopterOutput:
