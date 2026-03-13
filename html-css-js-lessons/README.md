@@ -1,54 +1,44 @@
-# Курс уроков по созданию backend приложений с использованием fastapi
+# Курс по "нативной" фронтенд-разработке на основе базовых языков программирования 
+## Введение |00-01|
 
-## Урок 1
+- Базовое фронтенд приложение и как его запустить
+- Три кита фронтенда (html, css, js)
+- Базовое фронтенд приложение (магазин лабубу)
 
-Темы урока:
-- HTML
-- DOM дерево
-- Как браузер "видит" web страницы
-- Параметры html тегов
+## HTML |01-01|
 
-[Итоговый проект урока 1](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-01-html)
+- Концепция "тегов" в html и из чего состоит базовое фронтенд приложение
+- Атрибуты
+- Вложенность
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-01-html/README.md)
+## HTML |01-02|
 
-## Урок 2
+- Семантика - для чего она нужна и как ее соблюдать
+- Основные теги для работы
+    - body
+    - header
+    - ...
+    - ...
+    - ...
 
-Темы урока:
-- CSS
-- Свойство style
-- Свойство class
-- Единицы измерения в CSS
-- Переопределение параметров CSS классов во время событий
-- Свойство transition
+## CSS |02-01|
 
-[Итоговый проект урока 2](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-02-css)
+- Атрибут style, базовые свойства
+    - ...
+    - ...
+    - ...
+- ghstd1 добавь чето от себя, пару пунктов
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-02-css/README.md)
 
-## Урок 3
 
-Темы урока:
-- Переменные и типы данных в JS
-- Условия в JS
-- Листы, объекты в JS
-- Циклы в JS
-- Функции в JS
-- Объекты и OOP в JS
-- Изменение состояния страницы с помощью JS
+## JS |03-01|
 
-[Итоговый проект урока 3](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-03-js)
+- Переменные (const, let) `// думаю про var рассказывать не стоит, имхо`
+- Базовые инструменты для отладки (console.log, alert)
+- еще чето для введения
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-03-js/README.md)
 
-## Урок 4
-
-Темы урока:
-- Типизация в TS
-- Как реализуется совместимость TS с JS
-
-[Итоговый проект урока 4](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-04-ts)
-
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-04-ts/README.md)
-
-[//]: # (TODO дальнейшие уроки)
+```
+Пока что так, пока что представляю себе курс сначала по каждому языку 1-2 урока, потом смешивать это мб (инпуты, анимации, и тд)
+ Модно добавить что то от себя, накидал только примерную структуру как себе я это представляю 
+```
