@@ -102,3 +102,20 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-10-exception-handling/README.md)
 
+## Урок 11
+
+Темы урока:
+- Указание типов в python 
+- Модуль typing
+  - типизация для структур данных
+  - указание типов на выбор
+  - пользовательские типы
+  - шаблоны типов (дженерики)
+  - функция как тип
+  - перечисления возможных значений
+  - константы
+
+[Итоговый проект урока 11](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-11-typing)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/python-basics-lessons/l-11-typing/README.md)
+
