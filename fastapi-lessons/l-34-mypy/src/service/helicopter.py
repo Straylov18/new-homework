@@ -2,8 +2,9 @@ from pydantic import UUID4
 
 from src.exception.common import NotFoundException
 from src.repository.helicopter import HelicopterRepository
-from src.schema.helicopter import DBHelicopter, HelicopterRegistration
-from src.schema.outputs import HelicopterOutput
+from src.schema.helicopter import (DBHelicopter, HelicopterFilter,
+                                   HelicopterRegistration)
+from src.schema.outputs import HelicopterListedOutput, HelicopterOutput
 
 
 class HelicopterService:
@@ -15,6 +16,22 @@ class HelicopterService:
         if output is None:
             raise NotFoundException()
         return HelicopterOutput(**output.__dict__)
+
+    @classmethod
+    async def get_list(cls, filter: HelicopterFilter) -> HelicopterListedOutput:
+        filter_dict = filter.model_dump(exclude_unset=True)
+        output_list = await cls.helicopter_repository.get_list(
+            **filter_dict
+        )
+        output_count = await cls.helicopter_repository.get_count(
+            **filter_dict
+        )
+
+        output = HelicopterListedOutput(
+            items=[o.get_output_schema() for o in output_list],
+            count=output_count
+        )
+        return output
 
     @classmethod
     async def create(cls, body: HelicopterRegistration) -> HelicopterOutput:

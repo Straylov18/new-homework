@@ -1,27 +1,31 @@
-from typing import Any, Dict, Sequence
+from typing import Any, Dict
 
-from pydantic import UUID4
+from sqlalchemy import Select
 
 from src.model.helicopter import HelicopterModel
-from src.utils.repository import SQLAlchemyRepository
-
-# mypy: disable-error-code=return-value
+from src.repository.base_repository import SQLAlchemyRepository
 
 
-class HelicopterRepository(SQLAlchemyRepository):
+class HelicopterRepository(SQLAlchemyRepository[HelicopterModel]):
     _model = HelicopterModel
 
-    async def add_one(self, data: Dict[str, Any]) -> HelicopterModel:
-        return await super().add_one(data)
-
-    async def get_one(self, **filter_by: Any) -> HelicopterModel:
-        return await super().get_one(**filter_by)
-
-    async def get_list(self, limit: int, offset: int, **filter_by: Any) -> Sequence[HelicopterModel]:
-        return await super().get_list(limit, offset, **filter_by)
-
-    async def delete_one(self, **filter_by: Any) -> HelicopterModel:
-        return await super().delete_one(**filter_by)
-
-    async def update_one(self, uid: UUID4, update_data: Dict[str, Any]) -> HelicopterModel:
-        return await super().update_one(uid, update_data)
+    def _get_filtered_query(self, query: Select[tuple[HelicopterModel]],
+                            filter_attributes: Dict[str, Any]) -> Select[tuple[HelicopterModel]]:
+        filtered_query = query
+        if filter_attributes.get('search_str', '') != '':
+            search_str = filter_attributes.get('search_str', '')
+            filtered_query = filtered_query.filter(
+                HelicopterModel.model_title.ilike(f'%{search_str}%')
+            )
+        # date
+        if filter_attributes.get('registration_date_lte', '') != '':
+            registration_date_lte = filter_attributes['registration_date_lte']
+            filtered_query = filtered_query.filter(
+                HelicopterModel.registration_date <= registration_date_lte
+            )
+        if filter_attributes.get('registration_date_gte', '') != '':
+            registration_date_gte = filter_attributes['registration_date_gte']
+            filtered_query = filtered_query.filter(
+                HelicopterModel.registration_date >= registration_date_gte
+            )
+        return filtered_query
