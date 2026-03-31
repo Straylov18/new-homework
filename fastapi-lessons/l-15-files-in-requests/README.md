@@ -185,3 +185,38 @@ async def get_file_streaming(filename: str) -> StreamingResponse:
 
 Достаточно часто подобный способ потокового скачивания реализуют для отправки видео, аудио 
 (чтобы проигрыватель мог запустить их сразу, не дожидаясь полного скачивания).
+
+### Передача файлов через multipart
+
+Однако просто так нельзя передать и сам файл и набор текстовых полей.
+
+multipart/form-data — специальный формат кодирования данных, 
+который используется для отправки файлов и других форм данных через HTTP-запросы. 
+Особенно актуален при работе с формами, 
+где требуется передать одновременно текстовые данные и файлы.
+
+При передаче через multipart данные разделяются на части (parts), 
+каждая из которых может содержать данные разных типов и форматов.
+Каждый такой блок имеет собственную метаинформацию, 
+включая заголовки Content-Type и Content-Disposition, 
+что позволяет серверу корректно интерпретировать содержимое.
+
+Например, мы можем загрузить файл и сразу передать еще пару значений в том же запросе
+(в данном примере передаются также названия, под которыми стоит записать файл на диск):
+```python
+from typing import Annotated
+from fastapi import File, Form, UploadFile
+
+@router.post('/upload_file_multipart')
+async def upload_file(
+        new_filename: Annotated[str, Form(description="Как записать файл на диск")],
+        backup_filename: Annotated[str, Form(description="Дублирующийся файл на диске")],
+        upload_file: Annotated[UploadFile, File(description="Сам файл")]
+):
+    file = upload_file.file
+    with open(get_file_path(new_filename), "wb") as f:
+        f.write(file.read())
+    with open(get_file_path(backup_filename), "wb") as f:
+        f.write(file.read())
+    return "File uploaded"
+```

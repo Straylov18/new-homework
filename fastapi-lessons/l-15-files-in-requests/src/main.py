@@ -1,5 +1,7 @@
 import uvicorn
-from fastapi import FastAPI, UploadFile
+
+from typing import Annotated
+from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.responses import StreamingResponse, FileResponse
 from fastapi.routing import APIRouter
 
@@ -24,6 +26,20 @@ async def upload_file(upload_file: UploadFile):
     file = upload_file.file
     filename = upload_file.filename
     with open(get_file_path(filename), "wb") as f:
+        f.write(file.read())
+    return "File uploaded"
+
+
+@router.post('/upload_file_multipart')
+async def upload_file(
+        new_filename: Annotated[str, Form(description="Как записать файл на диск")],
+        backup_filename: Annotated[str, Form(description="Дублирующийся файл на диске")],
+        upload_file: Annotated[UploadFile, File(description="Upload a file")]
+):
+    file = upload_file.file
+    with open(get_file_path(new_filename), "wb") as f:
+        f.write(file.read())
+    with open(get_file_path(backup_filename), "wb") as f:
         f.write(file.read())
     return "File uploaded"
 

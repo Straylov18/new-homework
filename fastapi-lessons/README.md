@@ -162,6 +162,7 @@
 - Получение одного или нескольких файлов
 - Отправка файлов
 - Потоковая отправка файлов
+- multipart передача данных
 
 [Итоговый проект урока 15](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-15-files-in-requests)
 
