@@ -1,54 +1,56 @@
-# Курс уроков по созданию backend приложений с использованием fastapi
+# 🗺️ Roadmap: Введение во фронтенд (HTML + CSS)
 
-## Урок 1
+## 1. [Введение в профессию и основы веба](./|-00-00-basics|/README.md)
+- **Что делает фронтенд-разработчик:** верстка, адаптив, логика, работа с сервером, оптимизация.
+- **Три кита веб-разработки:**
+  - `HTML` — скелет (структура).
+  - `CSS` — внешность (стили).
+  - `JavaScript` — логика и взаимодействие.
+- **Практика:** создание простой карточки товара с кнопкой и балансом (JS).
 
-Темы урока:
-- HTML
-- DOM дерево
-- Как браузер "видит" web страницы
-- Параметры html тегов
+## 2. [Основы HTML (часть 1)](./l-01-01-html/README.md)
+- Создание первого HTML-документа (`index.html`).
+- Понятие **тегов** (тэгов), их структура:
+  - Название, атрибуты, содержимое, закрывающий тег.
+- Базовая структура документа:
+  - `<!DOCTYPE html>`, `<html>`, `<head>`, `<body>`.
+- Кодировка, метатег viewport, заголовок страницы (`<title>`).
+- **Вложенность тегов** (группировка, списки, обертки).
 
-[Итоговый проект урока 1](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-01-html)
+## 3. [Основы HTML (часть 2) — семантические теги](./l-01-02-html/README.md)
+- **Базовый контейнер:** `<div>`.
+- **Структура страницы:**
+  - `<header>` — шапка.
+  - `<main>` — основной контент.
+  - `<footer>` — подвал.
+  - `<section>` — разделы внутри `<main>`.
+- **Заголовки:** `<h1>` – `<h6>` (размер и значимость).
+- **Ссылки:** `<a href="...">`.
+- **Изображения:** `<img src="..." alt="...">`.
+- **Семантическая верстка** (почему важно использовать теги по назначению).
 
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-01-html/README.md)
+## 4. [Основы HTML (часть 3) — DOM и поток документа](./l-01-03-html/README.md)
+- **DOM (Document Object Model):** древовидная структура элементов.
+- **Поток документа:**
+  - Направление: сверху вниз, слева направо.
+  - **Блочные элементы** (занимают всю ширину).
+  - **Строчные элементы** (только по ширине контента).
 
-## Урок 2
+## 5. [Основы CSS (часть 1)](./l-02-css/README.md)
+- **Что такое CSS:** каскадные таблицы стилей.
+- **Способы подключения стилей:**
+  - Inline (`style="..."`).
+  - Тег `<style>` в HTML.
+  - Отдельный файл `style.css` + `<link>`.
+- **Правило CSS:** селектор + свойства.
+- **Типы селекторов:**
+  - По тегу (`div`).
+  - По классу (`.класс`).
+  - По id (`#id`).
+- **Комбинированные селекторы:**
+  - Вложенность (`.parent .child`).
+  - Группировка (`.class1, .class2`).
+  - Оба условия сразу (`div.class`).
+- **Основные стили:** `width`, `height`, `background-color`, `font-size`, `color`, `margin`, `padding`, `border`, `border-radius`, `box-shadow`.
 
-Темы урока:
-- CSS
-- Свойство style
-- Свойство class
-- Единицы измерения в CSS
-- Переопределение параметров CSS классов во время событий
-- Свойство transition
-
-[Итоговый проект урока 2](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-02-css)
-
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-02-css/README.md)
-
-## Урок 3
-
-Темы урока:
-- Переменные и типы данных в JS
-- Условия в JS
-- Листы, объекты в JS
-- Циклы в JS
-- Функции в JS
-- Объекты и OOP в JS
-- Изменение состояния страницы с помощью JS
-
-[Итоговый проект урока 3](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-03-js)
-
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-03-js/README.md)
-
-## Урок 4
-
-Темы урока:
-- Типизация в TS
-- Как реализуется совместимость TS с JS
-
-[Итоговый проект урока 4](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-04-ts)
-
-[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/html-css-js-lessons/l-04-ts/README.md)
-
-[//]: # (TODO дальнейшие уроки)
+## 6. [В следующих сериях...]()

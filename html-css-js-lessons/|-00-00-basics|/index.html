@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="card">
+        <img src="https://avatars.mds.yandex.net/get-mpic/15462703/2a00000197e6e53132f8cf7296134d79fb14/orig" alt="">
+        <h3>Лабубу тропическая</h3>
+        <p><strong>1999р</strong></p>
+        <button onclick="buyALabubu(1999)">Купить сейчас</button>
+    </div>
+</body>
+
+<script>
+
+let balance = 10000 // изначальный баланс пользователя
+
+function buyALabubu(cost) { // функция, обертка для кода, чтобы можно было ее вызвать 
+    if (balance >= cost) { // проверяем, хватает ли денег на покупку
+        balance -= cost // вычитаем стоимость из баланса
+        alert('Покупка успешна! Ваш новый баланс: ' + balance) // уведомляем пользователя об успешной покупке и показываем новый баланс
+    } else {
+        alert('Недостаточно средств для покупки! Ваш баланс: ' + balance) // уведомляем пользователя о недостатке средств и показываем текущий баланс
+    }
+}
+
+</script>
+
+<style>
+
+.card{
+    font-family: 'Segoe UI';
+    width: fit-content;
+    background-color: rgb(170, 96, 0);
+    padding: 10px;
+    border-radius: 20px;
+}
+.card img{
+    width: 200px;
+    border-radius: 20px;
+}
+.card h3,p{
+    margin: 5px 0;
+}
+.card button{
+    width: 100%;
+    border: 0;
+    border-radius: 20px;
+    background-color: rgb(255, 185, 93);
+}
+.card button:active{
+    background-color: rgb(255, 208, 146);
+}
+</style>
+
+</html>
