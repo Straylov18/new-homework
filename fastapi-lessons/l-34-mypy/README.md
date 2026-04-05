@@ -69,6 +69,12 @@ name = "sqlalchemy.ext.mypy.plugin"  # for SQLAlchemy
 # mypy: disable-error-code=return-value
 ```
 
+Можно также временно отключить проверки для конкретной строки при помощи комментария 
+`# type: ignore[список ошибок через запятую]`:
+```python
+x: int = 'str'  # type: ignore[valid-type]
+```
+
 Естественно mypy можно и нужно использовать с другими библиотеками для проверки кода 
 (например линтерами вроде flake8 или ruff).
 Также mypy проверки тоже можно смело добавлять в CI.
