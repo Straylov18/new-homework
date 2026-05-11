@@ -385,3 +385,39 @@ LIMIT 20;
 ```postgresql
 SELECT pg_stat_statements_reset();
 ```
+
+### Статистика для postgres в docker
+
+При запуске докер контейнера, пропихивать в него **postgresql.conf** целиком неудобно, 
+поэтому при для использования статистики postgres, 
+запущенного внутри docker контейнера легче всего прокидывать эти настройки через параметры запуска postgres.
+
+Так, например при запуске postgres контейнера из командной строки можно использовать следующую команду:
+```shell
+docker run -d \
+  -p 5435:5432 \
+  -e POSTGRES_PASSWORD=master \
+  postgres:16 \
+  postgres -c shared_preload_libraries=pg_stat_statements \
+            -c pg_stat_statements.track=all \
+            -c pg_stat_statements.max=10000 \
+            -c pg_stat_statements.save=on
+```
+
+При запуске через **docker-compose.yml** файл это будет выглядеть:
+```yaml
+---
+services:
+  postgres:
+    image: postgres:16
+    command:
+      - postgres
+      - -c
+      - shared_preload_libraries=pg_stat_statements
+      - -c
+      - pg_stat_statements.track=all
+      - -c
+      - pg_stat_statements.max=10000
+      - -c
+      - pg_stat_statements.save=on
+```
