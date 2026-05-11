@@ -57,7 +57,7 @@ class MetricsMiddleware(BaseHTTPMiddleware):
 
         # separate errors counting
         status_code = response.status_code
-        if 400 <= status_code <= 500:
+        if 400 <= status_code < 500:
             http_errors_4xx_total.labels(endpoint=path, status_code=str(status_code)).inc()
         elif status_code >= 500:
             http_errors_5xx_total.labels(endpoint=path, status_code=str(status_code)).inc()

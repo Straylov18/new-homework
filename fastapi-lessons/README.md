@@ -329,5 +329,18 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-34-mypy/README.md)
 
+## Урок 35
+
+Темы урока:
+- использование пакетного менеджера uv
+- сбор метрик через prometheus
+- выдача основных метрик о запросах с бэкенда
+- сбор метрик бизнес логики
+- дашборды grafana, их импорты, настройка и загрузка по умолчанию
+
+[Итоговый проект урока 35](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-35-monitoring)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-35-monitoring/README.md)
+
 
 [//]: # (TODO дальнейшие уроки)
