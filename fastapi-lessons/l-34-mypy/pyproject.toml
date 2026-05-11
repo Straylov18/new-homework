@@ -1,9 +1,9 @@
 [project]
-name = "connections-reminder"
+name = "l-34-task-scheduling"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "Shishkin Sergey",email = "shishkinsergeydmitrievich@gmail.com"}
+    {name = "Your Name", email = "you@example.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.10"
