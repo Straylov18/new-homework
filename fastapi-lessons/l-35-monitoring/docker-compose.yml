@@ -65,13 +65,13 @@ services:
     container_name: grafana
     restart: unless-stopped
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
 #      - GF_SERVER_ROOT_URL=/grafana  # for nginx reverse proxy
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=false
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+#      - GF_AUTH_ANONYMOUS_ENABLED=true  # for no pass login
+#      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - TZ=${SYSTEM_TIMEZONE:-Europe/Moscow}
-      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/web-app-load-dashboard.json
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources

@@ -36,6 +36,8 @@ compose_up_rebuild: compose_stop compose_rebuild
 
 .PHONY: ab
 ab:
+	# успешные запросы на получение версии приложения
+	ab -k -c 10 -n 1000 http://localhost:8000/api/v1/app-info/versions
 	# успешные запросы на получение мемов
 	ab -k -c 10 -n 2000 http://localhost:8000/api/v1/meme/1
 	ab -k -c 10 -n 2000 http://localhost:8000/api/v1/meme/2
