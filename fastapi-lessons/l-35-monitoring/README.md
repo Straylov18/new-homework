@@ -195,7 +195,96 @@ http_requests_total = Counter(
   (будет писаться сразу несколько кучек под разные наборы разных меток)
 - `registry=RegistryContainer.registry()` - указываем в каком registry их хранить
 
-[//]: # (TODO middleware)
+В файле **middleware.py** напишем middleware класс, 
+который будет обрабатывать все эти метрики перед каждым запросом:
+```python
+import time
+from typing import Awaitable, Callable
+
+from fastapi import FastAPI, Request, Response, status
+from starlette.middleware.base import BaseHTTPMiddleware
+
+from src.metrics.http_requests import (api_calls_total, http_errors_4xx_total,
+                                       http_errors_5xx_total,
+                                       http_request_duration_seconds,
+                                       http_requests_total)
+
+
+class MetricsMiddleware(BaseHTTPMiddleware):
+    def __init__(self, app: FastAPI) -> None:
+        super().__init__(app)
+
+    async def dispatch(self, request: Request, call_next: Callable[[Request], Awaitable[Response]]) -> Response:
+        # executing request
+        start_time = time.time()
+        try:
+            response = await call_next(request)
+        except Exception as e:
+            response = Response(
+                content=str(e),
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                media_type="text/plain"
+            )
+        duration = time.time() - start_time
+
+        path = request.url.path
+        # normalize paths: /api/v1/activities/12345 -> /api/v1/activities/{uid}
+        if path.startswith('/api/v1/'):
+            parts = path.split('/')
+            if len(parts) > 4 and parts[4].isdigit():
+                parts[4] = '{uid}'
+                path = '/'.join(parts)
+
+        # collecting metrics
+        http_requests_total.labels(
+            method=request.method,
+            endpoint=path,
+            status_code=str(response.status_code)
+        ).inc()
+
+        http_request_duration_seconds.labels(
+            method=request.method,
+            endpoint=path
+        ).observe(duration)
+
+        # tracking API calls
+        if path.startswith('/api/v1/'):
+            if len(path.split('/')) > 3:
+                api_type = path.split('/')[3]
+            else:
+                api_type = 'unknown'
+            api_calls_total.labels(api_type=api_type).inc()
+
+        # separate errors counting
+        status_code = response.status_code
+        if 400 <= status_code < 500:
+            http_errors_4xx_total.labels(endpoint=path, status_code=str(status_code)).inc()
+        elif status_code >= 500:
+            http_errors_5xx_total.labels(endpoint=path, status_code=str(status_code)).inc()
+
+        return response
+```
+Здесь в `dispatch` методе мы (подряд по блокам кода):
+- рассчитываем время запроса и в случае необработанной ошибки корректно обрабатываем ее как 500-ю, 
+  чтоб код ниже этого блока не пропускался
+- нормализуем пути 
+  (чтобы в метрики пути с разными id для одинаковых сущностей не писались с разными метками)
+- накручиваем `http_requests_total` метрику,
+  ранжируя ее по необходимым меткам 
+  (конкретно тут по типу запроса, пути запроса и по коду ответа)
+- накапливаем статистику в метрике `http_request_duration_seconds` 
+  (опять же разбивая на группы с учетом меток)
+- накручиваем `api_calls_total` метрику, 
+  учитывая лишь первую часть префикса пути, 
+  которая в данном приложении отвечает за тип сущности (с которой взаимодействуем)
+- накручиваем `http_errors_4xx_total` и `http_errors_5xx_total` метрики
+
+В **src/main.py** теперь нужно подключить получившийся middleware класс:
+```python
+app.add_middleware(MetricsMiddleware)
+```
+
+#### Метрики бизнес логики
 
 Также опишем метрики для анализа поведения пользователей (бизнес метрики):
 ```python
@@ -216,26 +305,12 @@ user_logins_succeed_total = Counter(
     'Total number of successful user logins',
     registry=RegistryContainer.registry()
 )
-
-# --- joke / meme endpoints ---
-
-joke_responses_total = Counter(
-    'joke_get_total',
-    'Total number of GET requests for "/joke" endpoints',
-    registry=RegistryContainer.registry()
-)
-
-meme_responses_total = Counter(
-    'meme_get_total',
-    'Total number of GET requests for "/meme" endpoints',
-    registry=RegistryContainer.registry()
-)
 ```
 Здесь в качестве метрик собираются:
 - `user_logins_total` - общее количество попыток входа в систему
 - `user_logins_succeed_total` - общее количество успешных входов в систему
-- `joke_responses_total` - общее количество запросов на получение шуток
-- `meme_responses_total` - общее количество запросов на получение мемов
+
+в зависимости от приложения так-то можно собирать какие угодно метрики бизнес логики.
 
 #### Расчет метрик при обработке ручек
 
@@ -267,8 +342,344 @@ async def get_meme(id: int) -> str:
     return memes[id]
 ```
 
-Таким образом 
+Для ручки логина же будем собирать метрики при инициации запроса и в случае успешной его обработки.
+Опишем ручку логина в **src/route/user.py**:
+```python
+from fastapi import Response
+from fastapi.routing import APIRouter
 
+from src.config import settings
+from src.exception.common import ForbiddenException
+from src.metrics.business_logic import (user_logins_succeed_total,
+                                        user_logins_total)
+from src.schema.user import UserLogin
+from src.utils.auth import create_access_token
+
+router = APIRouter(prefix="/user")
+
+
+@router.post('/login',
+             response_model=str,
+             responses={
+                 403: {"description": "Incorrect login or password"}
+             })
+async def login(body: UserLogin, response: Response) -> str:
+    # инкрементируем колическво логинов в систему
+    user_logins_total.inc()
+
+    if body.login != settings.ADMIN_LOGIN or body.password != settings.ADMIN_PASSWORD:
+        raise ForbiddenException(reason="Incorrect login or password", action="login")
+    jwt_token_data = {
+        "user_login": str(settings.ADMIN_LOGIN),
+    }
+    jwt_token = create_access_token(jwt_token_data)
+    response.set_cookie("access_token", jwt_token)
+
+    # инкрементируем колическво успешных логинов в систему
+    user_logins_succeed_total.inc()
+
+    return "Login succeeded"
+
+
+@router.post("/logout")
+async def logout(response: Response) -> str:
+    response.delete_cookie(key="access_token")
+    return "Logout succeeded"
+```
+
+И теперь опишем собственно ручку для получения всех текущих метрик бэкенд приложения:
+```python
+from fastapi.responses import PlainTextResponse
+from fastapi.routing import APIRouter
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
+
+from src.metrics.container.collector_container import RegistryContainer
+
+router = APIRouter(prefix="/app-info")
+
+
+@router.get("/metrics")
+async def metrics() -> PlainTextResponse:
+    """Prometheus metrics endpoint"""
+    return PlainTextResponse(
+        generate_latest(RegistryContainer.registry()),
+        media_type=CONTENT_TYPE_LATEST
+    )
+```
+Здесь `PlainTextResponse` переведет текущие метрики нашего registry
+(`generate_latest(RegistryContainer.registry())`) 
+в формат понятный для prometheus.
+
+Формат этот будет выглядеть примерно так:
+```
+# HELP http_requests_total Total number of HTTP requests
+# TYPE http_requests_total counter
+http_requests_total{endpoint="/api/v1/app-info/versions",method="GET",status_code="200"} 21.0
+http_requests_total{endpoint="/api/v1/app-info/metrics",method="GET",status_code="200"} 44.0
+http_requests_total{endpoint="/api/v1/docs",method="GET",status_code="200"} 1.0
+http_requests_total{endpoint="/api/v1/openapi.json",method="GET",status_code="200"} 1.0
+http_requests_total{endpoint="/api/v1/meme/{uid}",method="GET",status_code="404"} 8000.0
+http_requests_total{endpoint="/api/v1/joke/{uid}",method="GET",status_code="200"} 6000.0
+http_requests_total{endpoint="/api/v1/joke/{uid}",method="GET",status_code="500"} 2000.0
+http_requests_total{endpoint="/api/v1/user/login",method="GET",status_code="405"} 2000.0
+# HELP http_requests_created Total number of HTTP requests
+# TYPE http_requests_created gauge
+http_requests_created{endpoint="/api/v1/app-info/versions",method="GET",status_code="200"} 1.7785485936905015e+09
+http_requests_created{endpoint="/api/v1/app-info/metrics",method="GET",status_code="200"} 1.7785485943666394e+09
+http_requests_created{endpoint="/api/v1/docs",method="GET",status_code="200"} 1.7785485967953575e+09
+http_requests_created{endpoint="/api/v1/openapi.json",method="GET",status_code="200"} 1.7785485980294118e+09
+http_requests_created{endpoint="/api/v1/meme/{uid}",method="GET",status_code="404"} 1.778548680642148e+09
+http_requests_created{endpoint="/api/v1/joke/{uid}",method="GET",status_code="200"} 1.7785486945187416e+09
+http_requests_created{endpoint="/api/v1/joke/{uid}",method="GET",status_code="500"} 1.778548706303784e+09
+http_requests_created{endpoint="/api/v1/user/login",method="GET",status_code="405"} 1.7785487098675182e+09
+# HELP http_request_duration_seconds HTTP request duration in seconds
+# TYPE http_request_duration_seconds histogram
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/versions",le="0.005",method="GET"} 19.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/versions",le="0.01",method="GET"} 21.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/versions",le="0.025",method="GET"} 21.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/versions",le="0.05",method="GET"} 21.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/versions",le="0.075",method="GET"} 21.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/versions",le="0.1",method="GET"} 21.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/versions",le="0.25",method="GET"} 21.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/versions",le="0.5",method="GET"} 21.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/versions",le="0.75",method="GET"} 21.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/versions",le="1.0",method="GET"} 21.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/versions",le="2.5",method="GET"} 21.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/versions",le="5.0",method="GET"} 21.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/versions",le="7.5",method="GET"} 21.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/versions",le="10.0",method="GET"} 21.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/versions",le="+Inf",method="GET"} 21.0
+http_request_duration_seconds_count{endpoint="/api/v1/app-info/versions",method="GET"} 21.0
+http_request_duration_seconds_sum{endpoint="/api/v1/app-info/versions",method="GET"} 0.0256807804107666
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/metrics",le="0.005",method="GET"} 32.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/metrics",le="0.01",method="GET"} 44.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/metrics",le="0.025",method="GET"} 44.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/metrics",le="0.05",method="GET"} 44.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/metrics",le="0.075",method="GET"} 44.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/metrics",le="0.1",method="GET"} 44.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/metrics",le="0.25",method="GET"} 44.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/metrics",le="0.5",method="GET"} 44.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/metrics",le="0.75",method="GET"} 44.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/metrics",le="1.0",method="GET"} 44.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/metrics",le="2.5",method="GET"} 44.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/metrics",le="5.0",method="GET"} 44.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/metrics",le="7.5",method="GET"} 44.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/metrics",le="10.0",method="GET"} 44.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/app-info/metrics",le="+Inf",method="GET"} 44.0
+http_request_duration_seconds_count{endpoint="/api/v1/app-info/metrics",method="GET"} 44.0
+http_request_duration_seconds_sum{endpoint="/api/v1/app-info/metrics",method="GET"} 0.19114351272583008
+http_request_duration_seconds_bucket{endpoint="/api/v1/docs",le="0.005",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/docs",le="0.01",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/docs",le="0.025",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/docs",le="0.05",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/docs",le="0.075",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/docs",le="0.1",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/docs",le="0.25",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/docs",le="0.5",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/docs",le="0.75",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/docs",le="1.0",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/docs",le="2.5",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/docs",le="5.0",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/docs",le="7.5",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/docs",le="10.0",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/docs",le="+Inf",method="GET"} 1.0
+http_request_duration_seconds_count{endpoint="/api/v1/docs",method="GET"} 1.0
+http_request_duration_seconds_sum{endpoint="/api/v1/docs",method="GET"} 0.0004894733428955078
+http_request_duration_seconds_bucket{endpoint="/api/v1/openapi.json",le="0.005",method="GET"} 0.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/openapi.json",le="0.01",method="GET"} 0.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/openapi.json",le="0.025",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/openapi.json",le="0.05",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/openapi.json",le="0.075",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/openapi.json",le="0.1",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/openapi.json",le="0.25",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/openapi.json",le="0.5",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/openapi.json",le="0.75",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/openapi.json",le="1.0",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/openapi.json",le="2.5",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/openapi.json",le="5.0",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/openapi.json",le="7.5",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/openapi.json",le="10.0",method="GET"} 1.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/openapi.json",le="+Inf",method="GET"} 1.0
+http_request_duration_seconds_count{endpoint="/api/v1/openapi.json",method="GET"} 1.0
+http_request_duration_seconds_sum{endpoint="/api/v1/openapi.json",method="GET"} 0.011320114135742188
+http_request_duration_seconds_bucket{endpoint="/api/v1/meme/{uid}",le="0.005",method="GET"} 4180.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/meme/{uid}",le="0.01",method="GET"} 7969.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/meme/{uid}",le="0.025",method="GET"} 7971.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/meme/{uid}",le="0.05",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/meme/{uid}",le="0.075",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/meme/{uid}",le="0.1",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/meme/{uid}",le="0.25",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/meme/{uid}",le="0.5",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/meme/{uid}",le="0.75",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/meme/{uid}",le="1.0",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/meme/{uid}",le="2.5",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/meme/{uid}",le="5.0",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/meme/{uid}",le="7.5",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/meme/{uid}",le="10.0",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/meme/{uid}",le="+Inf",method="GET"} 8000.0
+http_request_duration_seconds_count{endpoint="/api/v1/meme/{uid}",method="GET"} 8000.0
+http_request_duration_seconds_sum{endpoint="/api/v1/meme/{uid}",method="GET"} 41.125821113586426
+http_request_duration_seconds_bucket{endpoint="/api/v1/joke/{uid}",le="0.005",method="GET"} 4133.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/joke/{uid}",le="0.01",method="GET"} 7894.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/joke/{uid}",le="0.025",method="GET"} 7960.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/joke/{uid}",le="0.05",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/joke/{uid}",le="0.075",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/joke/{uid}",le="0.1",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/joke/{uid}",le="0.25",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/joke/{uid}",le="0.5",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/joke/{uid}",le="0.75",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/joke/{uid}",le="1.0",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/joke/{uid}",le="2.5",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/joke/{uid}",le="5.0",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/joke/{uid}",le="7.5",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/joke/{uid}",le="10.0",method="GET"} 8000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/joke/{uid}",le="+Inf",method="GET"} 8000.0
+http_request_duration_seconds_count{endpoint="/api/v1/joke/{uid}",method="GET"} 8000.0
+http_request_duration_seconds_sum{endpoint="/api/v1/joke/{uid}",method="GET"} 40.22812843322754
+http_request_duration_seconds_bucket{endpoint="/api/v1/user/login",le="0.005",method="GET"} 1438.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/user/login",le="0.01",method="GET"} 1990.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/user/login",le="0.025",method="GET"} 1995.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/user/login",le="0.05",method="GET"} 2000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/user/login",le="0.075",method="GET"} 2000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/user/login",le="0.1",method="GET"} 2000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/user/login",le="0.25",method="GET"} 2000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/user/login",le="0.5",method="GET"} 2000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/user/login",le="0.75",method="GET"} 2000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/user/login",le="1.0",method="GET"} 2000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/user/login",le="2.5",method="GET"} 2000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/user/login",le="5.0",method="GET"} 2000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/user/login",le="7.5",method="GET"} 2000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/user/login",le="10.0",method="GET"} 2000.0
+http_request_duration_seconds_bucket{endpoint="/api/v1/user/login",le="+Inf",method="GET"} 2000.0
+http_request_duration_seconds_count{endpoint="/api/v1/user/login",method="GET"} 2000.0
+http_request_duration_seconds_sum{endpoint="/api/v1/user/login",method="GET"} 9.320150375366211
+# HELP http_request_duration_seconds_created HTTP request duration in seconds
+# TYPE http_request_duration_seconds_created gauge
+http_request_duration_seconds_created{endpoint="/api/v1/app-info/versions",method="GET"} 1.778548593690554e+09
+http_request_duration_seconds_created{endpoint="/api/v1/app-info/metrics",method="GET"} 1.7785485943666859e+09
+http_request_duration_seconds_created{endpoint="/api/v1/docs",method="GET"} 1.7785485967954128e+09
+http_request_duration_seconds_created{endpoint="/api/v1/openapi.json",method="GET"} 1.778548598029489e+09
+http_request_duration_seconds_created{endpoint="/api/v1/meme/{uid}",method="GET"} 1.7785486806421945e+09
+http_request_duration_seconds_created{endpoint="/api/v1/joke/{uid}",method="GET"} 1.7785486945188067e+09
+http_request_duration_seconds_created{endpoint="/api/v1/user/login",method="GET"} 1.778548709867564e+09
+# HELP api_calls_total Total number of API calls by type
+# TYPE api_calls_total counter
+api_calls_total{api_type="app-info"} 65.0
+api_calls_total{api_type="docs"} 1.0
+api_calls_total{api_type="openapi.json"} 1.0
+api_calls_total{api_type="meme"} 8000.0
+api_calls_total{api_type="joke"} 8000.0
+api_calls_total{api_type="user"} 2000.0
+# HELP api_calls_created Total number of API calls by type
+# TYPE api_calls_created gauge
+api_calls_created{api_type="app-info"} 1.7785485936906946e+09
+api_calls_created{api_type="docs"} 1.7785485967954996e+09
+api_calls_created{api_type="openapi.json"} 1.7785485980295885e+09
+api_calls_created{api_type="meme"} 1.778548680642281e+09
+api_calls_created{api_type="joke"} 1.7785486945188985e+09
+api_calls_created{api_type="user"} 1.7785487098676503e+09
+# HELP http_errors_4xx_total Total number of 4xx HTTP errors
+# TYPE http_errors_4xx_total counter
+http_errors_4xx_total{endpoint="/api/v1/meme/{uid}",status_code="404"} 8000.0
+http_errors_4xx_total{endpoint="/api/v1/user/login",status_code="405"} 2000.0
+# HELP http_errors_4xx_created Total number of 4xx HTTP errors
+# TYPE http_errors_4xx_created gauge
+http_errors_4xx_created{endpoint="/api/v1/meme/{uid}",status_code="404"} 1.7785486806423042e+09
+http_errors_4xx_created{endpoint="/api/v1/user/login",status_code="405"} 1.7785487098677707e+09
+# HELP http_errors_5xx_total Total number of 5xx HTTP errors
+# TYPE http_errors_5xx_total counter
+http_errors_5xx_total{endpoint="/api/v1/joke/{uid}",status_code="500"} 2000.0
+# HELP http_errors_5xx_created Total number of 5xx HTTP errors
+# TYPE http_errors_5xx_created gauge
+http_errors_5xx_created{endpoint="/api/v1/joke/{uid}",status_code="500"} 1.778548706303846e+09
+# HELP user_logins_total Total number of user logins
+# TYPE user_logins_total counter
+user_logins_total 0.0
+# HELP user_logins_created Total number of user logins
+# TYPE user_logins_created gauge
+user_logins_created 1.7785485935033152e+09
+# HELP user_logins_succeed_total Total number of successful user logins
+# TYPE user_logins_succeed_total counter
+user_logins_succeed_total 0.0
+# HELP user_logins_succeed_created Total number of successful user logins
+# TYPE user_logins_succeed_created gauge
+user_logins_succeed_created 1.778548593503362e+09
+```
+Здесь видно, что чем больше разнообразия в метках (лэйблах), 
+тем больше метрик собирается и отправляется в prometheus, 
+поэтому чтобы не забивать все ресурсы метриками, 
+лучше не добавлять лишние метки и метрики без необходимости.
+
+Теперь когда наше приложение способно выдавать метрики, 
+соберем их при помощи prometheus.
+
+## Настройка prometheus
+
+В данном проекте настройки prometheus будем подтягивать в docker контейнер через volume.
+В файле **prometheus/prometheus.yml** 
+опишем конфигурацию как часто и откуда запрашивать метрики:
+```yaml
+global:
+  scrape_interval: 20s
+  evaluation_interval: 20s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'api'
+    static_configs:
+      - targets: ['api-for-monitoring:8000']
+    scrape_interval: 15s
+    metrics_path: '/api/v1/app-info/metrics'
+```
+Здесь:
+- `scrape_interval: 20s` - задает интервал опроса метрик по умолчанию
+- `evaluation_interval: 20s` - задает интервал опроса метрик по умолчанию
+- в `scrape_configs` задаются все источники метрик и как именно их оттуда вытягивать 
+  (в данном случае будут вытягиваться метрики самого prometheus и нашего бэкенда, живущего в контейнере api-for-monitoring)
+- `- targets: ['localhost:9090']` - указывает на каких адресах находятся источники метрик
+- `metrics_path: '/api/v1/app-info/metrics'` - указывает по какому эндпоинту можно получать метрики get запросом на указанном адресе
+
+В **docker-compose.yml** файле prometheus будет задаваться следующим образом:
+```yaml
+---
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=240h'  # 10 days of history
+      - '--web.enable-lifecycle'
+    networks:
+      - monitoring-example
+
+networks:
+  monitoring-example:
+
+volumes:
+  prometheus_data:
+```
+Здесь:
+- мы открываем 9090 чтобы можно было делать к нему запросы извне 
+  (что в данной конфигурации не прям обязательно, поскольку все контейнеры будут в одной сети)
+- `./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml` - прокидываем конфиг через вольюм
+- при запуске явно указываем откуда брать конфиг через `'--config.file=/etc/prometheus/prometheus.yml'`
+- при запуске явно указываем где хранить полученные метрики `--storage.tsdb.path=/prometheus`
+- при запуске указываем за какой период времени хранить метрики `--storage.tsdb.retention.time=240h`
+  (метрики много весят, поэтому не всегда есть возможность хранить метрики за большое количество времени)
+- при запуске указываем, что конфиги могут перезагружаться автоматически без перезапуска `--web.enable-lifecycle`
+
+## Grafana
 
 [//]: # (TODO)
 
@@ -278,3 +689,44 @@ https://grafana.com/docs/grafana/latest/datasources/
 
 
 [//]: # (TODO dashboard for user_logins_total, user_logins_succeed_total, joke_responses_total, meme_responses_total)
+
+## Моделирование нагрузки через Apache Benchmark
+
+Чтобы смоделировать простенькую нагрузку на наше приложение, 
+воспользуемся утилитой **ab** (**Apache Benchmark**).
+
+С ее помощью можно создавать большое количество запросов за короткое время.
+
+Например, можно сделать по 10000 запросов на получение версии приложения с 10 клиентов:
+```shell
+ab -k -c 10 -n 10000 http://localhost:8000/api/v1/app-info/versions
+```
+
+Сделаем запросы и для остальных ручек:
+```shell
+# успешные запросы на получение мемов
+ab -k -c 10 -n 2000 http://localhost:8000/api/v1/meme/1
+ab -k -c 10 -n 2000 http://localhost:8000/api/v1/meme/2
+ab -k -c 10 -n 2000 http://localhost:8000/api/v1/meme/0
+# запросы на получение мемов, которые приведут к 500-й ошибке
+ab -k -c 10 -n 2000 http://localhost:8000/api/v1/meme/100
+
+# успешные запросы на получение шуток
+ab -k -c 10 -n 2000 http://localhost:8000/api/v1/joke/2
+ab -k -c 10 -n 2000 http://localhost:8000/api/v1/joke/0
+ab -k -c 10 -n 2000 http://localhost:8000/api/v1/joke/1
+# запросы на получение шуток, которые приведут к 500-й ошибке
+ab -k -c 10 -n 2000 http://localhost:8000/api/v1/joke/100
+
+# запросы на логин, которые приведут к 422-й ошибке
+ab -k -c 10 -n 2000 http://localhost:8000/api/v1/user/login
+```
+Теперь мы набрали некоторую статистику о запросах в нашем **prometheus** модуле.
+
+Прогнав все эти команды, 
+можно будет легко оценить как метрики по разным запросам отображаются на дашбордах.
+
+В этом приложении для удобства команды Apache Benchmark обернуты в make команду:
+```shell
+make ab
+```

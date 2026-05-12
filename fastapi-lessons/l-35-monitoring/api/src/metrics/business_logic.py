@@ -15,17 +15,3 @@ user_logins_succeed_total = Counter(
     'Total number of successful user logins',
     registry=RegistryContainer.registry()
 )
-
-# --- joke / meme endpoints ---
-
-joke_responses_total = Counter(
-    'joke_get_total',
-    'Total number of GET requests for "/joke" endpoints',
-    registry=RegistryContainer.registry()
-)
-
-meme_responses_total = Counter(
-    'meme_get_total',
-    'Total number of GET requests for "/meme" endpoints',
-    registry=RegistryContainer.registry()
-)

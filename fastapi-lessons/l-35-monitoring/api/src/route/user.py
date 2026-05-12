@@ -17,7 +17,7 @@ router = APIRouter(prefix="/user")
                  403: {"description": "Incorrect login or password"}
              })
 async def login(body: UserLogin, response: Response) -> str:
-    # Добавляем счетчик логинов в систему
+    # инкрементируем колическво логинов в систему
     user_logins_total.inc()
 
     if body.login != settings.ADMIN_LOGIN or body.password != settings.ADMIN_PASSWORD:
@@ -27,7 +27,10 @@ async def login(body: UserLogin, response: Response) -> str:
     }
     jwt_token = create_access_token(jwt_token_data)
     response.set_cookie("access_token", jwt_token)
+
+    # инкрементируем колическво успешных логинов в систему
     user_logins_succeed_total.inc()
+
     return "Login succeeded"
 
 

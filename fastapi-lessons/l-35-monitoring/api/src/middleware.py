@@ -31,7 +31,7 @@ class MetricsMiddleware(BaseHTTPMiddleware):
         # normalize paths: /api/v1/activities/12345 -> /api/v1/activities/{uid}
         if path.startswith('/api/v1/'):
             parts = path.split('/')
-            if len(parts) >= 4 and parts[4].isdigit():
+            if len(parts) > 4 and parts[4].isdigit():
                 parts[4] = '{uid}'
                 path = '/'.join(parts)
 
@@ -49,7 +49,7 @@ class MetricsMiddleware(BaseHTTPMiddleware):
 
         # tracking API calls
         if path.startswith('/api/v1/'):
-            if len(path.split('/')) >= 3:
+            if len(path.split('/')) > 3:
                 api_type = path.split('/')[3]
             else:
                 api_type = 'unknown'
