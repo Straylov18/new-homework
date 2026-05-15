@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Простой калькулятор</title>
+  <style>
+    body { font-family: sans-serif; max-width: 400px; margin: 20px auto; }
+    .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+    .row-operators { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+    button { padding: 12px; font-size: 1.2rem; cursor: pointer; }
+    .equal-btn { display: block; width: 100%; margin-top: 10px; background: #4CAF50; color: white; border: none; }
+    .operator { background: #f0f0f0; }
+    .status { margin-bottom: 12px; padding: 10px; background: #fafafa; border: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <h2>Калькулятор</h2>
+  <div class="status" id="status">Соберите выражение</div>
+
+  <!-- Ряд кнопок первого числа -->
+  <div class="row">
+    <button onclick="selectFirst(1)">1</button>
+    <button onclick="selectFirst(2)">2</button>
+    <button onclick="selectFirst(3)">3</button>
+    <button onclick="selectFirst(4)">4</button>
+    <button onclick="selectFirst(5)">5</button>
+    <button onclick="selectFirst(6)">6</button>
+    <button onclick="selectFirst(7)">7</button>
+    <button onclick="selectFirst(8)">8</button>
+    <button onclick="selectFirst(9)">9</button>
+  </div>
+
+  <!-- Ряд кнопок операторов -->
+  <div class="row">
+    <button class="operator" onclick="selectOperator('+')">+</button>
+    <button class="operator" onclick="selectOperator('-')">-</button>
+    <button class="operator" onclick="selectOperator('*')">*</button>
+    <button class="operator" onclick="selectOperator('/')">/</button>
+  </div>
+
+  <!-- Ряд кнопок второго числа -->
+  <div class="row">
+    <button onclick="selectSecond(1)">1</button>
+    <button onclick="selectSecond(2)">2</button>
+    <button onclick="selectSecond(3)">3</button>
+    <button onclick="selectSecond(4)">4</button>
+    <button onclick="selectSecond(5)">5</button>
+    <button onclick="selectSecond(6)">6</button>
+    <button onclick="selectSecond(7)">7</button>
+    <button onclick="selectSecond(8)">8</button>
+    <button onclick="selectSecond(9)">9</button>
+  </div>
+
+  <button class="equal-btn" onclick="calculateResult()">= (результат в консоль)</button>
+
+  <script>
+    // Переменные для хранения частей выражения
+    let firstOperand = null;
+    let operator = null;
+    let secondOperand = null;
+
+    const statusDiv = document.getElementById('status');
+
+    function updateStatus(message) {
+      statusDiv.textContent = message;
+    }
+
+    // Собирает текстовое представление текущего выражения
+    function buildExpressionText() {
+      const first = firstOperand ?? '?';
+      const op = operator ?? '?';
+      const second = secondOperand ?? '?';
+      if (firstOperand === null && operator === null && secondOperand === null) {
+        return 'Соберите выражение';
+      }
+      return `${first} ${op} ${second}`;
+    }
+
+    // Вызывается при выборе первого числа
+    function selectFirst(number) {
+      firstOperand = number;
+      console.log(`Вы выбрали ${number}. Теперь ваше выражение: ${buildExpressionText()}`);
+      updateStatus(buildExpressionText());
+    }
+
+    // Вызывается при выборе оператора
+    function selectOperator(op) {
+      operator = op;
+      console.log(`Вы выбрали оператор "${op}". Теперь ваше выражение: ${buildExpressionText()}`);
+      updateStatus(buildExpressionText());
+    }
+
+    // Вызывается при выборе второго числа
+    function selectSecond(number) {
+      secondOperand = number;
+      console.log(`Вы выбрали ${number}. Теперь ваше выражение: ${buildExpressionText()}`);
+      updateStatus(buildExpressionText());
+    }
+
+    // Вызывается по нажатию на кнопку "="
+    function calculateResult() {
+      if (firstOperand === null || operator === null || secondOperand === null) {
+        console.log('Выражение не завершено! Выберите оба числа и оператор.');
+        return;
+      }
+
+      let result;
+      switch (operator) {
+        case '+': result = firstOperand + secondOperand; break;
+        case '-': result = firstOperand - secondOperand; break;
+        case '*': result = firstOperand * secondOperand; break;
+        case '/':
+          result = secondOperand !== 0 ? firstOperand / secondOperand : 'Ошибка (деление на 0)';
+          break;
+        default: result = 'Неизвестная операция';
+      }
+
+      console.log(`Результат: ${firstOperand} ${operator} ${secondOperand} = ${result}`);
+      updateStatus(`${firstOperand} ${operator} ${secondOperand} = ${result}`);
+    }
+  </script>
+</body>
+</html>
