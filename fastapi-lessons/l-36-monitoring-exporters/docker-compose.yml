@@ -37,6 +37,12 @@ services:
       - '--path.rootfs=/host'
     networks:
       - devup-lessons-fastapi-l-36
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9100/metrics"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
   prometheus:
     image: prom/prometheus:latest
@@ -54,6 +60,12 @@ services:
       - '--web.enable-lifecycle'
     networks:
       - devup-lessons-fastapi-l-36
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
+      interval: 40s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
 #    extra_hosts:
 #      - "host.docker.internal:host-gateway"  # for accessing server apps
 
@@ -77,6 +89,12 @@ services:
       - "3010:3000"
     networks:
       - devup-lessons-fastapi-l-36
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   postgres:
     image: postgres:16
@@ -132,6 +150,12 @@ services:
       - "${POSTGRES_EXPORTER_PORT-9188}:9187"
     networks:
       - devup-lessons-fastapi-l-36
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:9187/metrics", "-o", "/dev/null"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
 networks:
   devup-lessons-fastapi-l-36:

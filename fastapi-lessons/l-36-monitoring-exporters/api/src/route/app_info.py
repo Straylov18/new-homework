@@ -3,7 +3,7 @@ from fastapi.routing import APIRouter
 from src.config import APP_VERSION
 from src.schema.outputs import AppInfoOutput
 
-router = APIRouter(prefix="/app_info")
+router = APIRouter(prefix="/app-info")
 
 
 @router.get("/versions")
