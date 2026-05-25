@@ -1,0 +1,48 @@
+pg_buffercache_summary:
+  query: |
+    SELECT
+      buffers_used,
+      buffers_unused,
+      buffers_dirty,
+      buffers_pinned,
+      usagecount_avg
+    FROM pg_buffercache_summary()
+  metrics:
+    - buffers_used:
+        usage: "GAUGE"
+        description: "Number of used shared buffers"
+    - buffers_unused:
+        usage: "GAUGE"
+        description: "Number of unused shared buffers"
+    - buffers_dirty:
+        usage: "GAUGE"
+        description: "Number of dirty shared buffers"
+    - buffers_pinned:
+        usage: "GAUGE"
+        description: "Number of pinned shared buffers"
+    - usagecount_avg:
+        usage: "GAUGE"
+        description: "Average usage count of used shared buffers"
+
+pg_buffercache_usage_counts:
+  query: |
+    SELECT
+      usage_count,
+      buffers,
+      dirty,
+      pinned
+    FROM pg_buffercache_usage_counts()
+  metrics:
+    - usage_count:
+        usage: "LABEL"
+        description: "Shared buffer usage count"
+    - buffers:
+        usage: "GAUGE"
+        description: "Number of buffers with the usage count"
+    - dirty:
+        usage: "GAUGE"
+        description: "Number of dirty buffers with the usage count"
+    - pinned:
+        usage: "GAUGE"
+        description: "Number of pinned buffers with the usage count"
+

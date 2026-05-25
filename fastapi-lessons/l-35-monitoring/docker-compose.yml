@@ -53,7 +53,7 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
-      - '--storage.tsdb.retention.time=240h'  # 10 days of history
+      - '--storage.tsdb.retention.time=10d'  # 10 days of history
       - '--web.enable-lifecycle'
     networks:
       - monitoring-example

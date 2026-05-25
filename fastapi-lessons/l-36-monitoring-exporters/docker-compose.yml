@@ -1,0 +1,142 @@
+---
+services:
+  api:
+    build:
+      context: api
+    container_name: fastapi-l-36-api
+    restart: unless-stopped
+    environment:
+      BASE_ROUTE_PATH: ${BASE_ROUTE_PATH}
+      POSTGRES_SERVER: "fastapi-l-36-postgres"
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "8000:8000"
+    networks:
+      - devup-lessons-fastapi-l-36
+    healthcheck:
+      test: curl -f -s -S -o /dev/null http://localhost:8000/api/v1/app-info/versions || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  node-exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: fastapi-l-36-node-exporter
+    # network_mode: host
+    # pid: host
+    restart: unless-stopped
+    ports:
+      - "${NODE_EXPORTER_PORT-9100}:9100"
+    volumes:
+      - '/:/host:ro'
+    command:
+      - '--path.rootfs=/host'
+    networks:
+      - devup-lessons-fastapi-l-36
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: fastapi-l-36-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=10d'
+      - '--web.enable-lifecycle'
+    networks:
+      - devup-lessons-fastapi-l-36
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"  # for accessing server apps
+
+  grafana:
+    image: grafana/grafana
+    container_name: fastapi-l-36-grafana
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+#      - GF_SERVER_ROOT_URL=/grafana  # for nginx reverse proxy
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - TZ=${SYSTEM_TIMEZONE:-Europe/Moscow}
+      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/web-app-load-dashboard.json
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+    ports:
+      - "3010:3000"
+    networks:
+      - devup-lessons-fastapi-l-36
+
+  postgres:
+    image: postgres:16
+    container_name: fastapi-l-36-postgres
+    restart: always
+    command:
+      - postgres
+      - -c
+      - shared_preload_libraries=${POSTGRES_SHARED_PRELOAD_LIBRARIES-pg_stat_statements}
+      - -c
+      - compute_query_id=${POSTGRES_COMPUTE_QUERY_ID-auto}
+      - -c
+      - pg_stat_statements.track=${PG_STAT_STATEMENTS_TRACK-all}
+      - -c
+      - pg_stat_statements.max=${PG_STAT_STATEMENTS_MAX-10000}
+      - -c
+      - pg_stat_statements.save=${PG_STAT_STATEMENTS_SAVE-on}
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres:/var/lib/postgresql
+    ports:
+      - "${POSTGRES_EXTERNAL_PORT-5436}:5432"
+    networks:
+      - devup-lessons-fastapi-l-36
+    healthcheck:
+      test: pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  postgres-exporter:
+    image: quay.io/prometheuscommunity/postgres-exporter:latest
+    container_name: fastapi-l-36-postgres-exporter
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATA_SOURCE_URI: "fastapi-l-36-postgres:5432/${POSTGRES_DB}?sslmode=disable"
+      DATA_SOURCE_USER: ${POSTGRES_USER}
+      DATA_SOURCE_PASS: ${POSTGRES_PASSWORD}
+      PG_EXPORTER_EXTEND_QUERY_PATH: /etc/postgres_exporter/queries.yaml
+    command:
+      - '--collector.stat_statements'
+      - '--collector.stat_statements.include_query'
+    volumes:
+      - ./postgres-exporter/queries.yaml:/etc/postgres_exporter/queries.yaml:ro
+    ports:
+      - "${POSTGRES_EXPORTER_PORT-9188}:9187"
+    networks:
+      - devup-lessons-fastapi-l-36
+
+networks:
+  devup-lessons-fastapi-l-36:
+
+volumes:
+  postgres:
+  prometheus_data:
+  grafana_data:

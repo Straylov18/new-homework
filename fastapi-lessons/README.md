@@ -343,5 +343,17 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-35-monitoring/README.md)
 
+## Урок 36
+
+Темы урока:
+- экспортеры метрик
+- мониторинг ресурсов сервера
+- мониторинг метрик базы данных (на примере postgres)
+
+[Итоговый проект урока 36](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-36-monitoring-exporters)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-36-monitoring-exporters/README.md)
+
+
 
 [//]: # (TODO дальнейшие уроки)

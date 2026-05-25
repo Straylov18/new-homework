@@ -1,0 +1,64 @@
+[project]
+name = "l-36-monitoring-exporters"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    {name = "Your Name", email = "you@example.com"}
+]
+dependencies = [
+    "fastapi (>=0.129.0,<0.130.0)",
+    "uvicorn (>=0.40.0,<0.41.0)",
+    "pydantic-settings (>=2.13.0,<3.0.0)",
+    "alembic (>=1.18.4,<2.0.0)",
+    "psycopg (>=3.3.2,<4.0.0)",
+    "psycopg-binary (>=3.3.3,<4.0.0)",
+]
+
+[dependency-groups]
+test = [
+    "flake8>=7.3.0",
+    "flake8-pyproject>=1.2.4",
+    "isort>=8.0.1",
+    "mypy>=1.19.1",
+    "pep8-naming>=0.15.1",
+]
+
+[tool.flake8]
+max-line-length = 120
+ignore = [
+    # W503: line break before binary operator
+    "W503",
+    # N818: exception name should be named with an Error suffix (we use suffix Exception)
+    "N818"
+]
+exclude = [
+    ".git",
+    "__pycache__",
+    "conf",
+    "venv",
+    ".venv",
+    ".vscode",
+    ".idea",
+]
+per-file-ignores = [
+    "migrations/env.py:F401",
+    "migrations/versions/*:W291",
+]
+
+
+[tool.mypy]
+python_version = "3.12"
+cache_dir = ".mypy_cache"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_subclassing_any = true
+disallow_untyped_decorators = true
+
+[[tool.mypy.plugins]]
+name = "sqlalchemy.ext.mypy.plugin"  # for SQLAlchemy
