@@ -305,7 +305,15 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-29-redis-stream/README.md)
 
-[//]: # (TODO дальнейшие уроки)
+## Урок 30
+
+Темы урока:
+- Отказоустойчивость в redis
+- Пример работы redis sentinel
+
+[Итоговый проект урока 30](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-30-redis-sentinel)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-30-redis-sentinel/README.md)
 
 ## Урок 31
 

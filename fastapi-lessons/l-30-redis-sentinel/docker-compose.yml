@@ -1,0 +1,189 @@
+services:
+  redis-master:
+    image: redis:8.0-alpine
+    container_name: redis-master
+    hostname: redis-master
+    ports:
+      - "6389:6379"  # на случай, если у тебя на машине уже стоит redis, чтобы с ним не конфликтовать
+    volumes:
+      - ./redis-master.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    networks:
+      - redis-sentinel-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "$REDIS_PASSWORD", "-p", "6379", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  redis-replica1:
+    image: redis:8.0-alpine
+    container_name: redis-replica1
+    hostname: redis-replica1
+    depends_on:
+      redis-master:
+        condition: service_healthy
+    volumes:
+      - ./redis-replica.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    environment:
+      REDIS_REPLICATION_MODE: "replica"
+    networks:
+      - redis-sentinel-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "$REDIS_PASSWORD", "-p", "6379", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  redis-replica2:
+    image: redis:8.0-alpine
+    container_name: redis-replica2
+    hostname: redis-replica2
+    depends_on:
+      redis-master:
+        condition: service_healthy
+    volumes:
+      - ./redis-replica.conf:/usr/local/etc/redis/redis.conf
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    environment:
+      REDIS_REPLICATION_MODE: "replica"
+    networks:
+      - redis-sentinel-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "$REDIS_PASSWORD", "-p", "6379", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  redis-sentinel:
+    image: redis:8.0-alpine
+    deploy:
+      replicas: 3
+    restart: always
+    depends_on:
+      redis-master:
+        condition: service_healthy
+    ports:
+      - "26379-26381:26379"
+    volumes:
+      - ./sentinel.conf:/usr/local/etc/redis/sentinel.conf
+    command: ["redis-server", "/usr/local/etc/redis/sentinel.conf", "--sentinel"]
+    networks:
+      - redis-sentinel-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "-p", "26379", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # redis-sentinel1:
+  #   image: redis:8.0-alpine
+  #   container_name: redis-sentinel1
+  #   hostname: redis-sentinel1
+  #   restart: always
+  #   depends_on:
+  #     redis-master:
+  #       condition: service_healthy
+  #   ports:
+  #     - "26379:26379"
+  #   volumes:
+  #     - ./sentinel.conf:/usr/local/etc/redis/sentinel.conf
+  #   command: ["redis-server", "/usr/local/etc/redis/sentinel.conf", "--sentinel"]
+  #   networks:
+  #     - redis-sentinel-net
+  #   healthcheck:
+  #     test: ["CMD", "redis-cli", "-p", "26379", "ping"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #     start_period: 10s
+
+  # redis-sentinel2:
+  #   image: redis:8.0-alpine
+  #   container_name: redis-sentinel2
+  #   hostname: redis-sentinel2
+  #   restart: always
+  #   depends_on:
+  #     redis-master:
+  #       condition: service_healthy
+  #   ports:
+  #     - "26380:26379"
+  #   volumes:
+  #     - ./sentinel.conf:/usr/local/etc/redis/sentinel.conf
+  #   command: ["redis-server", "/usr/local/etc/redis/sentinel.conf", "--sentinel"]
+  #   networks:
+  #     - redis-sentinel-net
+  #   healthcheck:
+  #     test: ["CMD", "redis-cli", "-p", "26379", "ping"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #     start_period: 10s
+
+  # redis-sentinel3:
+  #   image: redis:8.0-alpine
+  #   container_name: redis-sentinel3
+  #   hostname: redis-sentinel3
+  #   restart: always
+  #   depends_on:
+  #     redis-master:
+  #       condition: service_healthy
+  #   ports:
+  #     - "26381:26379"
+  #   volumes:
+  #     - ./sentinel.conf:/usr/local/etc/redis/sentinel.conf
+  #   command: ["redis-server", "/usr/local/etc/redis/sentinel.conf", "--sentinel"]
+  #   networks:
+  #     - redis-sentinel-net
+  #   healthcheck:
+  #     test: ["CMD", "redis-cli", "-p", "26379", "ping"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #     start_period: 10s
+
+  publisher:
+    build:
+      context: api_publisher
+    container_name: publisher
+    environment:
+      BASE_ROUTE_PATH: ${PUBLISHER_BASE_ROUTE_PATH-/api/v1}
+      REDIS_SERVER: $REDIS_SERVER
+      REDIS_PORT: $REDIS_PORT
+      REDIS_DB: $REDIS_DB
+      REDIS_USER: $REDIS_USER
+      REDIS_PASSWORD: $REDIS_PASSWORD
+    ports:
+      - "${PUBLISHER_EXTERNAL_PORT-8000}:8000"
+    networks:
+      - redis-sentinel-net
+    depends_on:
+      redis-sentinel:
+        condition: service_healthy
+
+  subscriber:
+    build:
+      context: api_subscriber
+    container_name: subscriber
+    environment:
+      CHANNEL_NAME: "bimba"
+      REDIS_SERVER: $REDIS_SERVER
+      REDIS_PORT: $REDIS_PORT
+      REDIS_DB: $REDIS_DB
+      REDIS_USER: $REDIS_USER
+      REDIS_PASSWORD: $REDIS_PASSWORD
+    networks:
+      - redis-sentinel-net
+    depends_on:
+      redis-sentinel:
+        condition: service_healthy
+
+networks:
+  redis-sentinel-net:
+    driver: bridge
+    name: redis-sentinel-net
