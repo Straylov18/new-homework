@@ -75,10 +75,9 @@ services:
     restart: unless-stopped
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_AUTH_ANONYMOUS_ENABLED=false
 #      - GF_SERVER_ROOT_URL=/grafana  # for nginx reverse proxy
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - TZ=${SYSTEM_TIMEZONE:-Europe/Moscow}
       - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/web-app-load-dashboard.json
     volumes:
@@ -119,7 +118,7 @@ services:
     volumes:
       - postgres:/var/lib/postgresql
     ports:
-      - "${POSTGRES_EXTERNAL_PORT-5436}:5432"
+      - "${POSTGRES_EXTERNAL_PORT-5435}:5432"
     networks:
       - devup-lessons-fastapi-l-36
     healthcheck:

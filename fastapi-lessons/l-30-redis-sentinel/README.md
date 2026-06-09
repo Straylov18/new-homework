@@ -345,6 +345,7 @@ docker logs subscriber
 ## Переделывание публикатора и подписчика под работу с redis sentinel
 
 <!-- TODO update l-28 for redis sentinel usage -->
+<!-- maybe something like https://github.com/flant/redis-sentinel-proxy -->
 
 Подробнее о redis sentinel ты можешь почитать здесь:
 https://redis-doc-test.readthedocs.io/en/latest/topics/sentinel/.

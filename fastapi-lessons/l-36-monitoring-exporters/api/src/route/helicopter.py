@@ -29,10 +29,7 @@ async def get_helicopters_list(filter: HelicopterFilter) -> HelicopterListedOutp
 
 @router.post("/register")
 async def register(body: HelicopterRegistration) -> HelicopterOutput:
-    try:
-        return await HelicopterService.create(body)
-    except NotFoundException:
-        raise HTTPException(status_code=404, detail="Helicopter not found")
+    return await HelicopterService.create(body)
 
 
 @router.put("/update/{uid}")
