@@ -1,5 +1,5 @@
 [project]
-name = "l-21-test-env"
+name = "l-21-tests-custom-env"
 version = "0.1.0"
 description = ""
 authors = [

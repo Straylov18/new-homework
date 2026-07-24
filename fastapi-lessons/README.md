@@ -224,7 +224,17 @@
 
 [Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-20-fixtures/README.md)
 
-[//]: # (TODO дальнейшие уроки)
+## Урок 21
+
+Темы урока:
+- Изоляция интеграционных тестов при взаимодействии с БД
+- Запуск тестов на sqlite
+- Использование отдельных .env файлов дял тестов
+- Изоляция тестов в отдельных БД в рамках одного postgres сервера
+
+[Итоговый проект урока 21](https://github.com/TheYeniseiTrireme/homework-materials/tree/main/fastapi-lessons/l-21-tests-custom-env)
+
+[Описание хода урока](https://github.com/TheYeniseiTrireme/homework-materials/blob/main/fastapi-lessons/l-21-tests-custom-env/README.md)
 
 ## Урок 22
 

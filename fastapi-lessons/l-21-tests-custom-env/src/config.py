@@ -58,7 +58,6 @@ class Settings(BaseSettings):
         env_file='.env'
     )
     BASE_ROUTE_PATH: str = '/api/v1'
-    TEST_MODE: bool = False
     DB: DbSettings = DbSettings()
 
 
