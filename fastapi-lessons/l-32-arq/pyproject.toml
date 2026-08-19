@@ -1,0 +1,49 @@
+[project]
+name = "l-32-arq"
+version = "0.1.0"
+description = "FastAPI + ARQ: массовая рассылка писем"
+authors = [
+    {name = "Your Name", email = "you@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi (>=0.129.0,<0.130.0)",
+    "uvicorn[standard] (>=0.40.0,<0.41.0)",
+    "arq (>=0.26.0,<1.0.0)",
+    "redis (>=4.2.0,<6.0.0)",
+    "pydantic (>=2.7.0,<3.0.0)",
+    "pydantic-settings (>=2.13.0,<3.0.0)",
+    "email-validator (>=2.1.0,<3.0.0)",
+]
+
+
+[tool.poetry.group.test.dependencies]
+flake8 = "^7.3.0"
+flake8-pyproject = "^1.2.4"
+pep8-naming = "^0.15.1"
+isort = "^8.0.0"
+
+
+[tool.flake8]
+max-line-length = 120
+ignore = [
+    # W503: line break before binary operator
+    "W503",
+    # N818: exception name should be named with an Error suffix
+    "N818"
+]
+exclude = [
+    ".git",
+    "__pycache__",
+    "conf",
+    "venv",
+    ".venv",
+    ".vscode",
+    ".idea",
+]
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
