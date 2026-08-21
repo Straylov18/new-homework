@@ -9,7 +9,7 @@ from src.config import settings
 class MailingService:
     @staticmethod
     async def get_recipients() -> list[str]:
-        return list([f'user{i}@example.com' for i in range(100)])
+        return list([f'user{i}@example.com' for i in range(100)])  # TODO вынести
 
     @staticmethod
     async def dispatch_mail_to_all(subject: str, body: str) -> dict[str, Any]:
