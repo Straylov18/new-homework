@@ -4,21 +4,15 @@ import json
 
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
-from src.game.room import GameRoom
+from src.container.room import RoomContainer
 
 router = APIRouter()
-
-
-def get_room() -> GameRoom:
-    from src.main import room
-
-    return room
 
 
 @router.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket) -> None:
     """Клиент подключается, двигает игрока, получает координаты всех игроков."""
-    room = get_room()
+    room = RoomContainer.get_room()
     await websocket.accept()
 
     # Регистрируем нового игрока со случайным цветом и стартовой позицией.

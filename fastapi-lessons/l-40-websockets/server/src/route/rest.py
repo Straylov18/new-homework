@@ -4,16 +4,10 @@ from typing import Any
 
 from fastapi import APIRouter, Depends
 
+from src.container.room import RoomContainer
 from src.game.room import GameRoom
 
 router = APIRouter()
-
-
-def get_room() -> GameRoom:
-    # В реальном проекте комнату обычно подтягивают из DI-контейнера.
-    from src.main import room
-
-    return room
 
 
 @router.get("/")
@@ -22,6 +16,6 @@ async def root() -> dict[str, str]:
 
 
 @router.get("/players")
-async def list_players(room: GameRoom = Depends(get_room)) -> list[dict[str, Any]]:
+async def list_players(room: GameRoom = Depends(RoomContainer.get_room)) -> list[dict[str, Any]]:
     """Простой GET-эндпоинт, чтобы посмотреть игроков из браузера."""
     return room._snapshot()

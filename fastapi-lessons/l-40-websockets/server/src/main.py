@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.game.room import GameRoom
 from src.route import rest, ws
 
 app = FastAPI(title="2D Game WebSocket Server")
@@ -15,9 +14,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Общий экземпляр игры, разделяемый между всеми хендлерами.
-room = GameRoom()
 
 # Регистрируем REST и WebSocket хендлеры из слоя route/.
 app.include_router(rest.router)
