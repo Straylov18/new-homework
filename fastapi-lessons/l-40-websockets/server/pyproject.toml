@@ -1,0 +1,49 @@
+[project]
+name = "l-40-websockets-server"
+version = "0.1.0"
+description = "WebSocket server for a simple 2D multiplayer game"
+authors = [
+    {name = "Your Name", email = "you@example.com"}
+]
+readme = "README.md"
+package-mode = false
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi (>=0.116.1,<0.117.0)",
+    "uvicorn[standard] (>=0.35.0,<0.36.0)",
+]
+
+
+[tool.poetry.group.test.dependencies]
+flake8 = "^7.3.0"
+flake8-pyproject = "^1.2.4"
+pep8-naming = "^0.15.1"
+isort = "^8.0.0"
+
+
+[tool.flake8]
+max-line-length = 120
+ignore = [
+    # W503: line break before binary operator
+    "W503",
+    # N818: exception name should be named with an Error suffix (we use suffix Exception)
+    "N818"
+]
+exclude = [
+    ".git",
+    "__pycache__",
+    "conf",
+    "venv",
+    ".venv",
+    ".vscode",
+    ".idea",
+]
+per-file-ignores = [
+    "migrations/env.py:F401",
+    "migrations/versions/*:W291",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
