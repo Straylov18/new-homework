@@ -1,25 +1,14 @@
 version: 1
 site:
-  title: "Онлайн практикум"
+  title: "Онлайн практикум DevOps-школы"
   structure:
     - type: space
-      key: space-cloud-services
-      title: "Облачные сервисы (Cloud Services)"
-      path: cloud-services
+      key: main-welcome-space
+      title: "Приветствие"
+      path: welcome
       default: true
       content:
-        directory: ./cloud-services
-    - type: space
-      key: space-console-basics
-      title: "Основы консоли (Console Basics)"
-      path: console-basics
-      content:
-        directory: ./console-basics
-    - type: space
-      key: space-design-lessons
-      title: "Уроки дизайна (Design Lessons)"
-      path: design-lessons
-      content:
-        directory: ./design-lessons
+        directory: ./
+
 
 
