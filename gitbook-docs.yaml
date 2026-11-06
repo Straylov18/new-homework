@@ -1,138 +1,106 @@
-$schema: https://api.gitbook.com/gitbook-docs.yaml
+version: 1
 site:
-  title: Онлайн практикум DevOps-школы
+  title: "Онлайн практикум DevOps-школы"
   structure:
-    - type: section
-      key: sec-roadmaps
-      title: 🗺️ Дорожные карты (Roadmaps)
-      path: roadmaps
-      default: true
-      children:
-        - type: space
-          key: space-devops-roadmap
-          title: DevOps Roadmap
-          path: devops-roadmap
-          default: true
-          content:
-            directory: ./devops-roadmap
-        - type: space
-          key: space-backend-python-roadmap
-          title: Backend Python Roadmap
-          path: backend-roadmap
-          content:
-            directory: ./backend-python-roadmap
-        - type: space
-          key: space-frontend-vue-roadmap
-          title: Frontend Vue Roadmap
-          path: frontend-roadmap
-          content:
-            directory: ./frontend-vue-roadmap
+    - type: space
+      key: space-devops-roadmap
+      title: "🗺️ DevOps Roadmap"
+      path: devops-roadmap
+      content:
+        directory: ./devops-roadmap
+    - type: space
+      key: space-backend-python-roadmap
+      title: "🗺️ Backend Python Roadmap"
+      path: backend-roadmap
+      content:
+        directory: ./backend-python-roadmap
+    - type: space
+      key: space-frontend-vue-roadmap
+      title: "🗺️ Frontend Vue Roadmap"
+      path: frontend-roadmap
+      content:
+        directory: ./frontend-vue-roadmap
+    - type: space
+      key: space-console-basics
+      title: "💻 Основы консоли"
+      path: console-basics
+      content:
+        directory: ./console-basics
+    - type: space
+      key: space-git-basics
+      title: "💻 Работа с Git"
+      path: git-basics
+      content:
+        directory: ./git-basics
+    - type: space
+      key: space-ssh-basics
+      title: "💻 Основы SSH"
+      path: ssh-basics
+      content:
+        directory: ./ssh-basics
+    - type: space
+      key: space-python-basics-lessons
+      title: "🐍 Основы Python"
+      path: python-basics
+      content:
+        directory: ./python-basics-lessons
+    - type: space
+      key: space-fastapi-lessons
+      title: "🐍 Уроки FastAPI"
+      path: fastapi-lessons
+      content:
+        directory: ./fastapi-lessons
+    - type: space
+      key: space-html-css-js-lessons
+      title: "🐍 HTML / CSS / JS"
+      path: web-basics
+      content:
+        directory: ./html-css-js-lessons
+    - type: space
+      key: space-vue-lessons
+      title: "🐍 Уроки Vue"
+      path: vue-lessons
+      content:
+        directory: ./vue-lessons
+    - type: space
+      key: space-design-lessons
+      title: "🐍 Уроки дизайна"
+      path: design-lessons
+      content:
+        directory: ./design-lessons
+    - type: space
+      key: space-devops-basics
+      title: "☁️ Основы DevOps"
+      path: devops-basics
+      content:
+        directory: ./devops-basics
     - type: space
       key: space-cloud-services
-      title: Облачные сервисы (Cloud Services)
+      title: "☁️ Облачные сервисы (S3 и др.)"
       path: cloud-services
-      default: true
       content:
         directory: ./cloud-services
-    - type: section
-      key: sec-basics
-      title: 💻 Основы разработки и окружения
-      path: development-basics
-      children:
-        - type: space
-          key: space-git-basics
-          title: Работа с Git
-          path: git-basics
-          content:
-            directory: ./git-basics
-        - type: space
-          key: space-ssh-basics
-          title: Основы SSH
-          path: ssh-basics
-          content:
-            directory: ./ssh-basics
-        - type: space
-          key: space-console-basics
-          title: Основы консоли
-          path: console-basics
-          default: true
-          content:
-            directory: ./console-basics
-    - type: section
-      key: sec-programming
-      title: 🐍 Разработка (Python, Web, Vue)
-      path: programming-lessons
-      children:
-        - type: space
-          key: space-python-basics-lessons
-          title: Основы Python
-          path: python-basics
-          default: true
-          content:
-            directory: ./python-basics-lessons
-        - type: space
-          key: space-fastapi-lessons
-          title: Уроки FastAPI
-          path: fastapi-lessons
-          content:
-            directory: ./fastapi-lessons
-        - type: space
-          key: space-html-css-js-lessons
-          title: HTML / CSS / JS
-          path: web-basics
-          content:
-            directory: ./html-css-js-lessons
-        - type: space
-          key: space-design-lessons
-          title: Уроки дизайна
-          path: design-lessons
-          content:
-            directory: ./design-lessons
-        - type: space
-          key: space-vue-lessons
-          title: Уроки Vue
-          path: vue-lessons
-          content:
-            directory: ./vue-lessons
-    - type: section
-      key: sec-devops-infra
-      title: ☁️ Инфраструктура и DevOps
-      path: devops-infra
-      children:
-        - type: space
-          key: space-devops-basics
-          title: Основы DevOps
-          path: devops-basics
-          default: true
-          content:
-            directory: ./devops-basics
-        - type: space
-          key: space-network-basics
-          title: Сети и сетевые основы
-          path: network-basics
-          content:
-            directory: ./network-basics
-        - type: space
-          key: space-docker-basics
-          title: Основы Docker
-          path: docker-basics
-          content:
-            directory: ./docker-basics
-    - type: section
-      key: sec-deployment
-      title: 🚀 Запуск и Деплой приложений
-      path: deployment
-      children:
-        - type: space
-          key: space-run-apps-locally
-          title: Локальный запуск приложений
-          path: run-locally
-          default: true
-          content:
-            directory: ./run-apps-locally
-        - type: space
-          key: space-run-apps-as-services-on-server
-          title: Запуск как сервисы на сервере
-          path: run-on-server
-          content:
-            directory: ./run-apps-as-services-on-server
+    - type: space
+      key: space-network-basics
+      title: "☁️ Сети и сетевые основы"
+      path: network-basics
+      content:
+        directory: ./network-basics
+    - type: space
+      key: space-docker-basics
+      title: "☁️ Основы Docker"
+      path: docker-basics
+      content:
+        directory: ./docker-basics
+    - type: space
+      key: space-run-apps-locally
+      title: "🚀 Локальный запуск приложений"
+      path: run-locally
+      content:
+        directory: ./run-apps-locally
+    - type: space
+      key: space-run-apps-as-services-on-server
+      title: "🚀 Запуск как сервисы на сервере"
+      path: run-on-server
+      content:
+        directory: ./run-apps-as-services-on-server
