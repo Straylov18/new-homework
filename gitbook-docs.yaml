@@ -1,251 +1,138 @@
-# GitBook documentation configuration
-# Auto-generated for Straylov18/new-homework (main)
-rootDir: .
-
-documentation:
-  title: "New Homework"
-  description: "Curated lessons and roadmaps across Python, DevOps, Vue, and more."
-  sections:
-  - title: "Backend Python Roadmap"
-    folder: backend-python-roadmap
-    pages:
-      - title: "Page"
-        path: README
-  - title: "Cloud Services"
-    folder: cloud-services
-    pages:
-      - title: "S3 хранилище"
-        path: README
-      - title: "Локальное S3 хранилище (garage)"
-        path: s3-garage
-      - title: "S3 хранилище"
-        path: README
-      - title: "Локальное S3 хранилище (garage)"
-        path: README
-  - title: "Console Basics"
-    folder: console-basics
-    pages:
-      - title: "Базовые команды для работы в консоли"
-        path: README
-  - title: "Design Lessons"
-    folder: design-lessons
-    pages:
-      - title: "Веб дизайн"
-        path: README
-  - title: "DevOps Basics"
-    folder: devops-basics
-    pages:
-      - title: "Введение в bash скрипты"
-        path: README
-      - title: "Использование Makefile для описания наиболее частых команд в проекте"
-        path: README
-      - title: "Создание инструментов для команды разработчиков"
-        path: README
-      - title: "Проверка качества кода backend приложения с помощью github actions"
-        path: README
-      - title: "Github actions"
-        path: README
-      - title: "Page"
-        path: README
-      - title: "Периодические задачи на сервере (cron задачи)"
-        path: README
-      - title: "Системное администрирование"
-        path: README
-  - title: "DevOps Roadmap"
-    folder: devops-roadmap
-    pages:
-      - title: "Page"
-        path: README
-  - title: "Docker Basics"
-    folder: docker-basics
-    pages:
-      - title: "Page"
-        path: README
-  - title: "FastAPI Lessons"
-    folder: fastapi-lessons
-    pages:
-      - title: "Настройка простого backend приложения на fastapi и обработка REST запросов"
-        path: README
-      - title: "Получение настроек backend приложения из переменных окружения"
-        path: README
-      - title: "Разделение backend приложения на слои"
-        path: README
-      - title: "Расширенная документация ручек и валидация данных"
-        path: README
-      - title: "Работа с базами данных"
-        path: README
-      - title: "Использование PostgreSQL в качестве БД"
-        path: README
-      - title: "Связи между таблицами в реляционных БД"
-        path: README
-      - title: "Расширенная фильтрация и анализ генерируемых SQL запросов"
-        path: README
-      - title: "Аргументы таблиц в реляционных БД"
-        path: README
-      - title: "Стилизация кода проекта (linting)"
-        path: README
-      - title: "Настройка информативных логов для backend приложения"
-        path: README
-      - title: "Авторизация в backend приложении"
-        path: README
-      - title: "Авторизация на примере приложения с базой данных"
-        path: README
-      - title: "Более качественное описание запросов к базе данных"
-        path: README
-      - title: "Получения и отправка файлов"
-        path: README
-      - title: "Простейшая обработка фоновых задач в fastapi"
-        path: README
-      - title: "Тестирование приложения на примере unit тестов"
-        path: README
-      - title: "Конфигурация запуска тестов, проверки на покрытие и генерация отчетов"
-        path: README
-      - title: "Интеграционные тесты"
-        path: README
-      - title: "Fixtures"
-        path: README
-      - title: "Изоляция тестов"
-        path: README
-      - title: "Mock тесты"
-        path: README
-      - title: "Middleware"
-        path: README
-      - title: "Ограничение числа запросов на основе библиотеки slowapi"
-        path: README
-      - title: "CORS (Cross‑Origin Resource Sharing)"
-        path: README
-      - title: "Профилирование кода"
-        path: README
-      - title: "In-memory базы данных на примере redis"
-        path: README
-      - title: "Pub/Sub (Publisher/Subscriber) механизм в redis"
-        path: README
-      - title: "Redis stream"
-        path: README
-      - title: "Обеспечивание отказоустойчивости Redis при помощи Redis Sentinel"
-        path: README
-      - title: "Планировщик задач"
-        path: README
-      - title: "Проверка статической типизации при помощи mypy"
-        path: README
-      - title: "Мониторинг метрик бэкенд приложения"
-        path: README
-      - title: "Api"
-        path: README
-      - title: "Мониторинг метрик сервера и БД через экспортеры"
-        path: README
-      - title: "Pygame WebSocket Client"
-        path: README
-      - title: "WebSocket соединение с сервером на примере 2D мультиплеер игры (FastAPI + pygame)"
-        path: README
-      - title: "FastAPI WebSocket Server"
-        path: README
-      - title: "Page"
-        path: README
-  - title: "Frontend Vue Roadmap"
-    folder: frontend-vue-roadmap
-    pages:
-      - title: "Page"
-        path: README
-  - title: "Git Basics"
-    folder: git-basics
-    pages:
-      - title: "Page"
-        path: README
-  - title: "HTML, CSS & JS Lessons"
-    folder: html-css-js-lessons
-    pages:
-      - title: "Привет! Ты вступил на путь фронтенд-разработчика, поздравляю!"
-        path: README
-      - title: "**1-01** Основы HTML - часть 1"
-        path: README
-      - title: "**1-02** Основы HTML - часть 2"
-        path: README
-      - title: "**1-03** Основы HTML - часть 3"
-        path: README
-      - title: "**02-01** Основы CSS - часть 1"
-        path: README
-      - title: "JavaScript - логика сайта и интерактивность"
-        path: README
-      - title: "JavaScript - if/else и проверка условий."
-        path: README
-      - title: "Создание простого \"калькулятора\""
-        path: README
-      - title: "TS"
-        path: README
-      - title: "Page"
-        path: README
-  - title: "Network Basics"
-    folder: network-basics
-    pages:
-      - title: "Page"
-        path: README
-  - title: "Python Basics Lessons"
-    folder: python-basics-lessons
-    pages:
-      - title: "База написания консольных приложений python"
-        path: README
-      - title: "Упрощения команд в python"
-        path: README
-      - title: "Пакеты и импорты в python"
-        path: README
-      - title: "Декораторы"
-        path: README
-      - title: "Объекты в python"
-        path: README
-      - title: "Парсинг api существующих сайтов"
-        path: README
-      - title: "Создание простого телеграм бота"
-        path: README
-      - title: "Создание простенькой игры на библиотеке pygame"
-        path: README
-      - title: "Генераторы"
-        path: README
-      - title: "Исключения в python"
-        path: README
-      - title: "Указание типов данных в python"
-        path: README
-      - title: "Page"
-        path: README
-  - title: "Run Apps as Services on Server"
-    folder: run-apps-as-services-on-server
-    pages:
-      - title: "Page"
-        path: README
-  - title: "Run Apps Locally"
-    folder: run-apps-locally
-    pages:
-      - title: "Page"
-        path: README
-  - title: "SSH Basics"
-    folder: ssh-basics
-    pages:
-      - title: "Page"
-        path: README
-  - title: "Vue Lessons"
-    folder: vue-lessons
-    pages:
-      - title: "Создание простых приложений через (Vue 3 + TypeScript + Vite)"
-        path: README
-      - title: "Реактивное изменение компонентов при помощи функционала Vue"
-        path: README
-      - title: "Создание своих компонентов"
-        path: README
-      - title: "Переход между страницами с использованием Vue router"
-        path: README
-      - title: "Запуск кода на разных этапах жизни страницы (в данном примере при старте)"
-        path: README
-      - title: "Использование переменных окружения для задания настроек web приложения"
-        path: README
-      - title: "Запуск функций в момент обновления переменных"
-        path: README
-      - title: "Слоты под компоненты внутри других компонентов"
-        path: README
-      - title: "Обработка событий из внешних компонентов при помощи emitter привязок"
-        path: README
-      - title: "Обновление props компонентов при помощи v-model"
-        path: README
-      - title: "Подключение библиотеки Chart.js и настройка первого графика"
-        path: README
-      - title: "Page"
-        path: README
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+site:
+  title: Онлайн практикум DevOps-школы
+  structure:
+    - type: section
+      key: sec-roadmaps
+      title: 🗺️ Дорожные карты (Roadmaps)
+      path: roadmaps
+      default: true
+      children:
+        - type: space
+          key: space-devops-roadmap
+          title: DevOps Roadmap
+          path: devops-roadmap
+          default: true
+          content:
+            directory: ./devops-roadmap
+        - type: space
+          key: space-backend-python-roadmap
+          title: Backend Python Roadmap
+          path: backend-roadmap
+          content:
+            directory: ./backend-python-roadmap
+        - type: space
+          key: space-frontend-vue-roadmap
+          title: Frontend Vue Roadmap
+          path: frontend-roadmap
+          content:
+            directory: ./frontend-vue-roadmap
+    - type: space
+      key: space-cloud-services
+      title: Облачные сервисы (Cloud Services)
+      path: cloud-services
+      default: true
+      content:
+        directory: ./cloud-services
+    - type: section
+      key: sec-basics
+      title: 💻 Основы разработки и окружения
+      path: development-basics
+      children:
+        - type: space
+          key: space-git-basics
+          title: Работа с Git
+          path: git-basics
+          content:
+            directory: ./git-basics
+        - type: space
+          key: space-ssh-basics
+          title: Основы SSH
+          path: ssh-basics
+          content:
+            directory: ./ssh-basics
+        - type: space
+          key: space-console-basics
+          title: Основы консоли
+          path: console-basics
+          default: true
+          content:
+            directory: ./console-basics
+    - type: section
+      key: sec-programming
+      title: 🐍 Разработка (Python, Web, Vue)
+      path: programming-lessons
+      children:
+        - type: space
+          key: space-python-basics-lessons
+          title: Основы Python
+          path: python-basics
+          default: true
+          content:
+            directory: ./python-basics-lessons
+        - type: space
+          key: space-fastapi-lessons
+          title: Уроки FastAPI
+          path: fastapi-lessons
+          content:
+            directory: ./fastapi-lessons
+        - type: space
+          key: space-html-css-js-lessons
+          title: HTML / CSS / JS
+          path: web-basics
+          content:
+            directory: ./html-css-js-lessons
+        - type: space
+          key: space-design-lessons
+          title: Уроки дизайна
+          path: design-lessons
+          content:
+            directory: ./design-lessons
+        - type: space
+          key: space-vue-lessons
+          title: Уроки Vue
+          path: vue-lessons
+          content:
+            directory: ./vue-lessons
+    - type: section
+      key: sec-devops-infra
+      title: ☁️ Инфраструктура и DevOps
+      path: devops-infra
+      children:
+        - type: space
+          key: space-devops-basics
+          title: Основы DevOps
+          path: devops-basics
+          default: true
+          content:
+            directory: ./devops-basics
+        - type: space
+          key: space-network-basics
+          title: Сети и сетевые основы
+          path: network-basics
+          content:
+            directory: ./network-basics
+        - type: space
+          key: space-docker-basics
+          title: Основы Docker
+          path: docker-basics
+          content:
+            directory: ./docker-basics
+    - type: section
+      key: sec-deployment
+      title: 🚀 Запуск и Деплой приложений
+      path: deployment
+      children:
+        - type: space
+          key: space-run-apps-locally
+          title: Локальный запуск приложений
+          path: run-locally
+          default: true
+          content:
+            directory: ./run-apps-locally
+        - type: space
+          key: space-run-apps-as-services-on-server
+          title: Запуск как сервисы на сервере
+          path: run-on-server
+          content:
+            directory: ./run-apps-as-services-on-server
